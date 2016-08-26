@@ -1,0 +1,144 @@
+﻿using System;
+using System.Collections.Generic;
+using SecurityConsultantCore.Common;
+using SecurityConsultantCore.Domain;
+using SecurityConsultantCore.Domain.Basic;
+
+namespace SecurityConsultantCore.Factories
+{
+    public static class ValuableObjectFactory
+    {
+        private static ValuableObjectFactoryContainer _container;
+
+        public static ValuableFacilityObject Create(string type)
+        {
+            return GetContainer().Create(type).Invoke();
+        }
+
+        public static List<string> GetConstructables()
+        {
+            return GetContainer().GetConstructables();
+        }
+
+        private static ValuableObjectFactoryContainer GetContainer()
+        {
+            return _container ?? (_container = new ValuableObjectFactoryContainer());
+        }
+
+        private class ValuableObjectFactoryContainer : Container<Func<ValuableFacilityObject>>
+        {
+            protected override string GetKey(string id)
+            {
+                return id;
+            }
+
+            protected override Dictionary<string, Func<ValuableFacilityObject>> GetObjects()
+            {
+                return new Dictionary<string, Func<ValuableFacilityObject>>
+                {
+                    {
+                        "Painting*",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "Painting" + Rng(1, 11),
+                                Name = "Painting",
+                                Value = Rng(200, 3000),
+                                ObjectLayer = ObjectLayer.UpperObject,
+                                LiquidityLevel = 1,
+                                PublicityLevel = 3
+                            }
+                    },
+                    {
+                        "Table",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "Table",
+                                Name = "An Ordinary Table",
+                                Value = Rng(50, 150),
+                                ObjectLayer = ObjectLayer.LowerObject,
+                                LiquidityLevel = 2,
+                                PublicityLevel = 2
+                            }
+                    },
+                    {
+                        "PaintingWideLeft1",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "PaintingWideLeft1",
+                                Name = "Large Painting",
+                                Value = Rng(800, 6000),
+                                ObjectLayer = ObjectLayer.UpperObject,
+                                LiquidityLevel = 1,
+                                PublicityLevel = 3
+                            }
+                    },
+                    {
+                        "PaintingWideRight1",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "PaintingWideRight1",
+                                Name = "Large Painting",
+                                Value = Rng(800, 6000),
+                                ObjectLayer = ObjectLayer.UpperObject,
+                                LiquidityLevel = 1,
+                                PublicityLevel = 3
+                            }
+                    },
+                    {
+                        "PaintingWideLeft2",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "PaintingWideLeft2",
+                                Name = "Large Painting",
+                                Value = Rng(800, 6000),
+                                ObjectLayer = ObjectLayer.UpperObject,
+                                LiquidityLevel = 1,
+                                PublicityLevel = 3
+                            }
+                    },
+                    {
+                        "PaintingWideRight2",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "PaintingWideRight2",
+                                Name = "Large Painting",
+                                Value = Rng(800, 6000),
+                                ObjectLayer = ObjectLayer.UpperObject,
+                                LiquidityLevel = 1,
+                                PublicityLevel = 3
+                            }
+                    },
+                    {
+                        "GarbageBin",
+                        () =>
+                            new ValuableFacilityObject
+                            {
+                                Type = "GarbageBin",
+                                Name = "One Man's Trash Can",
+                                Value = Rng(5, 15),
+                                ObjectLayer = ObjectLayer.LowerObject,
+                                LiquidityLevel = 1,
+                                PublicityLevel = 1
+                            }
+                    }
+                };
+            }
+
+            private int Rng(int maxValue)
+            {
+                return GameRandom.Random(maxValue);
+            }
+
+            private int Rng(int min, int max)
+            {
+                return GameRandom.Random(min, max);
+            }
+        }
+    }
+}
