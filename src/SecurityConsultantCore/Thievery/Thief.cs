@@ -4,120 +4,126 @@ using System.Linq;
 using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Pathfinding;
+using SecurityConsultantCore.Thievery;
 
-namespace SecurityConsultantCore.Thievery
+namespace SecurityConsultant.Code.Thievery
 {
     public class Thief
     {
+        private readonly IThief _thief;
         private readonly FacilityMap _map;
         private readonly IPathFinder _pathFinder;
-
         private readonly Dictionary<int, Func<XYZ, XYZ>> _adjacentLocations = new Dictionary<int, Func<XYZ, XYZ>>
         {
-            {0, xyz => xyz.Plus(new XYZ(0, -1, 0))},
-            {90, xyz => xyz.Plus(new XYZ(1, 0, 0))},
-            {180, xyz => xyz.Plus(new XYZ(0, 1, 0))},
-            {270, xyz => xyz.Plus(new XYZ(-1, 0, 0))}
+            { 0, xyz => xyz.Plus(new XYZ(0, -1, 0)) },
+            { 90, xyz => xyz.Plus(new XYZ(1, 0, 0)) },
+            { 180, xyz => xyz.Plus(new XYZ(0, 1, 0)) },
+            { 270, xyz => xyz.Plus(new XYZ(-1, 0, 0)) }
         };
 
-        private XYZ _currentLocation = SpecialLocation.OffOfMap;
-        private bool _isRobbing = true;
-        private int _remainingItemCapacity;
-        private XYZLocation<IValuable> _target;
+        private int ItemsRemaining { get; set; }
+        private XYZ CurrentLocation { get; set; }
 
-        public Thief(FacilityMap map) : this(map, new CachedPathFinder(map), 1)
-        {
-        }
+        public Thief(IThief thief, FacilityMap map) : this(thief, map, new CachedPathFinder(map), 1) {}
 
-        public Thief(FacilityMap map, int itemCapacity) : this(map, new CachedPathFinder(map), itemCapacity)
-        {
-        }
+        public Thief(IThief thief, FacilityMap map, int itemCapacity) : this(thief, map, new CachedPathFinder(map), itemCapacity) {}
 
-        public Thief(FacilityMap map, IPathFinder pathFinder, int itemCapacity)
+        public Thief(IThief thief, FacilityMap map, IPathFinder pathFinder, int itemCapacity)
         {
+            _thief = thief;
             _map = map;
             _pathFinder = pathFinder;
-            _remainingItemCapacity = itemCapacity;
+            ItemsRemaining = itemCapacity;
+            CurrentLocation = SpecialLocation.OffOfMap;
         }
 
-        public IEnumerable<ThiefInstruction> Instructions
+        public void Go()
         {
-            get
+            if (!_map.Valuables.Any() || ItemsRemaining == 0)
             {
-                if (!_map.Portals.Any(x => x.Obj.IsEdgePortal))
-                    throw new MapException("No entrances to facility");
-                while (_isRobbing)
-                    yield return GetNextInstruction();
+                Exit();
+                return;
             }
+                    
+            var valuable = _map.LocatedValuables.Shuffle().First();
+            var path = GetStealPath(valuable);
+            if (!path.IsValid)
+            {
+                Exit();
+                return;
+            }
+            _thief.Traverse(path, () =>
+            {
+                Steal(path, valuable);
+                ItemsRemaining--;
+                CurrentLocation = path.Last();
+                Go();
+            });
         }
 
-        private XYZLocation<IValuable> CurrentTarget => _target ?? (_target = _map.LocatedValuables.Shuffle().First());
-
-        //TODO: make Task Completed method 
-        public void TravelTo(XYZ location)
+        private void Exit()
         {
-            _currentLocation = location;
+            _thief.Traverse(GetExitPath(), () => _thief.Exit());
         }
 
-        private ThiefInstruction GetNextInstruction()
+        private Path GetExitPath()
         {
-            if (_currentLocation.Equals(SpecialLocation.OffOfMap))
-                return GetEnterInstruction();
-            var path = GetStealPath();
-            return path.IsValid ? GetStealInstruction(path) : GetExitInstruction();
-        }
-
-        private ThiefInstruction GetEnterInstruction()
-        {
-            var path = GetStealPath();
-            var portal = path.IsValid
-                ? GetPortalAt(path.First())
-                : _map.Portals.Shuffle().First(x => x.Obj.IsEdgePortal);
-            return new ThiefInstruction(Interactions.Enter, new XYZObjectLayer(portal),
-                new Path(new List<XYZ> {portal.Location}));
-        }
-
-        private XYZLocation<FacilityPortal> GetPortalAt(XYZ location)
-        {
-            return _map.Portals.First(x => x.Obj.IsEdgePortal && x.Location.Equals(location));
-        }
-
-        private ThiefInstruction GetStealInstruction(Path path)
-        {
-            var instruction = new ThiefInstruction(Interactions.Steal, new XYZObjectLayer(CurrentTarget), path);
-            //TODO: make taskCompleted
-            _remainingItemCapacity--;
-            return instruction;
-        }
-
-        private ThiefInstruction GetExitInstruction()
-        {
-            //TODO: make taskCompleted
-            _isRobbing = false;
-            var path = GetTrimmedPath(_currentLocation, SpecialLocation.OffOfMap);
-            var portal = _map.Portals.First(x => x.Location.Equals(path.Last()) && x.Obj.IsEdgePortal);
-            return new ThiefInstruction(Interactions.Exit, new XYZObjectLayer(portal), path);
-        }
-
-        private Path GetStealPath()
-        {
+            var destinations = _map.Portals.Where(x => x.Obj.IsEdgePortal).Select(x => x.Location);
+            foreach (var destination in destinations)
+                if (_pathFinder.PathExists(CurrentLocation, destination))
+                    return GetTrimmedPath(CurrentLocation, destination);
             return new Path();
         }
 
-        private IEnumerable<XYZ> GetStealLocations(FacilityMap map, XYZLocation<ValuableFacilityObject> valuable)
+        private Path GetStealPath(XYZLocation<IValuable> valuable)
         {
-            if (!map[valuable.Location].LowerObject.Type.Contains("Wall"))
-                return
-                    map.GetAdjacentLocations(valuable.Location).Where(x => x.Obj.IsOpenSpace()).Select(x => x.Location);
-            var potentialLocation = _adjacentLocations[valuable.Obj.Orientation.Rotation].Invoke(valuable.Location);
-            return map.IsOpenSpace(potentialLocation) ? new List<XYZ> {potentialLocation} : new List<XYZ>();
+            var destinations = GetStealLocations(_map, valuable).Shuffle();
+            foreach (var destination in destinations)
+                if (_pathFinder.PathExists(CurrentLocation, destination))
+                    return GetTrimmedPath(CurrentLocation, destination);
+            return new Path();
+        }
+
+        private IEnumerable<XYZ> GetStealLocations(FacilityMap map, XYZLocation<IValuable> valuable)
+        {
+            return GetStealDirections(valuable)
+                .Select(x => _adjacentLocations[x.Rotation].Invoke(valuable.Location))
+                .Where(x => _map.Exists(x) && _map[x].IsOpenSpace());
+        }
+
+        private IEnumerable<Orientation> GetStealDirections(XYZLocation<IValuable> valuable)
+        {
+            var space = _map[valuable.Location];
+            if (IsFacilityValuable(valuable))
+                return space.Contains("Wall")
+                    ? new List<Orientation> { space.Get(valuable.Obj.Type).Orientation }
+                    : new List<Orientation> { Orientation.Up, Orientation.Right, Orientation.Down, Orientation.Left };
+            var container = space.FacilityContainers.First(x => x.Valuables.Any(y => y.Equals(valuable.Obj)));
+            return space.Contains("Wall") ? container.StealableOrientations.Where(x => x.Equals(container.Orientation)) : container.StealableOrientations;
         }
 
         private Path GetTrimmedPath(XYZ start, XYZ end)
         {
             return new Path(_pathFinder.GetPath(start, end).Where(x => !x.Equals(SpecialLocation.OffOfMap)));
+        }
+
+        private void Steal(Path path, XYZLocation<IValuable> valuable)
+        {
+            if (IsFacilityValuable(valuable))
+                _thief.Steal(GetValuableTargetLocation(valuable));
+            _map.Remove(valuable.Obj);
+        }
+
+        private bool IsFacilityValuable(XYZLocation<IValuable> valuable)
+        {
+            return _map[valuable.Location].Contains(valuable.Obj.Type);
+        }
+
+        private XYZObjectLayer GetValuableTargetLocation(XYZLocation<IValuable> valuable)
+        {
+            var layer = _map[valuable.Location].Get(valuable.Obj.Type).ObjectLayer;
+            return new XYZObjectLayer(valuable.Location, layer);
         }
     }
 }
