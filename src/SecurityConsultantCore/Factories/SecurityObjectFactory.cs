@@ -35,10 +35,10 @@ namespace SecurityConsultantCore.Factories
                 return new Dictionary<string, SecurityObject>
                 {
                     {
-                        "PressurePlate",
+                        "FloorPressurePlate",
                         new SecurityObject
                         {
-                            Type = "PressurePlate",
+                            Type = "FloorPressurePlate",
                             ObjectLayer = ObjectLayer.GroundPlaceable,
                             Traits = new[] {"OpenSpace"}
                         }
