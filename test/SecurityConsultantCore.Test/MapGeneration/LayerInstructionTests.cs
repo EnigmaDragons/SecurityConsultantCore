@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSTestExtensions;
@@ -9,6 +10,7 @@ using SecurityConsultantCore.MapGeneration;
 namespace SecurityConsultantCore.Test.MapGeneration
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class LayerInstructionTests
     {
         [TestMethod]

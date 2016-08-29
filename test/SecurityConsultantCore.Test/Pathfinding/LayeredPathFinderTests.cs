@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSTestExtensions;
@@ -9,14 +10,15 @@ using SecurityConsultantCore.Pathfinding;
 namespace SecurityConsultantCore.Test.Pathfinding
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class LayeredPathFinderTests
     {
-        private FacilityMap _map = new FacilityMap();
+        private readonly FacilityMap _map = new FacilityMap();
         private FacilityLayer _layer;
         private LayeredPathFinder _pathFinder;
 
         [TestInitialize]
-        public void init()
+        public void Init()
         {
             _layer = CreateFacilityLayer();
             _map.Add(_layer);

@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Test.Domain.Basic
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class XYZTests
     {
         [TestMethod]

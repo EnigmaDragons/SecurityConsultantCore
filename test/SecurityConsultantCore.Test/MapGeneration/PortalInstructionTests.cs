@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSTestExtensions;
 using SecurityConsultantCore.Domain;
@@ -8,6 +9,7 @@ using SecurityConsultantCore.MapGeneration;
 namespace SecurityConsultantCore.Test.MapGeneration
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class PortalInstructionTests
     {
         [TestMethod]

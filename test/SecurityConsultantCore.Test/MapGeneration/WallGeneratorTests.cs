@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
@@ -8,6 +9,7 @@ using SecurityConsultantCore.MapGeneration;
 namespace SecurityConsultantCore.Test.MapGeneration
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class WallGeneratorTest
     {
         private WallGenerator _wallGenerator;

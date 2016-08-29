@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 
 namespace SecurityConsultantCore.Test.Domain
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ValuableFacilityObjectTests
     {
         [TestMethod]

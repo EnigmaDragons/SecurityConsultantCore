@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Test.Domain.Basic
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class XYRangeTests
     {
         [TestMethod]

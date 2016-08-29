@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
@@ -6,6 +7,7 @@ using SecurityConsultantCore.Domain.Basic;
 namespace SecurityConsultantCore.Test.Domain
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class FacilityLayerTests
     {
         private FacilityLayer _layer;

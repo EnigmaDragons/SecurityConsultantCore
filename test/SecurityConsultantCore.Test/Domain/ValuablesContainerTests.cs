@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 
 namespace SecurityConsultantCore.Test.Domain
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ValuablesContainerTests
     {
         private ValuablesContainer _container;

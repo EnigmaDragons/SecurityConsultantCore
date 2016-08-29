@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Interactors;
@@ -6,6 +7,7 @@ using SecurityConsultantCore.Interactors;
 namespace SecurityConsultantCore.Test.Interactors
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SecurityPlacementValidatorTests
     {
         private SecurityPlacementValidator _validator;

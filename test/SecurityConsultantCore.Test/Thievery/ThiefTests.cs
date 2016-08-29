@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultant.Code.Thievery;
@@ -12,6 +13,7 @@ using SecurityConsultantCore.Thievery;
 namespace SecurityConsultantCore.Test.Thievery
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ThiefTests : IThief
     {
         private readonly FacilityMap _map = new FacilityMap();

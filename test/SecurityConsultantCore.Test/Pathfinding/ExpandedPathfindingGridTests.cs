@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Pathfinding;
@@ -6,6 +7,7 @@ using SecurityConsultantCore.Pathfinding;
 namespace SecurityConsultantCore.Test.Pathfinding
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ExpandedPathfindingGridTests
     {
         private FacilityLayer _layer;
