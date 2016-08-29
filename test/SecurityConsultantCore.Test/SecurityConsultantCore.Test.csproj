@@ -78,6 +78,7 @@
     <Compile Include="Pathfinding\ExpandedPathfindingGridTests.cs" />
     <Compile Include="Pathfinding\LayeredPathFinderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purchasing\InvoiceTests.cs" />
     <Compile Include="Thievery\ThiefTests.cs" />
   </ItemGroup>
   <ItemGroup>

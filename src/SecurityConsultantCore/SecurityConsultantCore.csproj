@@ -108,6 +108,7 @@
     <Compile Include="Pathfinding\PriorityQueueB.cs" />
     <Compile Include="Pathfinding\Smart2DPathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purchasing\Invoice.cs" />
     <Compile Include="Thievery\IThief.cs" />
     <Compile Include="Thievery\Interactions.cs" />
     <Compile Include="Thievery\Thief.cs" />
