@@ -21,7 +21,7 @@ namespace SecurityConsultantCore.Test.Purchasing
         }
 
         [TestMethod]
-        public void CalculateTotal_CollectionWithPressurePlate_1000Returned()
+        public void CalculateTotal_CollectionWithSingleItem_ExpectedResultReturned()
         {
             var invoice = new Invoice(new List<SecurityObject> { new SecurityObject {Cost = 1000} });
 
