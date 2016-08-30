@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.Factories;
 using SecurityConsultantCore.Purchasing;
 
 namespace SecurityConsultantCore.Test.Purchasing
@@ -24,8 +23,7 @@ namespace SecurityConsultantCore.Test.Purchasing
         [TestMethod]
         public void CalculateTotal_CollectionWithPressurePlate_1000Returned()
         {
-            var pressurePlate = SecurityObjectFactory.Create("FloorPressurePlate");
-            var invoice = new Invoice(new List<SecurityObject> { pressurePlate });
+            var invoice = new Invoice(new List<SecurityObject> { new SecurityObject {Cost = 1000} });
 
             int totalCost = invoice.CalculateTotal();
 
@@ -35,14 +33,16 @@ namespace SecurityConsultantCore.Test.Purchasing
         [TestMethod]
         public void CalculateTotal_CollectionWithMultipleEntries_ExpectedResultsReturned()
         {
-            var pressurePlate = SecurityObjectFactory.Create("FloorPressurePlate");
-            var guard1 = SecurityObjectFactory.Create("BatonSecurityGuard");
-            var guard2 = SecurityObjectFactory.Create("BatonSecurityGuard");
-            var invoice = new Invoice(new List<SecurityObject> { pressurePlate, guard1, guard2 });
+            var invoice = new Invoice(new List<SecurityObject>
+            {
+                new SecurityObject { Cost = 1000 },
+                new SecurityObject { Cost = 1500 },
+                new SecurityObject { Cost = 2000 }
+            });
 
             int totalCost = invoice.CalculateTotal();
 
-            Assert.AreEqual(4000, totalCost);
+            Assert.AreEqual(4500, totalCost);
         }
     }
 }
