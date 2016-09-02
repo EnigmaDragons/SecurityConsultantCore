@@ -37,7 +37,6 @@ namespace SecurityConsultantCore.Thievery
             CurrentLocation = SpecialLocation.OffOfMap;
         }
 
-        // TODO: Please refactor a bit (shorter methods, ftw)
         public void Go()
         {
             if (!_map.Valuables.Any() || ItemsRemaining == 0)
