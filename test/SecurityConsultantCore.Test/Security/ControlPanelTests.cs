@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SecurityConsultantCore.Test.Security
 {
-    [TestClass]
+    [TestClass, ExcludeFromCodeCoverage]
     public class ControlPanelTests
     {
         [TestMethod]
