@@ -6,7 +6,7 @@ namespace SecurityConsultantCore.Thievery
 {
     public interface IThief
     {
-        void Traverse(Path path, Action callBack);
+        void BeginTraverse(Path path, Action callBack);
         void Exit();
         void Steal(XYZObjectLayer valuableLocation);
     }

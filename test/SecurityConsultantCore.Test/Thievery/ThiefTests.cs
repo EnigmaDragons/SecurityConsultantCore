@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SecurityConsultant.Code.Thievery;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
@@ -21,7 +22,6 @@ namespace SecurityConsultantCore.Test.Thievery
         private readonly ValuableFacilityObject _valuable2 = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name2" };
         private readonly FacilityObject _obstacle = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Not none" };
         private readonly FacilityObject _noGround = new FacilityObject { ObjectLayer = ObjectLayer.Ground, Type = "None" };
-        private readonly FacilityObject _noPortal = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "None" };
         private readonly FacilityObject _wall = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Wall" };
         private readonly ValuablesContainer _upFacingContainer = new ValuablesContainer { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Container" };
         private FacilityLayer _layer;
@@ -44,8 +44,8 @@ namespace SecurityConsultantCore.Test.Thievery
 
         [TestMethod]
         public void Thief_Go_ExitCalled()
-        { 
-            _thief.Go();
+        {
+            PerformRobbery();
 
             Assert.IsTrue(_exited);
         }
@@ -55,7 +55,7 @@ namespace SecurityConsultantCore.Test.Thievery
         {
            _layer[1, 1].Put(_upFacingValuable);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.IsTrue(_traversedPaths.Any(x => x.Last().IsAdjacentTo(new XY(1, 1))));
         }
@@ -68,7 +68,7 @@ namespace SecurityConsultantCore.Test.Thievery
             _layer[1, 2].Put(_obstacle);
             _layer[1, 1].Put(_upFacingValuable);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.AreEqual(new XYZ(2, 1, 0), _traversedPaths.First().Last());
         }
@@ -79,7 +79,7 @@ namespace SecurityConsultantCore.Test.Thievery
             _layer[1, 1].Put(_wall);
             _layer[1, 1].Put(_upFacingValuable);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.AreEqual(new XYZ(1, 0, 0), _traversedPaths.First().Last());
         }
@@ -93,7 +93,7 @@ namespace SecurityConsultantCore.Test.Thievery
             _layer[2, 1].Put(_noGround);
             _layer[1, 1].Put(_upFacingValuable);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.IsFalse(_stolenLocations.Any());
         }
@@ -104,7 +104,7 @@ namespace SecurityConsultantCore.Test.Thievery
             _layer[1, 0].Put(_wall);
             _layer[1, 0].Put(_upFacingValuable);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.IsFalse(_stolenLocations.Any());
         }
@@ -116,19 +116,19 @@ namespace SecurityConsultantCore.Test.Thievery
             _layer[1, 1].Put(_wall);
             _layer[1, 1].Put(_upFacingValuable);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.IsFalse(_stolenLocations.Any());
         }
 
         [TestMethod]
-        public void Thief_MultipleItemCapicity_MultipleDifferentStolenObjects()
+        public void Thief_MultipleItemCapacity_MultipleDifferentStolenObjects()
         {
             _thief = new Thief(this, _map, 2);
             _layer[0, 0].Put(_upFacingValuable);
             _layer[2, 2].Put(_valuable2);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.AreEqual(2, _stolenLocations.Count);
             Assert.AreNotEqual(_stolenLocations.First(), _stolenLocations.Last());
@@ -139,7 +139,7 @@ namespace SecurityConsultantCore.Test.Thievery
         {
             _layer[1, 1].Put(_upFacingContainer);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.IsTrue(_traversedPaths.First().Last().IsAdjacentTo(new XY(1, 1)));
             Assert.AreEqual(0, _stolenLocations.Count);
@@ -151,7 +151,7 @@ namespace SecurityConsultantCore.Test.Thievery
             _layer[1, 1].Put(_upFacingContainer);
             _layer[1, 1].Put(_wall);
 
-            _thief.Go();
+            PerformRobbery();
 
             Assert.AreEqual(new XYZ(1, 0, 0),  _traversedPaths.First().Last());
         }
@@ -163,10 +163,10 @@ namespace SecurityConsultantCore.Test.Thievery
                     builder.Put(column, row, new FacilityPortal { ObjectLayer = ObjectLayer.LowerObject, Endpoint1 = SpecialLocation.OffOfMap, Endpoint2 = new XYZ(column, row, 0) });
         }
 
-        public void Traverse(Path path, Action action)
+        public void BeginTraverse(Path path, Action action)
         {
             _traversedPaths.Add(path);
-            action.Invoke();
+            Task.Run(action);
         }
 
         public void Exit()
@@ -177,6 +177,13 @@ namespace SecurityConsultantCore.Test.Thievery
         public void Steal(XYZObjectLayer valuableLocation)
         {
             _stolenLocations.Add(valuableLocation);
+        }
+
+        private void PerformRobbery()
+        {
+            _thief.Go();
+            while (!_exited)
+                Thread.Sleep(2);
         }
     }
 }
