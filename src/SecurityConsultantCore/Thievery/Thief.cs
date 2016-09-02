@@ -5,9 +5,8 @@ using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Pathfinding;
-using SecurityConsultantCore.Thievery;
 
-namespace SecurityConsultant.Code.Thievery
+namespace SecurityConsultantCore.Thievery
 {
     public class Thief
     {
@@ -45,7 +44,7 @@ namespace SecurityConsultant.Code.Thievery
                 Exit();
                 return;
             }
-                    
+
             var valuable = _map.LocatedValuables.Shuffle().First();
             var path = GetStealPath(valuable);
             if (!path.IsValid)
@@ -53,18 +52,21 @@ namespace SecurityConsultant.Code.Thievery
                 Exit();
                 return;
             }
-            _thief.Traverse(path, () =>
-            {
-                Steal(path, valuable);
-                ItemsRemaining--;
-                CurrentLocation = path.Last();
-                Go();
-            });
+
+            _thief.BeginTraverse(path, () => StealAndKeepGoing(valuable, path));
+        }
+
+        private void StealAndKeepGoing(XYZLocation<IValuable> valuable, Path path)
+        {
+            Steal(valuable);
+            ItemsRemaining--;
+            CurrentLocation = path.Last();
+            Go();
         }
 
         private void Exit()
         {
-            _thief.Traverse(GetExitPath(), () => _thief.Exit());
+            _thief.BeginTraverse(GetExitPath(), () => _thief.Exit());
         }
 
         private Path GetExitPath()
@@ -78,14 +80,14 @@ namespace SecurityConsultant.Code.Thievery
 
         private Path GetStealPath(XYZLocation<IValuable> valuable)
         {
-            var destinations = GetStealLocations(_map, valuable).Shuffle();
+            var destinations = GetStealLocations(valuable).Shuffle();
             foreach (var destination in destinations)
                 if (_pathFinder.PathExists(CurrentLocation, destination))
                     return GetTrimmedPath(CurrentLocation, destination);
             return new Path();
         }
 
-        private IEnumerable<XYZ> GetStealLocations(FacilityMap map, XYZLocation<IValuable> valuable)
+        private IEnumerable<XYZ> GetStealLocations(XYZLocation<IValuable> valuable)
         {
             return GetStealDirections(valuable)
                 .Select(x => _adjacentLocations[x.Rotation].Invoke(valuable.Location))
@@ -108,7 +110,7 @@ namespace SecurityConsultant.Code.Thievery
             return new Path(_pathFinder.GetPath(start, end).Where(x => !x.Equals(SpecialLocation.OffOfMap)));
         }
 
-        private void Steal(Path path, XYZLocation<IValuable> valuable)
+        private void Steal(XYZLocation<IValuable> valuable)
         {
             if (IsFacilityValuable(valuable))
                 _thief.Steal(GetValuableTargetLocation(valuable));
