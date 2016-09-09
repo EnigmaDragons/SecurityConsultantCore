@@ -82,6 +82,7 @@
     <Compile Include="Pathfinding\LayeredPathFinderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\InvoiceTests.cs" />
+    <Compile Include="Thievery\ThiefDesiresTests.cs" />
     <Compile Include="Security\Alarms\AlarmBaseTests.cs" />
     <Compile Include="Security\Alarms\BasicAlarmTests.cs" />
     <Compile Include="Security\Alarms\SilentAlarmTests.cs" />
@@ -96,7 +97,9 @@
       <Name>SecurityConsultantCore</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

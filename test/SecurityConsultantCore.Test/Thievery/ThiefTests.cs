@@ -15,7 +15,7 @@ namespace SecurityConsultantCore.Test.Thievery
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ThiefTests : IThief
+    public class ThiefTests : IBody
     {
         private readonly FacilityMap _map = new FacilityMap();
         private readonly ValuableFacilityObject _upFacingValuable = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name" };
@@ -28,8 +28,8 @@ namespace SecurityConsultantCore.Test.Thievery
         private Thief _thief;
 
         private bool _exited = false;
-        private List<Path> _traversedPaths = new List<Path>();
-        private List<XYZObjectLayer> _stolenLocations = new List<XYZObjectLayer>();
+        private readonly List<Path> _traversedPaths = new List<Path>();
+        private readonly List<XYZObjectLayer> _stolenLocations = new List<XYZObjectLayer>();
 
         [TestInitialize]
         public void Init()
@@ -124,7 +124,7 @@ namespace SecurityConsultantCore.Test.Thievery
         [TestMethod]
         public void Thief_MultipleItemCapacity_MultipleDifferentStolenObjects()
         {
-            _thief = new Thief(this, _map, 2);
+            _thief = new Thief(this, _map, new ThiefDesires(_map.LocatedValuables), 2);
             _layer[0, 0].Put(_upFacingValuable);
             _layer[2, 2].Put(_valuable2);
 
@@ -163,7 +163,7 @@ namespace SecurityConsultantCore.Test.Thievery
                     builder.Put(column, row, new FacilityPortal { ObjectLayer = ObjectLayer.LowerObject, Endpoint1 = SpecialLocation.OffOfMap, Endpoint2 = new XYZ(column, row, 0) });
         }
 
-        public void BeginTraverse(Path path, Action action)
+        public void BeginMove(Path path, Action action)
         {
             _traversedPaths.Add(path);
             Task.Run(action);
@@ -174,7 +174,7 @@ namespace SecurityConsultantCore.Test.Thievery
             _exited = true;
         }
 
-        public void Steal(XYZObjectLayer valuableLocation)
+        public void StealAt(XYZObjectLayer valuableLocation)
         {
             _stolenLocations.Add(valuableLocation);
         }

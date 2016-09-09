@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Business\Company.cs" />
     <Compile Include="Common\ArgCleaner.cs" />
+    <Compile Include="Common\CompoundComparer.cs" />
     <Compile Include="Common\GameRandom.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
     <Compile Include="Common\StringUtils.cs" />
@@ -66,8 +67,12 @@
     <Compile Include="Domain\FacilityObjectNames.cs" />
     <Compile Include="Domain\FacilityPortal.cs" />
     <Compile Include="Domain\FacilitySpace.cs" />
+    <Compile Include="Domain\IPortals.cs" />
     <Compile Include="Domain\IValuable.cs" />
     <Compile Include="Domain\IValuablesContainer.cs" />
+    <Compile Include="Domain\Liquidity.cs" />
+    <Compile Include="Domain\LocatedValuable.cs" />
+    <Compile Include="Domain\Publicity.cs" />
     <Compile Include="Domain\SecurityObject.cs" />
     <Compile Include="Domain\SpecialLocation.cs" />
     <Compile Include="Domain\StructureObject.cs" />
@@ -115,9 +120,17 @@
     <Compile Include="Security\Alarms\IAlarm.cs" />
     <Compile Include="Thievery\Incident.cs" />
     <Compile Include="Thievery\IThief.cs" />
+    <Compile Include="Thievery\IBody.cs" />
     <Compile Include="Thievery\Interactions.cs" />
+    <Compile Include="Thievery\IDesires.cs" />
+    <Compile Include="Thievery\PreferenceMostHidden.cs" />
+    <Compile Include="Thievery\PreferenceMostValuable.cs" />
+    <Compile Include="Thievery\Preference.cs" />
+    <Compile Include="Thievery\PreferenceMostValuableSecrets.cs" />
+    <Compile Include="Thievery\PreferenceNone.cs" />
     <Compile Include="Thievery\Thief.cs" />
     <Compile Include="Thievery\ThiefInstruction.cs" />
+    <Compile Include="Thievery\ThiefDesires.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

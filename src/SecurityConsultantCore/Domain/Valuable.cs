@@ -8,8 +8,8 @@ namespace SecurityConsultantCore.Domain
         public string Name { get; set; } = "Unnamed";
         public string Type { get; set; } = "None";
         public int Value { get; set; } = 0;
-        public int PublicityLevel { get; set; } = 3;
-        public int LiquidityLevel { get; set; } = 1;
+        public Publicity Publicity { get; set; } = Publicity.High;
+        public Liquidity Liquidity { get; set; } = Liquidity.Low;
         public string[] Traits { get; set; } = new string[0];
 
         protected bool Equals(Valuable other)

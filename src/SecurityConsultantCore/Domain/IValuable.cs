@@ -7,8 +7,8 @@ namespace SecurityConsultantCore.Domain
         string Id { get; }
         string Name { get; }
         int Value { get; }
-        int PublicityLevel { get; }
-        int LiquidityLevel { get; }
+        Publicity Publicity { get; }
+        Liquidity Liquidity { get; }
         string[] Traits { get; }
     }
 }
