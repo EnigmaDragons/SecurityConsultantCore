@@ -76,6 +76,7 @@
     <Compile Include="Domain\ValuableFacilityObject.cs" />
     <Compile Include="Domain\ValuablesContainer.cs" />
     <Compile Include="Domain\XYZObjectLayer.cs" />
+    <Compile Include="EngineInterfaces\ISound.cs" />
     <Compile Include="Factories\Container.cs" />
     <Compile Include="Factories\FacilityObjectFactory.cs" />
     <Compile Include="Factories\SecurityObjectFactory.cs" />
@@ -113,6 +114,9 @@
     <Compile Include="Security\Guards\Guard.cs" />
     <Compile Include="Security\Guards\IGuardBody.cs" />
     <Compile Include="Thievery\IThiefBody.cs" />
+    <Compile Include="Security\Alarms\AlarmBase.cs" />
+    <Compile Include="Security\Alarms\BasicAlarm.cs" />
+    <Compile Include="Security\Alarms\IAlarm.cs" />
     <Compile Include="Thievery\Interactions.cs" />
     <Compile Include="Thievery\Thief.cs" />
     <Compile Include="Thievery\ThiefInstruction.cs" />
