@@ -11,7 +11,7 @@ namespace SecurityConsultant.Code.Thievery
 {
     public class Thief
     {
-        private readonly IThief _thief;
+        private readonly IThiefBody _body;
         private readonly FacilityMap _map;
         private readonly IPathFinder _pathFinder;
         private readonly Dictionary<int, Func<XYZ, XYZ>> _adjacentLocations = new Dictionary<int, Func<XYZ, XYZ>>
@@ -25,13 +25,13 @@ namespace SecurityConsultant.Code.Thievery
         private int ItemsRemaining { get; set; }
         private XYZ CurrentLocation { get; set; }
 
-        public Thief(IThief thief, FacilityMap map) : this(thief, map, new CachedPathFinder(map), 1) {}
+        public Thief(IThiefBody body, FacilityMap map) : this(body, map, new CachedPathFinder(map), 1) {}
 
-        public Thief(IThief thief, FacilityMap map, int itemCapacity) : this(thief, map, new CachedPathFinder(map), itemCapacity) {}
+        public Thief(IThiefBody body, FacilityMap map, int itemCapacity) : this(body, map, new CachedPathFinder(map), itemCapacity) {}
 
-        public Thief(IThief thief, FacilityMap map, IPathFinder pathFinder, int itemCapacity)
+        public Thief(IThiefBody body, FacilityMap map, IPathFinder pathFinder, int itemCapacity)
         {
-            _thief = thief;
+            _body = body;
             _map = map;
             _pathFinder = pathFinder;
             ItemsRemaining = itemCapacity;
@@ -53,7 +53,7 @@ namespace SecurityConsultant.Code.Thievery
                 Exit();
                 return;
             }
-            _thief.Traverse(path, () =>
+            _body.BeginShowMoving(path, () =>
             {
                 Steal(path, valuable);
                 ItemsRemaining--;
@@ -64,7 +64,7 @@ namespace SecurityConsultant.Code.Thievery
 
         private void Exit()
         {
-            _thief.Traverse(GetExitPath(), () => _thief.Exit());
+            _body.BeginShowMoving(GetExitPath(), () => _body.ShowLeavingMap());
         }
 
         private Path GetExitPath()
@@ -111,7 +111,7 @@ namespace SecurityConsultant.Code.Thievery
         private void Steal(Path path, XYZLocation<IValuable> valuable)
         {
             if (IsFacilityValuable(valuable))
-                _thief.Steal(GetValuableTargetLocation(valuable));
+                _body.ShowTakingValuable(GetValuableTargetLocation(valuable));
             _map.Remove(valuable.Obj);
         }
 

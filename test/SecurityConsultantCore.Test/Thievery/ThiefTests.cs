@@ -14,7 +14,7 @@ namespace SecurityConsultantCore.Test.Thievery
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ThiefTests : IThief
+    public class ThiefTests : IThiefBody
     {
         private readonly FacilityMap _map = new FacilityMap();
         private readonly ValuableFacilityObject _upFacingValuable = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name" };
@@ -163,18 +163,18 @@ namespace SecurityConsultantCore.Test.Thievery
                     builder.Put(column, row, new FacilityPortal { ObjectLayer = ObjectLayer.LowerObject, Endpoint1 = SpecialLocation.OffOfMap, Endpoint2 = new XYZ(column, row, 0) });
         }
 
-        public void Traverse(Path path, Action action)
+        public void BeginShowMoving(Path path, Action action)
         {
             _traversedPaths.Add(path);
             action.Invoke();
         }
 
-        public void Exit()
+        public void ShowLeavingMap()
         {
             _exited = true;
         }
 
-        public void Steal(XYZObjectLayer valuableLocation)
+        public void ShowTakingValuable(XYZObjectLayer valuableLocation)
         {
             _stolenLocations.Add(valuableLocation);
         }
