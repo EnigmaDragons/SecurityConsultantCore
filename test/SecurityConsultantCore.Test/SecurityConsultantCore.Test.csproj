@@ -48,7 +48,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -65,6 +67,7 @@
     <Compile Include="Domain\FacilitySpaceTests.cs" />
     <Compile Include="Domain\ValuableFacilityObjectTests.cs" />
     <Compile Include="Domain\ValuablesContainerTests.cs" />
+    <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="Interactors\SecurityPlacementValidatorTests.cs" />
     <Compile Include="MapGeneration\LayerBuilderTests.cs" />
     <Compile Include="MapGeneration\LayerInstructionTests.cs" />
@@ -80,6 +83,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\InvoiceTests.cs" />
     <Compile Include="Thievery\ThiefDesiresTests.cs" />
+    <Compile Include="Security\Alarms\AlarmBaseTests.cs" />
+    <Compile Include="Security\Alarms\BasicAlarmTests.cs" />
+    <Compile Include="Security\Alarms\SilentAlarmTests.cs" />
+    <Compile Include="Security\ControlPanelTests.cs" />
+    <Compile Include="Scoring\ScoringTests.cs" />
     <Compile Include="Thievery\ThiefTests.cs" />
   </ItemGroup>
   <ItemGroup>
