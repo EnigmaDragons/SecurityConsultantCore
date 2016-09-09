@@ -113,6 +113,7 @@
     <Compile Include="Security\Alarms\AlarmBase.cs" />
     <Compile Include="Security\Alarms\BasicAlarm.cs" />
     <Compile Include="Security\Alarms\IAlarm.cs" />
+    <Compile Include="Thievery\Incident.cs" />
     <Compile Include="Thievery\IThief.cs" />
     <Compile Include="Thievery\Interactions.cs" />
     <Compile Include="Thievery\Thief.cs" />

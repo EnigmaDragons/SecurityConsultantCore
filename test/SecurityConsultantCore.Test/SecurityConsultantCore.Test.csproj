@@ -87,6 +87,7 @@
     <Compile Include="Security\Alarms\SilentAlarmTests.cs" />
     <Compile Include="Security\ControlPanelTests.cs" />
     <Compile Include="Scoring\ScoringTests.cs" />
+    <Compile Include="Thievery\IncidentTests.cs" />
     <Compile Include="Thievery\ThiefTests.cs" />
   </ItemGroup>
   <ItemGroup>
