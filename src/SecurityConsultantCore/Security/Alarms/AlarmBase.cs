@@ -1,6 +1,6 @@
 ﻿namespace SecurityConsultantCore.Security.Alarms
 {
-    public abstract class AlarmBase
+    public class AlarmBase
     {
         public bool IsArmed { get; private set; }
 
@@ -13,8 +13,5 @@
         {
             IsArmed = false;
         }
-
-        public abstract void Trigger();
-        public abstract void TurnOff();
     }
 }

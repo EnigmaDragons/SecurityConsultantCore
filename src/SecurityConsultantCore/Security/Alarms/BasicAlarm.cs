@@ -2,7 +2,7 @@
 
 namespace SecurityConsultantCore.Security.Alarms
 {
-    public class BasicAlarm : AlarmBase
+    public class BasicAlarm : AlarmBase, IAlarm
     {
         private ISound _alarmSound;
 
@@ -11,13 +11,13 @@ namespace SecurityConsultantCore.Security.Alarms
             _alarmSound = alarmSound;
         }
 
-        public override void Trigger()
+        public void Trigger()
         {
             if (IsArmed)
                 _alarmSound.Play();
         }
 
-        public override void TurnOff()
+        public void TurnOff()
         {
             _alarmSound.Stop();
         }
