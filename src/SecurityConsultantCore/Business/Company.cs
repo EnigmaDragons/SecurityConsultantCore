@@ -5,5 +5,6 @@
         public string Name { get; set; }
         public int ApparentSecurityLevel { get; set; }
         public int ApparentWealthLevel { get; set; }
+        public int TargetBudget { get; set; }
     }
 }
