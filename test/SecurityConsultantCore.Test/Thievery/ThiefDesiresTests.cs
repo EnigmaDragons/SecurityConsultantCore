@@ -74,10 +74,10 @@ namespace SecurityConsultantCore.Test.Thievery
         [TestMethod]
         public void ThiefDesires_MostValuableMostHidden_Correct()
         {
-            Add("Classified Emails", Publicity.Low, 50);
-            Add("Nuclear Warhead", Publicity.Low, 50000);
-            Add("Front Sign", Publicity.High, 200);
-            Add("Conference Room Art", Publicity.Medium, 320);
+            Add("Classified Emails", Publicity.Confidential, 50);
+            Add("Nuclear Warhead", Publicity.Confidential, 50000);
+            Add("Front Sign", Publicity.Famous, 200);
+            Add("Conference Room Art", Publicity.Obvious, 320);
 
             var desires = new ThiefDesires(_valuables, new PreferenceMostValuableSecrets()).Get().ToList();
 

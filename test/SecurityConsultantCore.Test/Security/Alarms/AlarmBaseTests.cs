@@ -5,26 +5,13 @@ using SecurityConsultantCore.Security.Alarms;
 
 namespace SecurityConsultantCore.Test.Security.Alarms
 {
-    internal class AlarmBaseMock : AlarmBase
-    {
-        public override void Trigger()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void TurnOff()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     [TestClass, ExcludeFromCodeCoverage]
     public class AlarmBaseTests
     {
         [TestMethod]
         public void AlarmBase_Arm_IsArmedTrue()
         {
-            var alarm = new AlarmBaseMock();
+            var alarm = new AlarmBase();
 
             alarm.Arm();
 
@@ -34,7 +21,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AlarmBase_Disarmed_IsArmedFalse()
         {
-            var alarm = new AlarmBaseMock();
+            var alarm = new AlarmBase();
 
             alarm.Disarm();
 

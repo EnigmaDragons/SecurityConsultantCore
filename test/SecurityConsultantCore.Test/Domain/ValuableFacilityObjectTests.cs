@@ -11,8 +11,8 @@ namespace SecurityConsultantCore.Test.Domain
         [TestMethod]
         public void ValuableFacilityObject_LinkToOtherValuableFacilityObject_ValuesAndLevelsNowMatch()
         {
-            var obj1 = new ValuableFacilityObject {Value = 900, Publicity = Publicity.Low, Liquidity = Liquidity.Low};
-            var obj2 = new ValuableFacilityObject {Value = 1000, Publicity = Publicity.Medium, Liquidity = Liquidity.Medium};
+            var obj1 = new ValuableFacilityObject {Value = 900, Publicity = Publicity.Confidential, Liquidity = Liquidity.Low};
+            var obj2 = new ValuableFacilityObject {Value = 1000, Publicity = Publicity.Obvious, Liquidity = Liquidity.Medium};
 
             obj1.LinkTo(obj2);
 
@@ -25,8 +25,8 @@ namespace SecurityConsultantCore.Test.Domain
         [TestMethod]
         public void ValuableFacilityObject_LinkToOtherValuableFacilityObjectAsFacilityObjects_ValuesAndLevelsMatch()
         {
-            var obj1 = new ValuableFacilityObject { Value = 900, Publicity = Publicity.Low, Liquidity = Liquidity.Low };
-            var obj2 = new ValuableFacilityObject { Value = 1000, Publicity = Publicity.Medium, Liquidity = Liquidity.Medium };
+            var obj1 = new ValuableFacilityObject { Value = 900, Publicity = Publicity.Confidential, Liquidity = Liquidity.Low };
+            var obj2 = new ValuableFacilityObject { Value = 1000, Publicity = Publicity.Obvious, Liquidity = Liquidity.Medium };
 
             ((FacilityObject)obj1).LinkTo((FacilityObject)obj2);
 

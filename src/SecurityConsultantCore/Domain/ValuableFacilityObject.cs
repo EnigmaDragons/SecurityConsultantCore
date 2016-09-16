@@ -7,7 +7,7 @@ namespace SecurityConsultantCore.Domain
         public string Id { get; private set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = "Unnamed";
         public int Value { get; set; }
-        public Publicity Publicity { get; set; } = Publicity.High;
+        public Publicity Publicity { get; set; } = Publicity.Famous;
         public Liquidity Liquidity { get; set; } = Liquidity.Low;
         public string[] Traits { get; set; } = new string[0];
 

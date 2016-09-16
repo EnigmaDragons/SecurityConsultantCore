@@ -8,7 +8,7 @@ namespace SecurityConsultantCore.Domain
         public string Name { get; set; } = "Unnamed";
         public string Type { get; set; } = "None";
         public int Value { get; set; } = 0;
-        public Publicity Publicity { get; set; } = Publicity.High;
+        public Publicity Publicity { get; set; } = Publicity.Famous;
         public Liquidity Liquidity { get; set; } = Liquidity.Low;
         public string[] Traits { get; set; } = new string[0];
 
