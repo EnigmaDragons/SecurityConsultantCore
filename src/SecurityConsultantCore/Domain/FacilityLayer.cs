@@ -22,8 +22,10 @@ namespace SecurityConsultantCore.Domain
         public FacilitySpace this[XY xy] => Get(xy.X, xy.Y);
         public FacilitySpace this[int x, int y] => Get(x, y);
 
-        public IEnumerable<XYLocation<IValuable>> LocatedValuables => this.SelectMany(x => x.Obj.Valuables
-            .Select(y => new XYLocation<IValuable>(x.Location, y)));
+        public IEnumerable<XYOriented<IValuable>> OrientedValuables => this.SelectMany(x => x.Obj.OrientedValuables
+            .Select(y => new XYOriented<IValuable>(x.Location, y.Orientation, y.Obj)));
+
+        public IEnumerable<IValuable> Valuables => this.SelectMany(x => x.Obj.Valuables);
 
         public IEnumerable<XYLocation<FacilityPortal>> Portals => this.SelectMany(x => x.Obj.Portals
             .Select(y => new XYLocation<FacilityPortal>(x.Location, y)));
@@ -39,8 +41,6 @@ namespace SecurityConsultantCore.Domain
         {
             return GetEnumerator();
         }
-
-        public IEnumerable<IValuable> Valuables => this.SelectMany(x => x.Obj.Valuables);
 
         public void Remove(IValuable valuable)
         {
@@ -90,8 +90,8 @@ namespace SecurityConsultantCore.Domain
 
         private void RemoveValuable(IValuable valuable)
         {
-            LocatedValuables.Where(x => x.Obj.Equals(valuable)).ToList()
-                .ForEach(y => this[y.Location].Remove(valuable));
+            OrientedValuables.Where(x => x.Obj.Equals(valuable)).ToList()
+                .ForEach(y => this[y].Remove(valuable));
         }
 
         public bool Exists(XY space)

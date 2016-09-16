@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Domain\Basic\XYZAdjacentTests.cs" />
     <Compile Include="Domain\Basic\XYOrientationTests.cs" />
     <Compile Include="Domain\Basic\XYRangeTests.cs" />
     <Compile Include="Domain\Basic\XYTests.cs" />

@@ -46,11 +46,15 @@
     <Compile Include="Common\CompoundComparer.cs" />
     <Compile Include="Common\GameRandom.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
+    <Compile Include="Common\Lists.cs" />
     <Compile Include="Common\StringUtils.cs" />
     <Compile Include="Domain\Basic\ITyped.cs" />
     <Compile Include="Domain\Basic\ObjectLayer.cs" />
     <Compile Include="Domain\Basic\ObjectLocation.cs" />
     <Compile Include="Domain\Basic\Orientation.cs" />
+    <Compile Include="Domain\Basic\Oriented.cs" />
+    <Compile Include="Domain\Basic\XYOriented.cs" />
+    <Compile Include="Domain\Basic\XYZAdjacent.cs" />
     <Compile Include="Domain\Basic\Tuple.cs" />
     <Compile Include="Domain\Basic\XY.cs" />
     <Compile Include="Domain\Basic\XYLocation.cs" />
@@ -59,6 +63,7 @@
     <Compile Include="Domain\Basic\XYZ.cs" />
     <Compile Include="Domain\Basic\XYZLocation.cs" />
     <Compile Include="Domain\Basic\XYZOrientation.cs" />
+    <Compile Include="Domain\Basic\XYZOriented.cs" />
     <Compile Include="Domain\Basic\XYZw.cs" />
     <Compile Include="Domain\Basic\ZLocation.cs" />
     <Compile Include="Domain\FacilityLayer.cs" />
@@ -71,7 +76,7 @@
     <Compile Include="Domain\IValuable.cs" />
     <Compile Include="Domain\IValuablesContainer.cs" />
     <Compile Include="Domain\Liquidity.cs" />
-    <Compile Include="Domain\LocatedValuable.cs" />
+    <Compile Include="Domain\SpatialValuable.cs" />
     <Compile Include="Domain\Publicity.cs" />
     <Compile Include="Domain\SecurityObject.cs" />
     <Compile Include="Domain\SpecialLocation.cs" />

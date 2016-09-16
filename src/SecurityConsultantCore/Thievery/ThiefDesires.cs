@@ -9,25 +9,25 @@ namespace SecurityConsultantCore.Thievery
     {
         private readonly Predicate<IValuable> _criteria;
         private readonly Preference _preference;
-        private readonly IEnumerable<LocatedValuable> _valuables;
+        private readonly IEnumerable<SpatialValuable> _valuables;
 
-        public ThiefDesires(IEnumerable<LocatedValuable> valuables)
+        public ThiefDesires(IEnumerable<SpatialValuable> valuables)
             : this(valuables, x => true, new PreferenceNone()) { }
 
-        public ThiefDesires(IEnumerable<LocatedValuable> valuables, Preference preference) 
+        public ThiefDesires(IEnumerable<SpatialValuable> valuables, Preference preference) 
             : this(valuables, x => true, preference) { }
 
-        public ThiefDesires(IEnumerable<LocatedValuable> valuables, Predicate<IValuable> criteria) 
+        public ThiefDesires(IEnumerable<SpatialValuable> valuables, Predicate<IValuable> criteria) 
             : this(valuables, criteria, new PreferenceNone())  { }
 
-        public ThiefDesires(IEnumerable<LocatedValuable> valuables, Predicate<IValuable> criteria, Preference preference)
+        public ThiefDesires(IEnumerable<SpatialValuable> valuables, Predicate<IValuable> criteria, Preference preference)
         {
             _criteria = criteria;
             _valuables = valuables;
             _preference = preference;
         }
 
-        public IEnumerable<LocatedValuable> Get()
+        public IEnumerable<SpatialValuable> Get()
         {
             return _valuables.Where(x => _criteria.Invoke(x.Obj)).OrderByDescending(x => x.Obj, _preference);
         }
