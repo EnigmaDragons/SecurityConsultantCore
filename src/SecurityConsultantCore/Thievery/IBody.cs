@@ -4,10 +4,10 @@ using SecurityConsultantCore.Pathfinding;
 
 namespace SecurityConsultantCore.Thievery
 {
-    public interface IThief
+    public interface IBody
     {
-        void BeginTraverse(Path path, Action callBack);
+        void BeginMove(Path path, Action callBack);
         void Exit();
-        void Steal(XYZObjectLayer valuableLocation);
+        void StealAt(SpatialValuable valuable);
     }
 }

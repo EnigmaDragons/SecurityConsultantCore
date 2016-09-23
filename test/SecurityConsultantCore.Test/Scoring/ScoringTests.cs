@@ -4,8 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SecurityConsultantCore.Test.Scoring
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+    [TestClass, ExcludeFromCodeCoverage]
     public class ScoringTests
     {
         [TestMethod]

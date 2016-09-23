@@ -15,7 +15,7 @@ namespace SecurityConsultantCore.Test.Thievery
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ThiefTests : IThiefBody
+    public class ThiefTests : IBody
     {
         private readonly FacilityMap _map = new FacilityMap();
         private readonly ValuableFacilityObject _upFacingValuable = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name" };
@@ -23,13 +23,15 @@ namespace SecurityConsultantCore.Test.Thievery
         private readonly FacilityObject _obstacle = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Not none" };
         private readonly FacilityObject _noGround = new FacilityObject { ObjectLayer = ObjectLayer.Ground, Type = "None" };
         private readonly FacilityObject _wall = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Wall" };
+        private readonly FacilityObject _rightWall = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Wall", Orientation = Orientation.Right };
         private readonly ValuablesContainer _upFacingContainer = new ValuablesContainer { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Container" };
+        private readonly ValuablesContainer _rightFacingContainer = new ValuablesContainer { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Right, Type = "Container" };
         private FacilityLayer _layer;
         private Thief _thief;
 
         private bool _exited = false;
-        private List<Path> _traversedPaths = new List<Path>();
-        private List<XYZObjectLayer> _stolenLocations = new List<XYZObjectLayer>();
+        private readonly List<Path> _traversedPaths = new List<Path>();
+        private readonly List<XYZ> _stolenLocations = new List<XYZ>();
 
         [TestInitialize]
         public void Init()
@@ -40,6 +42,7 @@ namespace SecurityConsultantCore.Test.Thievery
             AddPortals(builder);
             _map.Add(_layer = builder.Build());
             _upFacingContainer.Put(_upFacingValuable);
+            _rightFacingContainer.Put(_valuable2);
         }
 
         [TestMethod]
@@ -124,7 +127,7 @@ namespace SecurityConsultantCore.Test.Thievery
         [TestMethod]
         public void Thief_MultipleItemCapacity_MultipleDifferentStolenObjects()
         {
-            _thief = new Thief(this, _map, 2);
+            _thief = new Thief(this, _map, new ThiefDesires(_map.SpatialValuables), 2);
             _layer[0, 0].Put(_upFacingValuable);
             _layer[2, 2].Put(_valuable2);
 
@@ -156,6 +159,17 @@ namespace SecurityConsultantCore.Test.Thievery
             Assert.AreEqual(new XYZ(1, 0, 0),  _traversedPaths.First().Last());
         }
 
+        [TestMethod]
+        public void Thief_StealInSafeOnLeftWall_TraverseToRightOfWall()
+        {
+            _layer[0, 1].Put(_rightFacingContainer);
+            _layer[0, 1].Put(_rightWall);
+
+            PerformRobbery();
+
+            Assert.AreEqual(new XYZ(1, 1, 0), _traversedPaths.First().Last());
+        }
+
         private void AddPortals(LayerBuilder builder)
         {
             for (var row = 0; row < 3; row++)
@@ -163,7 +177,7 @@ namespace SecurityConsultantCore.Test.Thievery
                     builder.Put(column, row, new FacilityPortal { ObjectLayer = ObjectLayer.LowerObject, Endpoint1 = SpecialLocation.OffOfMap, Endpoint2 = new XYZ(column, row, 0) });
         }
 
-        public void BeginShowMoving(Path path, Action action)
+        public void BeginMove(Path path, Action action)
         {
             _traversedPaths.Add(path);
             Task.Run(action);
@@ -174,9 +188,9 @@ namespace SecurityConsultantCore.Test.Thievery
             _exited = true;
         }
 
-        public void ShowTakingValuable(XYZObjectLayer valuableLocation)
+        public void StealAt(SpatialValuable valuable)
         {
-            _stolenLocations.Add(valuableLocation);
+            _stolenLocations.Add(valuable);
         }
 
         private void PerformRobbery()

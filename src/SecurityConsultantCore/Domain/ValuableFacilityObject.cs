@@ -7,8 +7,8 @@ namespace SecurityConsultantCore.Domain
         public string Id { get; private set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = "Unnamed";
         public int Value { get; set; }
-        public int PublicityLevel { get; set; } = 3;
-        public int LiquidityLevel { get; set; } = 1;
+        public Publicity Publicity { get; set; } = Publicity.Famous;
+        public Liquidity Liquidity { get; set; } = Liquidity.Low;
         public string[] Traits { get; set; } = new string[0];
 
         public override void LinkTo(FacilityObject obj)
@@ -26,8 +26,8 @@ namespace SecurityConsultantCore.Domain
         {
             Id = obj.Id;
             Value = obj.Value;
-            PublicityLevel = obj.PublicityLevel;
-            LiquidityLevel = obj.LiquidityLevel;
+            Publicity = obj.Publicity;
+            Liquidity = obj.Liquidity;
             base.LinkTo(obj);
         }
 

@@ -39,14 +39,12 @@ namespace SecurityConsultantCore.Factories
                     {
                         "Painting*",
                         () =>
-                            new ValuableFacilityObject
-                            {
-                                Type = "Painting" + Rng(1, 11),
+                            new ValuableFacilityObject { Type = "Painting" + Rng(1, 11),
                                 Name = "Painting",
                                 Value = Rng(200, 3000),
                                 ObjectLayer = ObjectLayer.UpperObject,
-                                LiquidityLevel = 1,
-                                PublicityLevel = 3
+                                Liquidity = Liquidity.Low,
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -58,8 +56,8 @@ namespace SecurityConsultantCore.Factories
                                 Name = "An Ordinary Table",
                                 Value = Rng(50, 150),
                                 ObjectLayer = ObjectLayer.LowerObject,
-                                LiquidityLevel = 2,
-                                PublicityLevel = 2
+                                Liquidity = Liquidity.Medium,
+                                Publicity = Publicity.Obvious
                             }
                     },
                     {
@@ -71,8 +69,8 @@ namespace SecurityConsultantCore.Factories
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
-                                LiquidityLevel = 1,
-                                PublicityLevel = 3
+                                Liquidity = Liquidity.Low,
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -84,8 +82,8 @@ namespace SecurityConsultantCore.Factories
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
-                                LiquidityLevel = 1,
-                                PublicityLevel = 3
+                                Liquidity = Liquidity.Low,
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -97,8 +95,8 @@ namespace SecurityConsultantCore.Factories
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
-                                LiquidityLevel = 1,
-                                PublicityLevel = 3
+                                Liquidity = Liquidity.Low,
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -110,8 +108,8 @@ namespace SecurityConsultantCore.Factories
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
-                                LiquidityLevel = 1,
-                                PublicityLevel = 3
+                                Liquidity = Liquidity.Low,
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -123,16 +121,11 @@ namespace SecurityConsultantCore.Factories
                                 Name = "One Man's Trash Can",
                                 Value = Rng(5, 15),
                                 ObjectLayer = ObjectLayer.LowerObject,
-                                LiquidityLevel = 1,
-                                PublicityLevel = 1
+                                Liquidity = Liquidity.Low,
+                                Publicity = Publicity.Confidential
                             }
                     }
                 };
-            }
-
-            private int Rng(int maxValue)
-            {
-                return GameRandom.Random(maxValue);
             }
 
             private int Rng(int min, int max)

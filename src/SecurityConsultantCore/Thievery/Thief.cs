@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
@@ -10,27 +9,24 @@ namespace SecurityConsultantCore.Thievery
 {
     public class Thief
     {
-        private readonly IThiefBody _body;
+        private readonly IBody _thiefBody;
+        private readonly IDesires _desires;
         private readonly FacilityMap _map;
         private readonly IPathFinder _pathFinder;
-        private readonly Dictionary<int, Func<XYZ, XYZ>> _adjacentLocations = new Dictionary<int, Func<XYZ, XYZ>>
-        {
-            { 0, xyz => xyz.Plus(new XYZ(0, -1, 0)) },
-            { 90, xyz => xyz.Plus(new XYZ(1, 0, 0)) },
-            { 180, xyz => xyz.Plus(new XYZ(0, 1, 0)) },
-            { 270, xyz => xyz.Plus(new XYZ(-1, 0, 0)) }
-        };
 
         private int ItemsRemaining { get; set; }
         private XYZ CurrentLocation { get; set; }
 
-        public Thief(IThiefBody body, FacilityMap map) : this(body, map, new CachedPathFinder(map), 1) {}
+        public Thief(IBody thiefBody, FacilityMap map) : this(thiefBody, map, new ThiefDesires(map.SpatialValuables)) {}
 
-        public Thief(IThiefBody body, FacilityMap map, int itemCapacity) : this(body, map, new CachedPathFinder(map), itemCapacity) {}
+        public Thief(IBody thiefBody, FacilityMap map, IDesires desires) : this(thiefBody, map, desires, new CachedPathFinder(map), 1) {}
 
-        public Thief(IThiefBody body, FacilityMap map, IPathFinder pathFinder, int itemCapacity)
+        public Thief(IBody thiefBody, FacilityMap map, IDesires desires, int itemCapacity) : this(thiefBody, map, desires, new CachedPathFinder(map), itemCapacity) {}
+
+        public Thief(IBody thiefBody, FacilityMap map, IDesires desires, IPathFinder pathFinder, int itemCapacity)
         {
-            _body = body;
+            _thiefBody = thiefBody;
+            _desires = desires;
             _map = map;
             _pathFinder = pathFinder;
             ItemsRemaining = itemCapacity;
@@ -39,24 +35,28 @@ namespace SecurityConsultantCore.Thievery
 
         public void Go()
         {
-            if (!_map.Valuables.Any() || ItemsRemaining == 0)
+            if (!GetTargets().Any() || ItemsRemaining == 0)
             {
                 Exit();
                 return;
             }
 
-            var valuable = _map.LocatedValuables.Shuffle().First();
+            var valuable = GetTargets().First();
             var path = GetStealPath(valuable);
             if (!path.IsValid)
             {
                 Exit();
                 return;
             }
-
-            _body.BeginShowMoving(path, () => StealAndKeepGoing(valuable, path));
+            _thiefBody.BeginMove(path, () => StealAndKeepGoing(valuable, path));
         }
 
-        private void StealAndKeepGoing(XYZLocation<IValuable> valuable, Path path)
+        private IEnumerable<SpatialValuable> GetTargets()
+        {
+            return _desires.Get();
+        }
+
+        private void StealAndKeepGoing(SpatialValuable valuable, Path path)
         {
             Steal(valuable);
             ItemsRemaining--;
@@ -66,7 +66,7 @@ namespace SecurityConsultantCore.Thievery
 
         private void Exit()
         {
-            _body.BeginShowMoving(GetExitPath(), () => _body.ShowLeavingMap());
+            _thiefBody.BeginMove(GetExitPath(), () => _thiefBody.Exit());
         }
 
         private Path GetExitPath()
@@ -78,7 +78,7 @@ namespace SecurityConsultantCore.Thievery
             return new Path();
         }
 
-        private Path GetStealPath(XYZLocation<IValuable> valuable)
+        private Path GetStealPath(SpatialValuable valuable)
         {
             var destinations = GetStealLocations(valuable).Shuffle();
             foreach (var destination in destinations)
@@ -87,22 +87,20 @@ namespace SecurityConsultantCore.Thievery
             return new Path();
         }
 
-        private IEnumerable<XYZ> GetStealLocations(XYZLocation<IValuable> valuable)
+        private IEnumerable<XYZ> GetStealLocations(SpatialValuable valuable)
         {
-            return GetStealDirections(valuable)
-                .Select(x => _adjacentLocations[x.Rotation].Invoke(valuable.Location))
-                .Where(x => _map.Exists(x) && _map[x].IsOpenSpace());
+            return GetDirectionsValuableCanBeStolenFrom(valuable)
+                .Select(x => (XYZ)new XYZAdjacent(valuable.Location, x))
+                .Where(x => _map.IsOpenSpace(x));
         }
 
-        private IEnumerable<Orientation> GetStealDirections(XYZLocation<IValuable> valuable)
+        private IEnumerable<Orientation> GetDirectionsValuableCanBeStolenFrom(SpatialValuable valuable)
         {
             var space = _map[valuable.Location];
             if (IsFacilityValuable(valuable))
-                return space.Contains("Wall")
-                    ? new List<Orientation> { space.Get(valuable.Obj.Type).Orientation }
-                    : new List<Orientation> { Orientation.Up, Orientation.Right, Orientation.Down, Orientation.Left };
+                return space.Contains("Wall") ? Lists.Of(valuable.Orientation) : Orientation.AllOrientations;
             var container = space.FacilityContainers.First(x => x.Valuables.Any(y => y.Equals(valuable.Obj)));
-            return space.Contains("Wall") ? container.StealableOrientations.Where(x => x.Equals(container.Orientation)) : container.StealableOrientations;
+            return space.Contains("Wall") ? container.AccessibleFrom.Where(x => x.Equals(container.Orientation)) : container.AccessibleFrom;
         }
 
         private Path GetTrimmedPath(XYZ start, XYZ end)
@@ -110,22 +108,16 @@ namespace SecurityConsultantCore.Thievery
             return new Path(_pathFinder.GetPath(start, end).Where(x => !x.Equals(SpecialLocation.OffOfMap)));
         }
 
-        private void Steal(XYZLocation<IValuable> valuable)
+        private void Steal(SpatialValuable valuable)
         {
             if (IsFacilityValuable(valuable))
-                _body.ShowTakingValuable(GetValuableTargetLocation(valuable));
+                _thiefBody.StealAt(valuable);
             _map.Remove(valuable.Obj);
         }
 
-        private bool IsFacilityValuable(XYZLocation<IValuable> valuable)
+        private bool IsFacilityValuable(SpatialValuable valuable)
         {
             return _map[valuable.Location].Contains(valuable.Obj.Type);
-        }
-
-        private XYZObjectLayer GetValuableTargetLocation(XYZLocation<IValuable> valuable)
-        {
-            var layer = _map[valuable.Location].Get(valuable.Obj.Type).ObjectLayer;
-            return new XYZObjectLayer(valuable.Location, layer);
         }
     }
 }

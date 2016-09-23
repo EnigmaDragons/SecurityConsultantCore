@@ -15,12 +15,12 @@ namespace SecurityConsultantCore.Domain
         public FacilitySpace this[int x, int y, int z] => _layers[z][x, y];
         public FacilitySpace this[XYZ xyz] => _layers[xyz.Z][xyz.X, xyz.Y];
 
-        public IEnumerable<XYZLocation<IValuable>> LocatedValuables
+        public IEnumerable<SpatialValuable> SpatialValuables
         {
             get
             {
-                return this.SelectMany(z => z.Obj.LocatedValuables.Select(xy =>
-                        new XYZLocation<IValuable>(new XYZ(xy.X, xy.Y, z.Z), xy.Obj)));
+                return this.SelectMany(z => z.Obj.OrientedValuables.Select(xy =>
+                        new SpatialValuable(new XYZ(xy.X, xy.Y, z.Z), xy.Orientation, xy.Obj)));
             }
         }
 
