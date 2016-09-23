@@ -15,24 +15,24 @@ namespace SecurityConsultantCore.Thievery
             _stolenValuables = new List<Valuable>();
         }
 
-        public double CalculateTotalItemValue()
+        public double GetTotalItemValue()
         {
             return _allValuables.Sum(v => v.Value);
         }
 
-        public double CalculateTotalStolenValue()
+        public double GetTotalStolenValue()
         {
             return _stolenValuables.Sum(v => v.Value);
         }
 
-        public double CalculatePercentStolen()
+        public double GetPercentStolen()
         {
             return (double)_stolenValuables.Count / _allValuables.Count;
         }
 
-        public double CalculatePercentValueStolen()
+        public double GetPercentValueStolen()
         {
-            return CalculateTotalStolenValue() / CalculateTotalItemValue();
+            return GetTotalStolenValue() / GetTotalItemValue();
         }
 
         public void AddStolenItem(Valuable valuable)
@@ -42,7 +42,7 @@ namespace SecurityConsultantCore.Thievery
 
         public bool IsSuccessful()
         {
-            return !CalculateTotalStolenValue().Equals(0.0) || !CalculatePercentStolen().Equals(0.0);
+            return !GetTotalStolenValue().Equals(0.0) || !GetPercentStolen().Equals(0.0);
         }
     }
 }

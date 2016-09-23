@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Business\Company.cs" />
     <Compile Include="Common\ArgCleaner.cs" />
+    <Compile Include="Common\ConditionalAction.cs" />
     <Compile Include="Common\CompoundComparer.cs" />
     <Compile Include="Common\GameRandom.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
@@ -119,14 +120,17 @@
     <Compile Include="Pathfinding\IPriorityQueue.cs" />
     <Compile Include="Pathfinding\LayeredPathFinder.cs" />
     <Compile Include="Pathfinding\Path.cs" />
+    <Compile Include="Pathfinding\PathBuilder.cs" />
     <Compile Include="Pathfinding\PriorityQueueB.cs" />
     <Compile Include="Pathfinding\Smart2DPathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
-    <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
     <Compile Include="Security\Alarms\AlarmBase.cs" />
     <Compile Include="Security\Alarms\BasicAlarm.cs" />
     <Compile Include="Security\Alarms\IAlarm.cs" />
+    <Compile Include="Security\Guards\Guard.cs" />
+    <Compile Include="Security\Guards\IGuardBody.cs" />
+    <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
     <Compile Include="Security\Alarms\SilentAlarm.cs" />
     <Compile Include="Thievery\Incident.cs" />
     <Compile Include="Thievery\IBody.cs" />
