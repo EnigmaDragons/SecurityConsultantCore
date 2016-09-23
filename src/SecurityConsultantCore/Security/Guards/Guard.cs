@@ -9,62 +9,48 @@ namespace SecurityConsultantCore.Security.Guards
 {
     public class Guard
     {
-        private readonly List<Path> _paths = new List<Path>();
         private readonly IGuardBody _guard;
-        private readonly IPathFinder _pathFinder;
-        private readonly XYZ _startLocation;
+        private readonly PathBuilder _pathBuilder;
 
-        private XYZ _location;
-        private int _pathIndex = 0;
-        private bool _isDisposed;
+        private List<Path> _fullPath = new List<Path>();
+        private bool _isDone;
 
-        public Guard(IGuardBody guard, FacilityMap map, XYZ startLocation) : this(guard, new CachedPathFinder(map), startLocation) { }
+        public Guard(IGuardBody guard, FacilityMap map, XYZ startLocation) : this(guard, new PathBuilder(map, startLocation)) { }
 
-        public Guard(IGuardBody guard, IPathFinder pathFinder, XYZ startLocation)
+        public Guard(IGuardBody guard, PathBuilder pathBuilder)
         {
             _guard = guard;
-            _pathFinder = pathFinder;
-            _location = startLocation;
-            _startLocation = startLocation;
+            _pathBuilder = pathBuilder;
         }
 
         public void AddNextTravelPoint(XYZ point)
         {
-            if (point.Equals(_location))
-                throw new InvalidPathException("So you want me to stand here!");
-            var path = _pathFinder.GetPath(_location, point);
-            if (!path.IsValid)
-                throw new InvalidPathException("I can't go there!");
-            _paths.Add(path);
-            _location = path.Last();
+            _pathBuilder.AddNode(point);
         }
 
         public void Go()
         {
-            if (_paths.Count == 0)
-                return;
-            LoopPath();
-            Patrol();
+            _fullPath = _pathBuilder.Build().ToList();
+            if (_fullPath.Count > 0)
+                Patrol(0);
         }
 
-        private void Patrol()
+        public void GoHome()
         {
-            _guard.BeginMoving(_paths[_pathIndex], () =>
-            {
-                _pathIndex = _pathIndex + 1 == _paths.Count ? _pathIndex = 0 : _pathIndex + 1;
-                if (!_isDisposed)
-                    Patrol();
-            });
+            _isDone = true;
         }
 
-        public void Dispose()
+        private void Patrol(int currentSegment)
         {
-            _isDisposed = true;
+            _guard.BeginMoving(_fullPath[currentSegment], 
+                () => BeginWalkingNextSegmentIfNotDone(currentSegment));
         }
 
-        private void LoopPath()
+        private void BeginWalkingNextSegmentIfNotDone(int currentSegment)
         {
-
+            currentSegment = currentSegment + 1 == _fullPath.Count ? currentSegment = 0 : currentSegment + 1;
+            if (!_isDone)
+                Patrol(currentSegment);
         }
     }
 }

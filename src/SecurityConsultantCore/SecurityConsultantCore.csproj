@@ -107,6 +107,7 @@
     <Compile Include="Pathfinding\IPriorityQueue.cs" />
     <Compile Include="Pathfinding\LayeredPathFinder.cs" />
     <Compile Include="Pathfinding\Path.cs" />
+    <Compile Include="Pathfinding\PathBuilder.cs" />
     <Compile Include="Pathfinding\PriorityQueueB.cs" />
     <Compile Include="Pathfinding\Smart2DPathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

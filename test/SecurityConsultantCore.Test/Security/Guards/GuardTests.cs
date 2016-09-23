@@ -21,7 +21,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         private Guard _guard;
 
         private readonly List<Path> _traversePaths = new List<Path>();
-        private int _pathsBeforeQuit;
+        private int _maxTravelSegments;
 
         [TestInitialize]
         public void Init()
@@ -35,7 +35,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_GoWithOnePoint_TraverseToPoint()
         {
-            _pathsBeforeQuit = 1;
+            SetMaxTravelSegments(1);
             _guard.AddNextTravelPoint(new XYZ(1, 1, 0));
 
             _guard.Go();
@@ -46,7 +46,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_PathLoopedUponGo_TraverseFullLoopTwice()
         {
-            _pathsBeforeQuit = 4;
+            _maxTravelSegments = 4;
             _guard.AddNextTravelPoint(new XYZ(1, 1, 0));
 
             _guard.Go();
@@ -57,17 +57,11 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_NoPath_GoesNowhere()
         {
-            _pathsBeforeQuit = 1;
+            _maxTravelSegments = 1;
 
             _guard.Go();
 
             AssertTraversedPath(new List<XYZ>());
-        }
-
-        [TestMethod]
-        public void Guard_AddDestinationWhereGuardIsStanding_ExceptionThrown()
-        {
-            ExceptionAssert.Throws<InvalidPathException>(() => _guard.AddNextTravelPoint(new XYZ(0, 0, 0)));
         }
 
         [TestMethod]
@@ -81,7 +75,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_MakeLoopPath_PathTravelsInLoop()
         {
-            _pathsBeforeQuit = 8;
+            _maxTravelSegments = 8;
             _guard.AddNextTravelPoint(new XYZ(2, 0, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 2, 0));
             _guard.AddNextTravelPoint(new XYZ(0, 2, 0));
@@ -96,7 +90,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_LoopWithBranchOffAtEnd_UsesCorrectPath()
         {
-            _pathsBeforeQuit = 8;
+            _maxTravelSegments = 8;
             _guard.AddNextTravelPoint(new XYZ(2, 0, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 2, 0));
             _guard.AddNextTravelPoint(new XYZ(0, 0, 0));
@@ -111,7 +105,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_LoopWithoutStartPoint_UsesCorrectPath()
         {
-            _pathsBeforeQuit = 8;
+            _maxTravelSegments = 8;
             _guard.AddNextTravelPoint(new XYZ(2, 0, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 2, 0));
             _guard.AddNextTravelPoint(new XYZ(0, 2, 0));
@@ -124,9 +118,9 @@ namespace SecurityConsultantCore.Test.Security.Guards
         }
 
         [TestMethod]
-        public void Guard_LoopWithNietherEndPointOrStartPoint_UsesCorrectPath()
+        public void Guard_LoopWithNeitherEndPointOrStartPoint_UsesCorrectPath()
         {
-            _pathsBeforeQuit = 8;
+            _maxTravelSegments = 8;
             _guard.AddNextTravelPoint(new XYZ(1, 1, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 0, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 2, 0));
@@ -139,11 +133,10 @@ namespace SecurityConsultantCore.Test.Security.Guards
                 new XYZ(0, 2, 0), new XYZ(1, 1, 0), new XYZ(0, 0, 0), new XYZ(1, 1, 0) });
         }
 
-        //This one might be really difficult and is not nessarily needed as it would be a really low percentage of the time that it could even come up
         [TestMethod]
         public void Guard_MultiLoopWithBranchesOffAndOnThoseLoops_EfficientlyResetsPath()
         {
-            _pathsBeforeQuit = 12;
+            _maxTravelSegments = 12;
             _guard.AddNextTravelPoint(new XYZ(1, 0, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 0, 0));
             _guard.AddNextTravelPoint(new XYZ(2, 1, 0));
@@ -161,6 +154,11 @@ namespace SecurityConsultantCore.Test.Security.Guards
                 new XYZ(0, 2, 0), new XYZ(1, 1, 0), new XYZ(1, 0, 0), new XYZ(0, 0, 0) });
         }
 
+        private void SetMaxTravelSegments(int nPaths)
+        {
+            _maxTravelSegments = nPaths;
+        }
+
         private void AssertTraversedPath(List<XYZ> expectedPath)
         {
             Assert.IsTrue(_traversePaths.Count == expectedPath.Count);
@@ -171,13 +169,11 @@ namespace SecurityConsultantCore.Test.Security.Guards
         public void BeginMoving(Path path, Action callBack)
         {
             _traversePaths.Add(path);
-            if (_pathsBeforeQuit == 1)
-                _guard.Dispose();
+            if (_maxTravelSegments == 1)
+                _guard.GoHome();
             else
-            {
-                _pathsBeforeQuit--;
-                callBack.Invoke();
-            }
+                _maxTravelSegments--;
+            callBack.Invoke();
         }
     }
 }

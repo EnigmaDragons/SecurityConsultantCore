@@ -8,17 +8,17 @@ namespace SecurityConsultantCore.Pathfinding
     public class Path : IEnumerable<XYZ>
     {
         private readonly IEnumerable<XYZ> _path;
+        public XYZ Origin => _path.First();
+        public XYZ Destination => _path.Last(); 
 
-        public Path()
-        {
-            IsValid = false;
-            _path = new List<XYZ>();
-        }
+        public Path() : this(new List<XYZ>(), false) {}
 
-        public Path(IEnumerable<XYZ> path)
+        public Path(IEnumerable<XYZ> path) : this(path, true) {}
+
+        private Path(IEnumerable<XYZ> path, bool isValid)
         {
-            IsValid = true;
-            _path = path.ToList();
+            IsValid = isValid;
+            _path = path;
         }
 
         public bool IsValid { get; private set; }
@@ -32,5 +32,7 @@ namespace SecurityConsultantCore.Pathfinding
         {
             return GetEnumerator();
         }
+
+
     }
 }
