@@ -74,7 +74,6 @@
     <Compile Include="Domain\FacilitySpace.cs" />
     <Compile Include="Domain\IPortals.cs" />
     <Compile Include="Domain\IValuable.cs" />
-    <Compile Include="Domain\IValuablesContainer.cs" />
     <Compile Include="Domain\Liquidity.cs" />
     <Compile Include="Domain\SpatialValuable.cs" />
     <Compile Include="Domain\Publicity.cs" />

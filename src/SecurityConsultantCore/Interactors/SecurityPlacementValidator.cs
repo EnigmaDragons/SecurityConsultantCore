@@ -71,7 +71,7 @@ namespace SecurityConsultantCore.Interactors
 
         private bool DoesNotHaveSufficientSpace(SecurityObject obj, FacilitySpace space)
         {
-            return NeedsOpenSpace(obj) && !space.IsOpenSpace();
+            return NeedsOpenSpace(obj) && !space.IsOpenSpace;
         }
 
         private bool NeedsOpenSpace(SecurityObject securityObject)

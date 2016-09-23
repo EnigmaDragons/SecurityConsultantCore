@@ -74,11 +74,11 @@ namespace SecurityConsultantCore.Test.Domain
             _map[5, 5, 0].Put(value1);
             _map[7, 8, 0].Put(container);
 
-            var valuables = _map.Valuables.ToList();
+            var valuables = _map.SpatialValuables.ToList();
 
             Assert.AreEqual(2, valuables.Count);
-            Assert.IsTrue(valuables.Any(x => x.Type.Equals("Painting")));
-            Assert.IsTrue(valuables.Any(x => x.Type.Equals("Diamond")));
+            Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Painting")));
+            Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Diamond")));
         }
 
         [TestMethod]
