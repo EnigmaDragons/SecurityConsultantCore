@@ -183,7 +183,7 @@ namespace SecurityConsultantCore.Test.Thievery
             Task.Run(action);
         }
 
-        public void ShowLeavingMap()
+        public void Exit()
         {
             _exited = true;
         }
