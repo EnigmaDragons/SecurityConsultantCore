@@ -8,6 +8,6 @@ namespace SecurityConsultantCore.Thievery
     {
         void BeginMove(Path path, Action callBack);
         void Exit();
-        void StealAt(XYZObjectLayer valuableLocation);
+        void StealAt(SpatialValuable valuable);
     }
 }

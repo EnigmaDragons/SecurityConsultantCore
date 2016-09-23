@@ -91,7 +91,7 @@ namespace SecurityConsultantCore.Test.Domain
             layer[0, 0].LowerObject = _sampleLowerValuable;
             layer[0, 0].UpperObject = _sampleUpperValuable;
 
-            var valuables = layer.LocatedValuables.ToList();
+            var valuables = layer.OrientedValuables.ToList();
 
             Assert.AreEqual(2, valuables.Count());
             Assert.IsTrue(valuables.Any(x => x.Obj.Equals(_sampleLowerValuable)));
@@ -107,7 +107,7 @@ namespace SecurityConsultantCore.Test.Domain
             layer[1, 2].Put(_sampleLowerValuable);
             layer[2, 2].Put(_sampleLowerValuable);
 
-            var valuables = layer.LocatedValuables;
+            var valuables = layer.OrientedValuables;
 
             Assert.AreEqual(4, valuables.Count());
         }

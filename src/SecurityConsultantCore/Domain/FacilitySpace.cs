@@ -34,7 +34,15 @@ namespace SecurityConsultantCore.Domain
 
         public IEnumerable<SecurityObject> Placeables => GetAll().Where(x => x is SecurityObject).Cast<SecurityObject>();
         public IEnumerable<FacilityPortal> Portals => GetAll().Where(x => x is FacilityPortal).Cast<FacilityPortal>();
-        public IEnumerable<ValuablesContainer> FacilityContainers => GetAll().Where(x => x is ValuablesContainer).Cast<ValuablesContainer>(); 
+        public IEnumerable<ValuablesContainer> FacilityContainers => GetAll().Where(x => x is ValuablesContainer).Cast<ValuablesContainer>();
+        public IEnumerable<Oriented<IValuable>> OrientedValuables => Valuables.Select(AsOriented);
+
+        private Oriented<IValuable> AsOriented(IValuable valuable)
+        {
+            if (valuable is FacilityObject)
+                return new Oriented<IValuable>(((FacilityObject)valuable).Orientation, valuable);
+            return new Oriented<IValuable>(Orientation.None, valuable);
+        }
 
         public FacilityObject this[ObjectLayer layer] => _layers[layer];
 

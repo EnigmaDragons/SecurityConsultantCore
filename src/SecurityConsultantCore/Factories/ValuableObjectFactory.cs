@@ -44,7 +44,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(200, 3000),
                                 ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
-                                Publicity = Publicity.High
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -57,7 +57,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(50, 150),
                                 ObjectLayer = ObjectLayer.LowerObject,
                                 Liquidity = Liquidity.Medium,
-                                Publicity = Publicity.Medium
+                                Publicity = Publicity.Obvious
                             }
                     },
                     {
@@ -70,7 +70,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
-                                Publicity = Publicity.High
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -83,7 +83,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
-                                Publicity = Publicity.High
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -96,7 +96,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
-                                Publicity = Publicity.High
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -109,7 +109,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(800, 6000),
                                 ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
-                                Publicity = Publicity.High
+                                Publicity = Publicity.Famous
                             }
                     },
                     {
@@ -122,7 +122,7 @@ namespace SecurityConsultantCore.Factories
                                 Value = Rng(5, 15),
                                 ObjectLayer = ObjectLayer.LowerObject,
                                 Liquidity = Liquidity.Low,
-                                Publicity = Publicity.Low
+                                Publicity = Publicity.Confidential
                             }
                     }
                 };
