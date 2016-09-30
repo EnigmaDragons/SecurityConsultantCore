@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Thievery;
@@ -27,7 +26,7 @@ namespace SecurityConsultantCore.Test
         }
 
         [TestMethod]
-        public void SuccessfulCount_ExpectedValueReturned()
+        public void SuccessfulCount_OneSuccessful_ExpectedValueReturned()
         {
             var valuable1 = new Valuable { Value = 100 };
             var valuable2 = new Valuable { Value = 200 };
@@ -39,19 +38,25 @@ namespace SecurityConsultantCore.Test
 
             Assert.AreEqual(1, successful);
         }
-    }
 
-    public class Incidents
-    {
-        private readonly List<Incident> _incidents = new List<Incident>(); 
-
-        // TODO: Try event stuff
-        public void Add(Incident incident)
+        [TestMethod]
+        public void SuccessfulAndAttempted_OneOfEach_ExpectedValuesReturned()
         {
-            _incidents.Add(incident);
-        }
+            var valuable1 = new Valuable { Value = 100 };
+            var valuable2 = new Valuable { Value = 200 };
+            var valuable3 = new Valuable { Value = 300 };
+            var valuable4 = new Valuable { Value = 400 };
+            var incident1 = new Incident(new List<Valuable> { valuable1, valuable2 });
+            var incident2 = new Incident(new List<Valuable> { valuable3, valuable4 });
+            incident1.AddStolenItem(valuable1);
+            _incidents.Add(incident1);
+            _incidents.Add(incident2);
 
-        public int AttemptedIncidents => _incidents.Count;
-        public int SuccessfulIncidents => _incidents.Count(i => i.IsSuccessful());
+            int attempted = _incidents.AttemptedIncidents;
+            int successful = _incidents.SuccessfulIncidents;
+
+            Assert.AreEqual(2, attempted);
+            Assert.AreEqual(1, successful);
+        }
     }
 }
