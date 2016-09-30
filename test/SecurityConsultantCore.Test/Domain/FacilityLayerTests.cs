@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
@@ -78,10 +80,10 @@ namespace SecurityConsultantCore.Test.Domain
             var spaces = iterator.ToList();
 
             Assert.AreEqual(4, spaces.Count);
-            Assert.AreEqual(new XY(0, 0), spaces[0].Location);
-            Assert.AreEqual(new XY(1, 0), spaces[1].Location);
-            Assert.AreEqual(new XY(0, 1), spaces[2].Location);
-            Assert.AreEqual(new XY(1, 1), spaces[3].Location);
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(0, 0))));
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(1, 0))));
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(0, 1))));
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(1, 1))));
         }
 
         [TestMethod]

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,6 +22,16 @@ namespace SecurityConsultantCore.Common
                 elements[swapIndex] = elements[i];
             }
             yield return elements[0];
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            source.ToList().ForEach(action);
+        }
+
+        public static IEnumerable<T2> OfType<T1, T2>(this IEnumerable<T1> source)
+        {
+            return source.Where(x => x is T2).Cast<T2>();
         }
 
         private static Random GetRandom()

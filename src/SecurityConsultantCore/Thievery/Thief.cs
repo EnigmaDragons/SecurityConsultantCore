@@ -48,7 +48,6 @@ namespace SecurityConsultantCore.Thievery
                 Exit();
                 return;
             }
-
             _thiefBody.BeginMove(path, () => StealAndKeepGoing(valuable, path));
         }
 
