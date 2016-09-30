@@ -1,50 +1,36 @@
-﻿using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.Domain.Basic;
+﻿using SecurityConsultantCore.Domain.Basic;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SecurityConsultantCore.Pathfinding
 {
-    public class PathBuilder
+    public class PatrolRoute : IRoute
     {
-        private readonly IPathFinder _pathFinder;
-        private List<Path> _pathSegments = new List<Path>();
-        private XYZ _currentNode;
-        private bool isPathComplete = false;
+        public IRoute Base { get; private set; }
+        public XYZ Start => Base.First().Origin;
 
-        public PathBuilder(FacilityMap map, XYZ startingNode) : this(new CachedPathFinder(map), startingNode) {}
- 
-        public PathBuilder(IPathFinder pathFinder, XYZ startingNode)
+        public PatrolRoute(params Path[] route) : this(new Route(route)) { }
+
+        public PatrolRoute(IEnumerable<Path> route) : this(new Route(route)) {}
+
+        public PatrolRoute(IRoute baseRoute)
         {
-            _pathFinder = pathFinder;
-            _currentNode = startingNode;
-
+            Base = baseRoute;
         }
 
-        public void AddNode(XYZ nextNode)
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            if (nextNode.Equals(_currentNode))
-                return;
-            var path = _pathFinder.GetPath(_currentNode, nextNode);
-            if (!path.IsValid)
-                throw new InvalidPathException("No path found!");
-            _pathSegments.Add(path);
-            _currentNode = nextNode;
+            return GetEnumerator();
         }
 
-        public IEnumerable<Path> Build()
+        public IEnumerator<Path> GetEnumerator()
         {
-            if (!isPathComplete && _pathSegments.Any())
-                RoutePathBackToOrigin();
-            return _pathSegments;
-        }
-
-        private void RoutePathBackToOrigin()
-        {
-            var reversed = Reverse(_pathSegments);
-            reversed.Add(new List<XYZ> { _pathSegments.First().Origin });
-            _pathSegments.AddRange(CreatePathToOrigin(reversed));
-            isPathComplete = true;
+            if (!Base.Any())
+                return Base.GetEnumerator();
+            var reversed = Reverse(Base);
+            reversed.Add(new List<XYZ> { Base.First().Origin });
+            return Base.Concat(CreatePathToOrigin(reversed)).GetEnumerator();
         }
 
         private List<IEnumerable<XYZ>> Reverse(IEnumerable<Path> segments)
@@ -63,7 +49,7 @@ namespace SecurityConsultantCore.Pathfinding
             }
             return result;
         }
-        
+
         private void TrimDeadSegments(List<IEnumerable<XYZ>> segments, XYZ start)
         {
             var optionalNode = GetClosestNodeToOriginIndex(segments, start);
