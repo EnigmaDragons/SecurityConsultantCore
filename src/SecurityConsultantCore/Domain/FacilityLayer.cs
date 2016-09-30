@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class FacilityLayer : IEnumerable<XYLocation<FacilitySpace>>, IValuablesContainer
+    public class FacilityLayer : IEnumerable<XYLocation<FacilitySpace>>
     {
         private readonly FacilitySpace[,] _spaces;
 
@@ -25,33 +27,19 @@ namespace SecurityConsultantCore.Domain
         public IEnumerable<XYOriented<IValuable>> OrientedValuables => this.SelectMany(x => x.Obj.OrientedValuables
             .Select(y => new XYOriented<IValuable>(x.Location, y.Orientation, y.Obj)));
 
-        public IEnumerable<IValuable> Valuables => this.SelectMany(x => x.Obj.Valuables);
-
         public IEnumerable<XYLocation<FacilityPortal>> Portals => this.SelectMany(x => x.Obj.Portals
             .Select(y => new XYLocation<FacilityPortal>(x.Location, y)));
 
         public IEnumerator<XYLocation<FacilitySpace>> GetEnumerator()
         {
-            for (var row = 0; row < Size.Y; row++)
-                for (var col = 0; col < Size.X; col++)
-                    yield return new XYLocation<FacilitySpace>(new XY(col, row), this[col, row]);
+            return Size.Equals(new XY(0, 0)) 
+                ? new List<XYLocation<FacilitySpace>>().GetEnumerator() 
+                : new XYRange(new XY(0, 0), Size.Plus(-1, -1)).Select(xy => new XYLocation<FacilitySpace>(xy, this[xy])).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public void Remove(IValuable valuable)
-        {
-            RemoveValuable(valuable);
-        }
-
-        public void Remove(ValuableFacilityObject valuable)
-        {
-            RemoveValuable(valuable);
-            valuable.LinkedObjs.Where(x => x is IValuable).Cast<IValuable>().ToList()
-                .ForEach(RemoveValuable);
         }
 
         public void Put(int x, int y, FacilitySpace space)
@@ -64,50 +52,49 @@ namespace SecurityConsultantCore.Domain
             Put(location.X, location.Y, space);
         }
 
-        public List<XYLocation<FacilitySpace>> GetNeighbors(XY location)
+        public IEnumerable<XYLocation<FacilitySpace>> GetNeighbors(XY xy)
         {
-            var neighbors = new List<XYLocation<FacilitySpace>>();
-            for (var x = location.X - 1; x < location.X + 2; x++)
-                for (var y = location.Y - 1; y < location.Y + 2; y++)
-                    if (IsInBounds(x, y) && !new XY(x, y).Equals(location))
-                        neighbors.Add(new XYLocation<FacilitySpace>(new XY(x, y), this[x, y]));
-            return neighbors;
+            return xy.Plus(-1, -1).Thru(xy.Plus(1, 1))
+                .Where(x => IsInBounds(x) && !x.Equals(xy))
+                .Select(GetLocationSpace);
         }
 
-        public List<XYLocation<FacilitySpace>> GetAdjacentLocations(XY location)
+        public IEnumerable<XYLocation<FacilitySpace>> GetAdjacentLocations(XY xy)
         {
-            var list = new List<XYLocation<FacilitySpace>>();
-            if (IsInBounds(location.X - 1, location.Y))
-                list.Add(GetLocationSpace(new XY(location.X - 1, location.Y)));
-            if (IsInBounds(location.X + 1, location.Y))
-                list.Add(GetLocationSpace(new XY(location.X + 1, location.Y)));
-            if (IsInBounds(location.X, location.Y - 1))
-                list.Add(GetLocationSpace(new XY(location.X, location.Y - 1)));
-            if (IsInBounds(location.X, location.Y + 1))
-                list.Add(GetLocationSpace(new XY(location.X, location.Y + 1)));
-            return list;
+            return xy.Plus(-1, -1).Thru(xy.Plus(1, 1))
+                    .Where(x => (Math.Abs(x.X) + Math.Abs(x.Y)).Equals(1))
+                    .Select(GetLocationSpace);
+        }
+
+        public void Remove(IValuable valuable)
+        {
+            RemoveValuable(valuable);
+        }
+
+        public void Remove(ValuableFacilityObject valuable)
+        {
+            RemoveValuable(valuable);
+            valuable.LinkedObjs.Where(x => x is IValuable).Cast<IValuable>().ForEach(RemoveValuable);
         }
 
         private void RemoveValuable(IValuable valuable)
         {
-            OrientedValuables.Where(x => x.Obj.Equals(valuable)).ToList()
-                .ForEach(y => this[y].Remove(valuable));
+            OrientedValuables.Where(x => x.Obj.Equals(valuable)).ForEach(y => this[y].Remove(valuable));
         }
 
-        public bool Exists(XY space)
+        public bool Exists(XY xy)
         {
-            return IsInBounds(space.X, space.Y);
+            return IsInBounds(xy);
         }
 
         private FacilitySpace Get(int x, int y)
         {
-            return _spaces[x, y] ??
-                   (_spaces[x, y] = new FacilitySpace());
+            return _spaces[x, y] ?? (_spaces[x, y] = new FacilitySpace());
         }
 
-        private bool IsInBounds(int x, int y)
+        private bool IsInBounds(XY xy)
         {
-            return IsXInBounds(x) && IsYInBounds(y);
+            return IsXInBounds(xy.X) && IsYInBounds(xy.Y);
         }
 
         private bool IsYInBounds(int y)
@@ -120,9 +107,9 @@ namespace SecurityConsultantCore.Domain
             return (x > -1) && (x < Size.X);
         }
 
-        private XYLocation<FacilitySpace> GetLocationSpace(XY target)
+        private XYLocation<FacilitySpace> GetLocationSpace(XY xy)
         {
-            return new XYLocation<FacilitySpace>(target, this[target]);
+            return new XYLocation<FacilitySpace>(xy, this[xy]);
         }
     }
 }

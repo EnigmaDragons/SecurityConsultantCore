@@ -66,8 +66,7 @@ namespace SecurityConsultantCore.Pathfinding
                 foreach (var endLocation in onMapEndLocations)
                     try
                     {
-                        path =
-                            LayerPathFinders[startLocation.Z].BeginPathSearch(startLocation, endLocation)
+                        path = LayerPathFinders[startLocation.Z].BeginPathSearch(startLocation, endLocation)
                                 .Select(x => new XYZ(x, startLocation.Z))
                                 .ToList();
                     }

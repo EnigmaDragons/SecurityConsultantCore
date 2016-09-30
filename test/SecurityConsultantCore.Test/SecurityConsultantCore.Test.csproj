@@ -71,6 +71,7 @@
     <Compile Include="Domain\ValuablesContainerTests.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="EventSystem\EventAggregatorTests.cs" />
+    <Compile Include="Thievery\IncidentsTests.cs" />
     <Compile Include="Interactors\SecurityPlacementValidatorTests.cs" />
     <Compile Include="MapGeneration\LayerBuilderTests.cs" />
     <Compile Include="MapGeneration\LayerInstructionTests.cs" />

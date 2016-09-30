@@ -14,10 +14,7 @@ namespace SecurityConsultantCore.Pathfinding
             _layer = layer;
         }
 
-        public int this[int x, int y] => _layer[GetSpaceCoordinates(x, y)].IsOpenSpace()
-                                         || IsPortalConnection(x, y)
-            ? 1
-            : 0;
+        public int this[int x, int y] => _layer[GetSpaceCoordinates(x, y)].IsOpenSpace || IsPortalConnection(x, y) ? 1 : 0;
 
         public int GetHeight()
         {

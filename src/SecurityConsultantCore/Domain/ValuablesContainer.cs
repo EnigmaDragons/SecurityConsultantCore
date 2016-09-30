@@ -3,7 +3,7 @@ using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class ValuablesContainer : FacilityObject, IValuablesContainer
+    public class ValuablesContainer : FacilityObject
     {
         private readonly List<IValuable> _valuables = new List<IValuable>();
 

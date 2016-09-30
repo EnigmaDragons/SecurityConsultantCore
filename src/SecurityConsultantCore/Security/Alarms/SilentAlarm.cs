@@ -14,7 +14,8 @@ namespace SecurityConsultantCore.Security.Alarms
 
         public void Trigger()
         {
-            _eventAggregator.Publish(new AlertSecurityEvent());
+            if(IsArmed)
+                _eventAggregator.Publish(new AlertSecurityEvent());
         }
 
         public void TurnOff()

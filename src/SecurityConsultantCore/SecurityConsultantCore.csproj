@@ -75,7 +75,6 @@
     <Compile Include="Domain\FacilitySpace.cs" />
     <Compile Include="Domain\IPortals.cs" />
     <Compile Include="Domain\IValuable.cs" />
-    <Compile Include="Domain\IValuablesContainer.cs" />
     <Compile Include="Domain\Liquidity.cs" />
     <Compile Include="Domain\SpatialValuable.cs" />
     <Compile Include="Domain\Publicity.cs" />
@@ -138,8 +137,10 @@
     <Compile Include="Security\Guards\IGuardBody.cs" />
     <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
     <Compile Include="Security\Alarms\SilentAlarm.cs" />
+    <Compile Include="Security\IArmable.cs" />
     <Compile Include="Thievery\Incident.cs" />
     <Compile Include="Thievery\IBody.cs" />
+    <Compile Include="Thievery\Incidents.cs" />
     <Compile Include="Thievery\Interactions.cs" />
     <Compile Include="Thievery\IDesires.cs" />
     <Compile Include="Thievery\PreferenceMostHidden.cs" />
