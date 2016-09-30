@@ -27,7 +27,7 @@ namespace SecurityConsultantCore.Test
         }
 
         [TestMethod]
-        public void SuccessFulCount_ExpectedValueReturned()
+        public void SuccessfulCount_ExpectedValueReturned()
         {
             var valuable1 = new Valuable { Value = 100 };
             var valuable2 = new Valuable { Value = 200 };
