@@ -17,8 +17,11 @@ namespace SecurityConsultantCore.Security.Alarms
 
         public void Trigger()
         {
-            _eventAggregator.Publish(new AlertSecurityEvent());
-            _alarmSound.Play();
+            if(IsArmed)
+            {
+                _eventAggregator.Publish(new AlertSecurityEvent());
+                _alarmSound.Play();
+            }
         }
 
         public void TurnOff()

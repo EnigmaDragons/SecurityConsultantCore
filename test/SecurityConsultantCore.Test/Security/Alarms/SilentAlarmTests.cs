@@ -22,5 +22,18 @@ namespace SecurityConsultantCore.Test.Security.Alarms
 
             Assert.IsTrue(alerted);
         }
+
+        [TestMethod]
+        public void SilentAlarm_Disarmed_TriggerDoesNothing()
+        {
+            var sut = new SilentAlarm(_eventAggregator);
+            var alerted = false;
+            _eventAggregator.Subscribe<AlertSecurityEvent>(e => alerted = true);
+
+            sut.Disarm();
+            sut.Trigger();
+
+            Assert.IsFalse(alerted);
+        }
     }
 }

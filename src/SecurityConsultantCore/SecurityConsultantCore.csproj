@@ -132,6 +132,7 @@
     <Compile Include="Security\Guards\IGuardBody.cs" />
     <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
     <Compile Include="Security\Alarms\SilentAlarm.cs" />
+    <Compile Include="Security\IArmable.cs" />
     <Compile Include="Thievery\Incident.cs" />
     <Compile Include="Thievery\IBody.cs" />
     <Compile Include="Thievery\Incidents.cs" />
