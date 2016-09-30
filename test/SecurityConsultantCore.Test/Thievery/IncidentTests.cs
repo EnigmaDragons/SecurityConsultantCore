@@ -12,81 +12,81 @@ namespace SecurityConsultantCore.Test.Thievery
         private Incident _incident;
 
         [TestMethod]
-        public void CalculateTotalItemValue_NoItems_TotalIs0()
+        public void GetTotalItemValue_NoItems_TotalIs0()
         {
             var incident = new Incident(new List<Valuable>());
 
-            double total = incident.CalculateTotalItemValue();
+            double total = incident.GetTotalItemValue();
 
             Assert.AreEqual(0.0, total);
         }
 
         [TestMethod]
-        public void CalculateTotalItemValue_MultipleItems_ExpectedTotalReturned()
+        public void GetTotalItemValue_MultipleItems_ExpectedTotalReturned()
         {
             SetupNoStealScenario();
 
-            double total = _incident.CalculateTotalItemValue();
+            double total = _incident.GetTotalItemValue();
 
             Assert.AreEqual(300.0, total);
         }
 
         [TestMethod]
-        public void CalculateTotalStolenValue_NoItems_TotalIs0()
+        public void GetTotalStolenValue_NoItems_TotalIs0()
         {
             var incident = new Incident(new List<Valuable>());
 
-            double total = incident.CalculateTotalStolenValue();
+            double total = incident.GetTotalStolenValue();
 
             Assert.AreEqual(0.0, total);
         }
 
         [TestMethod]
-        public void CalculateTotalStolenValue_MultipleItems_ExpectedTotalReturned()
+        public void GetTotalStolenValue_MultipleItems_ExpectedTotalReturned()
         {
             SetupStealScenario();
 
-            double total = _incident.CalculateTotalStolenValue();
+            double total = _incident.GetTotalStolenValue();
 
             Assert.AreEqual(100.0, total);
         }
 
         [TestMethod]
-        public void CalculatePercentStolen_0ItemsAnd0StolenItems_0Returned()
+        public void GetPercentStolen_0ItemsAnd0StolenItems_0Returned()
         {
             var incident = new Incident(new List<Valuable> { new Valuable() });
 
-            double percent = incident.CalculatePercentStolen();
+            double percent = incident.GetPercentStolen();
 
             Assert.AreEqual(0.0, percent);
         }
 
         [TestMethod]
-        public void CalculatePercentStolen_MultipleItemsAndStolen_ExpectedResultReturned()
+        public void GetPercentStolen_MultipleItemsAndStolen_ExpectedResultReturned()
         {
             SetupStealScenario();
 
-            double percent = _incident.CalculatePercentStolen();
+            double percent = _incident.GetPercentStolen();
 
             Assert.AreEqual(0.5, percent, 0.01);
         }
 
         [TestMethod]
-        public void CalculatePercentValueStolen_NothingStolen_0Returned()
+        public void GetPercentValueStolen_NothingStolen_0Returned()
         {
             SetupNoStealScenario();
 
-            double percent = _incident.CalculatePercentValueStolen();
+            double percent = _incident.GetPercentValueStolen();
 
             Assert.AreEqual(0.0, percent, 0.01);
         }
 
         [TestMethod]
-        public void CalculatePercentValueStolen_OneItemStolen_ExpectedPercentReturned()
+        public void GetPercentValueStolen_OneItemStolen_ExpectedPercentReturned()
         {
             SetupStealScenario();
 
-            double percent = _incident.CalculatePercentValueStolen();
+            double percent = _incident.GetPercentValueStolen();
 
             Assert.AreEqual(0.33, percent, 0.01);
         }

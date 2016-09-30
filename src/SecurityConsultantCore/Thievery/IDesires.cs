@@ -5,6 +5,6 @@ namespace SecurityConsultantCore.Thievery
 {
     public interface IDesires
     {
-        IEnumerable<LocatedValuable> Get();
+        IEnumerable<SpatialValuable> Get();
     }
 }

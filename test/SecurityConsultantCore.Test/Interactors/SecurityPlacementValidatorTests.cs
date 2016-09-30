@@ -91,15 +91,15 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor() }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:LocatedValuables" } });
+            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:SpatialValuables" } });
         }
 
         [TestMethod]
         public void SecurityPlacementValidator_CanPlaceValuablesAttachmentOnTarget_IsTrue()
         {
-            SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerObject = CreateObject("LocatedValuables-StackOfMoney") }));
+            SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerObject = CreateObject("SpatialValuables-StackOfMoney") }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:LocatedValuables" } });
+            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:SpatialValuables" } });
         }
 
         [TestMethod]

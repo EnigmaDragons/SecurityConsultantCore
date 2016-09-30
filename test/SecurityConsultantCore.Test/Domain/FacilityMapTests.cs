@@ -69,16 +69,16 @@ namespace SecurityConsultantCore.Test.Domain
             _map.Add(_sampleLayer);
             var value1 = new ValuableFacilityObject { Type = "Painting", ObjectLayer = ObjectLayer.UpperObject };
             var container = new ValuablesContainer { Type = "Table", ObjectLayer = ObjectLayer.LowerObject };
-            var value2 = new Valuable();
+            var value2 = new Valuable { Type = "Diamond"};
             container.Put(value2);
             _map[5, 5, 0].Put(value1);
             _map[7, 8, 0].Put(container);
 
-            var valuables = _map.LocatedValuables.ToList();
+            var valuables = _map.SpatialValuables.ToList();
 
-            Assert.AreEqual(2, valuables.Count());
-            Assert.AreEqual(value1, valuables.First(x => x.Location.Equals(new XYZ(5, 5, 0))).Obj);
-            Assert.AreEqual(value2, valuables.First(x => x.Location.Equals(new XYZ(7, 8, 0))).Obj);
+            Assert.AreEqual(2, valuables.Count);
+            Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Painting")));
+            Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Diamond")));
         }
 
         [TestMethod]

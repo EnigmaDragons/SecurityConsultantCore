@@ -5,7 +5,7 @@ using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class FacilityMap : IEnumerable<ZLocation<FacilityLayer>>, IValuablesContainer
+    public class FacilityMap : IEnumerable<ZLocation<FacilityLayer>>
     {
         private readonly List<FacilityLayer> _layers = new List<FacilityLayer>();
 
@@ -15,23 +15,11 @@ namespace SecurityConsultantCore.Domain
         public FacilitySpace this[int x, int y, int z] => _layers[z][x, y];
         public FacilitySpace this[XYZ xyz] => _layers[xyz.Z][xyz.X, xyz.Y];
 
-        public IEnumerable<LocatedValuable> LocatedValuables
-        {
-            get
-            {
-                return this.SelectMany(z => z.Obj.LocatedValuables.Select(xy =>
-                        new LocatedValuable(new XYZ(xy.X, xy.Y, z.Z), xy.Obj)));
-            }
-        }
+        public IEnumerable<SpatialValuable> SpatialValuables => this.SelectMany(z => z.Obj.OrientedValuables
+                .Select(xy => new SpatialValuable(new XYZ(xy.X, xy.Y, z.Z), xy.Orientation, xy.Obj)));
 
-        public IEnumerable<XYZLocation<FacilityPortal>> Portals
-        {
-            get
-            {
-                return this.SelectMany(z => z.Obj.Portals.Select(xy =>
-                        new XYZLocation<FacilityPortal>(new XYZ(xy.X, xy.Y, z.Z), xy.Obj)));
-            }
-        }
+        public IEnumerable<XYZLocation<FacilityPortal>> Portals => this.SelectMany(z => z.Obj.Portals
+                .Select(xy => new XYZLocation<FacilityPortal>(new XYZ(xy.X, xy.Y, z.Z), xy.Obj)));
 
         public IEnumerator<ZLocation<FacilityLayer>> GetEnumerator()
         {
@@ -43,9 +31,7 @@ namespace SecurityConsultantCore.Domain
         {
             return GetEnumerator();
         }
-
-        public IEnumerable<IValuable> Valuables => _layers.SelectMany(x => x.Valuables);
-
+        
         public void Remove(IValuable valuable)
         {
             _layers.ForEach(x => x.Remove(valuable));
@@ -56,24 +42,27 @@ namespace SecurityConsultantCore.Domain
             _layers.Add(layer);
         }
 
-        public bool Exists(XYZ location)
+        //TODO: test this
+        public bool IsOpenSpace(XYZ xyz)
         {
-            if ((_layers.Count > location.Z) && (location.Z >= 0))
-                return _layers[location.Z].Exists(new XY(location.X, location.Y));
-            return false;
+            return Exists(xyz) && this[xyz].IsOpenSpace;
         }
 
         //TODO: test this
-        public bool IsOpenSpace(XYZ location)
+        public IEnumerable<XYZLocation<FacilitySpace>> GetAdjacentLocations(XYZ xyz)
         {
-            return Exists(location) && this[location].IsOpenSpace();
+            return _layers[xyz.Z].GetAdjacentLocations(new XY(xyz.X, xyz.Y))
+                .Select(x => new XYZLocation<FacilitySpace>(new XYZ(x.X, x.Y, xyz.Z), x.Obj));
         }
 
-        //TODO: test this
-        public List<XYZLocation<FacilitySpace>> GetAdjacentLocations(XYZ location)
+        public bool Exists(XYZ xyz)
         {
-            return _layers[location.Z].GetAdjacentLocations(new XY(location.X, location.Y))
-                .Select(x => new XYZLocation<FacilitySpace>(new XYZ(x.X, x.Y, location.Z), x.Obj)).ToList();
+            return IsInZBounds(xyz) && _layers[xyz.Z].Exists((XY)xyz);
+        }
+
+        private bool IsInZBounds(XYZ xyz)
+        {
+            return xyz.Z >= 0 && _layers.Count > xyz.Z;
         }
     }
 }

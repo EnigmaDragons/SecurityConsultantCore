@@ -43,14 +43,19 @@
   <ItemGroup>
     <Compile Include="Business\Company.cs" />
     <Compile Include="Common\ArgCleaner.cs" />
+    <Compile Include="Common\ConditionalAction.cs" />
     <Compile Include="Common\CompoundComparer.cs" />
     <Compile Include="Common\GameRandom.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
+    <Compile Include="Common\Lists.cs" />
     <Compile Include="Common\StringUtils.cs" />
     <Compile Include="Domain\Basic\ITyped.cs" />
     <Compile Include="Domain\Basic\ObjectLayer.cs" />
     <Compile Include="Domain\Basic\ObjectLocation.cs" />
     <Compile Include="Domain\Basic\Orientation.cs" />
+    <Compile Include="Domain\Basic\Oriented.cs" />
+    <Compile Include="Domain\Basic\XYOriented.cs" />
+    <Compile Include="Domain\Basic\XYZAdjacent.cs" />
     <Compile Include="Domain\Basic\Tuple.cs" />
     <Compile Include="Domain\Basic\XY.cs" />
     <Compile Include="Domain\Basic\XYLocation.cs" />
@@ -59,6 +64,7 @@
     <Compile Include="Domain\Basic\XYZ.cs" />
     <Compile Include="Domain\Basic\XYZLocation.cs" />
     <Compile Include="Domain\Basic\XYZOrientation.cs" />
+    <Compile Include="Domain\Basic\XYZOriented.cs" />
     <Compile Include="Domain\Basic\XYZw.cs" />
     <Compile Include="Domain\Basic\ZLocation.cs" />
     <Compile Include="Domain\FacilityLayer.cs" />
@@ -69,9 +75,8 @@
     <Compile Include="Domain\FacilitySpace.cs" />
     <Compile Include="Domain\IPortals.cs" />
     <Compile Include="Domain\IValuable.cs" />
-    <Compile Include="Domain\IValuablesContainer.cs" />
     <Compile Include="Domain\Liquidity.cs" />
-    <Compile Include="Domain\LocatedValuable.cs" />
+    <Compile Include="Domain\SpatialValuable.cs" />
     <Compile Include="Domain\Publicity.cs" />
     <Compile Include="Domain\SecurityObject.cs" />
     <Compile Include="Domain\SpecialLocation.cs" />
@@ -115,14 +120,17 @@
     <Compile Include="Pathfinding\IPriorityQueue.cs" />
     <Compile Include="Pathfinding\LayeredPathFinder.cs" />
     <Compile Include="Pathfinding\Path.cs" />
+    <Compile Include="Pathfinding\PathBuilder.cs" />
     <Compile Include="Pathfinding\PriorityQueueB.cs" />
     <Compile Include="Pathfinding\Smart2DPathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
-    <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
     <Compile Include="Security\Alarms\AlarmBase.cs" />
     <Compile Include="Security\Alarms\BasicAlarm.cs" />
     <Compile Include="Security\Alarms\IAlarm.cs" />
+    <Compile Include="Security\Guards\Guard.cs" />
+    <Compile Include="Security\Guards\IGuardBody.cs" />
+    <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
     <Compile Include="Security\Alarms\SilentAlarm.cs" />
     <Compile Include="Security\IArmable.cs" />
     <Compile Include="Thievery\Incident.cs" />

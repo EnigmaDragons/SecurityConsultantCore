@@ -10,23 +10,11 @@ namespace SecurityConsultantCore.Domain
         public List<FacilityObject> LinkedObjs { get; set; } = new List<FacilityObject>();
         public string Type { get; set; } = "None";
 
+        public bool IsNothing => Type.Equals("None");
+
         public new string ToString()
         {
             return Type.Equals("None") ? Type : Type + ": " + Orientation.ToString();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-                return false;
-            if (ReferenceEquals(this, obj))
-                return true;
-            return obj is FacilityObject && Equals((FacilityObject) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         public virtual void LinkTo(FacilityObject obj)
@@ -38,6 +26,15 @@ namespace SecurityConsultantCore.Domain
             if (!obj.LinkedObjs.Contains(this))
                 obj.LinkTo(this);
             LinkedObjs.ForEach(x => x.LinkTo(obj));
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            return obj is FacilityObject && Equals((FacilityObject)obj);
         }
 
         protected bool Equals(FacilityObject other)

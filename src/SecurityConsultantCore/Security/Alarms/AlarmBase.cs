@@ -2,6 +2,11 @@
 {
     public class AlarmBase : IArmable
     {
+        public AlarmBase()
+        {
+            IsArmed = true;
+        }
+
         public bool IsArmed { get; private set; }
 
         public void Arm()

@@ -11,12 +11,12 @@ namespace SecurityConsultantCore.Test.Thievery
     [TestClass]
     public class ThiefDesiresTests
     {
-        private List<LocatedValuable> _valuables;
+        private List<SpatialValuable> _valuables;
 
         [TestInitialize]
         public void Init()
         {
-            _valuables = new List<LocatedValuable>();
+            _valuables = new List<SpatialValuable>();
         }
 
         [TestMethod]
@@ -96,14 +96,14 @@ namespace SecurityConsultantCore.Test.Thievery
             AssertAllMatch(desires, x => !x.Name.Contains("Sapphire"));
         }
 
-        private void AssertOrderedItemsAre(List<LocatedValuable> desires, params string[] items)
+        private void AssertOrderedItemsAre(List<SpatialValuable> desires, params string[] items)
         {
             Assert.AreEqual(items.Length, desires.Count);
             for (var i = 0; i < items.Length; i++)
                 Assert.AreEqual(items[i], desires[i].Obj.Name);
         }
 
-        private void AssertAllMatch(IEnumerable<LocatedValuable> desires, Predicate<IValuable> condition)
+        private void AssertAllMatch(IEnumerable<SpatialValuable> desires, Predicate<IValuable> condition)
         {
             foreach (var valuable in desires)
                 Assert.IsTrue(condition.Invoke(valuable.Obj), $"{valuable.Obj.Name} did not match condition");
@@ -131,7 +131,7 @@ namespace SecurityConsultantCore.Test.Thievery
 
         private void Add(IValuable valuable)
         {
-            _valuables.Add(new LocatedValuable(new XYZ(0, 0, 0), valuable));
+            _valuables.Add(new SpatialValuable(new XYZ(0, 0, 0), Orientation.Up, valuable));
         }
     }
 }

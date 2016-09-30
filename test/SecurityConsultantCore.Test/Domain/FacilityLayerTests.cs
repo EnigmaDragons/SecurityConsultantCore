@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
@@ -78,10 +80,10 @@ namespace SecurityConsultantCore.Test.Domain
             var spaces = iterator.ToList();
 
             Assert.AreEqual(4, spaces.Count);
-            Assert.AreEqual(new XY(0, 0), spaces[0].Location);
-            Assert.AreEqual(new XY(1, 0), spaces[1].Location);
-            Assert.AreEqual(new XY(0, 1), spaces[2].Location);
-            Assert.AreEqual(new XY(1, 1), spaces[3].Location);
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(0, 0))));
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(1, 0))));
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(0, 1))));
+            Assert.IsTrue(spaces.Any(x => x.Location.Equals(new XY(1, 1))));
         }
 
         [TestMethod]
@@ -91,7 +93,7 @@ namespace SecurityConsultantCore.Test.Domain
             layer[0, 0].LowerObject = _sampleLowerValuable;
             layer[0, 0].UpperObject = _sampleUpperValuable;
 
-            var valuables = layer.LocatedValuables.ToList();
+            var valuables = layer.OrientedValuables.ToList();
 
             Assert.AreEqual(2, valuables.Count());
             Assert.IsTrue(valuables.Any(x => x.Obj.Equals(_sampleLowerValuable)));
@@ -107,7 +109,7 @@ namespace SecurityConsultantCore.Test.Domain
             layer[1, 2].Put(_sampleLowerValuable);
             layer[2, 2].Put(_sampleLowerValuable);
 
-            var valuables = layer.LocatedValuables;
+            var valuables = layer.OrientedValuables;
 
             Assert.AreEqual(4, valuables.Count());
         }

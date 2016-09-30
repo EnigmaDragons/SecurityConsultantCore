@@ -3,18 +3,18 @@ using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class ValuablesContainer : FacilityObject, IValuablesContainer
+    public class ValuablesContainer : FacilityObject
     {
         private readonly List<IValuable> _valuables = new List<IValuable>();
 
         public IEnumerable<IValuable> Valuables => _valuables;
-        public IEnumerable<Orientation> StealableOrientations { get; private set; }
+        public IEnumerable<Orientation> AccessibleFrom { get; private set; }
 
         public ValuablesContainer() : this(new List<Orientation> { Orientation.Up, Orientation.Right, Orientation.Left, Orientation.Down }) {}
 
-        public ValuablesContainer(IEnumerable<Orientation> stealableOrientations)
+        public ValuablesContainer(IEnumerable<Orientation> accessibleFrom)
         {
-            StealableOrientations = stealableOrientations;
+            AccessibleFrom = accessibleFrom;
         }
 
         public void Put(IValuable valuable)

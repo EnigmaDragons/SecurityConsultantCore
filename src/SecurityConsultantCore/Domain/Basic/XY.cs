@@ -46,6 +46,11 @@ namespace SecurityConsultantCore.Domain.Basic
             }
         }
 
+        public XY Plus(int x, int y)
+        {
+            return Plus(new XY(x, y));
+        }
+
         public XY Plus(XY other)
         {
             return new XY(other.X + X, other.Y + Y);
