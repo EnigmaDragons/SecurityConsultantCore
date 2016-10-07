@@ -46,6 +46,7 @@
     <Compile Include="Common\ConditionalAction.cs" />
     <Compile Include="Common\CompoundComparer.cs" />
     <Compile Include="Common\GameRandom.cs" />
+    <Compile Include="Common\Lazy.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
     <Compile Include="Common\Lists.cs" />
     <Compile Include="Common\StringUtils.cs" />
@@ -125,6 +126,9 @@
     <Compile Include="Pathfinding\Smart2DPathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
+    <Compile Include="Scoring\IScoringCriteria.cs" />
+    <Compile Include="Scoring\Score.cs" />
+    <Compile Include="Scoring\SubScore.cs" />
     <Compile Include="Security\Alarms\AlarmBase.cs" />
     <Compile Include="Security\Alarms\BasicAlarm.cs" />
     <Compile Include="Security\Alarms\IAlarm.cs" />

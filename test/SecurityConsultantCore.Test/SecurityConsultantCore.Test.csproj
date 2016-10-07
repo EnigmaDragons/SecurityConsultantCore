@@ -71,6 +71,7 @@
     <Compile Include="Domain\ValuablesContainerTests.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="EventSystem\EventAggregatorTests.cs" />
+    <Compile Include="Scoring\FakeCriteria.cs" />
     <Compile Include="Scoring\ScoringTests.cs" />
     <Compile Include="Thievery\IncidentsTests.cs" />
     <Compile Include="Interactors\SecurityPlacementValidatorTests.cs" />
