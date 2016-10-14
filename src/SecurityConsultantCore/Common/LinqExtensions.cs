@@ -26,7 +26,8 @@ namespace SecurityConsultantCore.Common
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            source.ToList().ForEach(action);
+            foreach (var obj in source)
+                action(obj);
         }
 
         public static IEnumerable<T2> OfType<T1, T2>(this IEnumerable<T1> source)

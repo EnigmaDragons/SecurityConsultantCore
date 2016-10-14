@@ -5,12 +5,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Security.Guards;
+using SecurityConsultantCore.EventSystem;
+using SecurityConsultantCore.EventSystem.Events;
 
 namespace SecurityConsultantCore.Test.Security.Guards
 {
     [TestClass]
     public class GuardTests : IGuardBody
     {
+        private EventAggregator _eventAggregator;
+        private XYZ _startLocation;
         private Guard _guard;
         private List<Path> _traversePaths = new List<Path>();
         private int _maxTravelSegments;
@@ -18,7 +22,9 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestInitialize]
         public void Init()
         {
-            _guard = new Guard(this);
+            _eventAggregator = new EventAggregator();
+            _startLocation = new XYZ(0, 0, 0);
+            _guard = new Guard(this, _startLocation, _eventAggregator);
         }
 
         [TestMethod]
@@ -49,6 +55,40 @@ namespace SecurityConsultantCore.Test.Security.Guards
             var assignedRoute = _guard.WhatIsYourRoute();
 
             AssertRouteMatches(route.ToList(), assignedRoute.ToList());
+        }
+
+        [TestMethod]
+        public void Guard_WhereAreYou_IsStartingLocation()
+        {
+            var currentLocation = new Guard(this, _startLocation, _eventAggregator).WhereAreYou();
+
+            Assert.AreEqual(_startLocation, currentLocation);
+        }
+
+        [TestMethod]
+        public void Guard_WhereAreYouAfterMoving_IsAtNewLocation()
+        {
+            _maxTravelSegments = 1;
+            var route = new PatrolRoute(new Path(new XYZ(0, 1, 0)));
+            _guard.AssignPatrolRoute(route);
+            _guard.Go();
+
+            var currentLocation = _guard.WhereAreYou();
+
+            Assert.AreEqual(new XYZ(0, 1, 0), currentLocation);
+        }
+
+        [TestMethod]
+        public void Gaurd_GameStartEvent_GoOccurs()
+        {
+            _maxTravelSegments = 1;
+            var route = new PatrolRoute(new Path(new XYZ(0, 1, 0)));
+            _guard.AssignPatrolRoute(route);
+            _eventAggregator.Publish(new GameStartEvent());
+
+            var currentLocation = _guard.WhereAreYou();
+
+            Assert.AreEqual(new XYZ(0, 1, 0), currentLocation);
         }
 
         private void AssertRouteMatches(List<Path> expectedPath, List<Path> actualRoute)

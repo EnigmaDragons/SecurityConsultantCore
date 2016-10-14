@@ -21,7 +21,7 @@ namespace SecurityConsultantCore.Test.Pathfinding
         [TestInitialize]
         public void Init()
         {
-            _routeProposal = new PatrolRouteProposal(_map, new XYZ(0, 0, 0));
+            _routeProposal = new PatrolRouteProposal(_map, new XYZ(0, 0, 0), path => { });
             var builder = new LayerBuilder(3, 3);
             builder.PutFloor(new XY(0, 0), new XY(2, 2));
             _map.Add(_layer = builder.Build());
@@ -116,7 +116,7 @@ namespace SecurityConsultantCore.Test.Pathfinding
         public void PatrolRouteProposal_ConstructedWithPatrolRoute_UsesRoute()
         {
             var oldRoute = new PatrolRoute(new Path(new XYZ(0, 1, 0)), new Path(new XYZ(0, 0, 0)));
-            var proposal = new PatrolRouteProposal(_map, oldRoute);
+            var proposal = new PatrolRouteProposal(_map, oldRoute.Start, oldRoute, path => { });
 
             var newRoute = proposal.Finalize();
 

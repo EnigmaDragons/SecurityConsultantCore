@@ -48,6 +48,7 @@
     <Compile Include="Common\GameRandom.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
     <Compile Include="Common\Lists.cs" />
+    <Compile Include="Common\ObservableList.cs" />
     <Compile Include="Common\StringUtils.cs" />
     <Compile Include="Domain\Basic\ITyped.cs" />
     <Compile Include="Domain\Basic\ObjectLayer.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="EngineInterfaces\ISound.cs" />
     <Compile Include="EventSystem\EventAggregator.cs" />
     <Compile Include="EventSystem\Events\AlertSecurityEvent.cs" />
+    <Compile Include="EventSystem\Events\GameStartEvent.cs" />
     <Compile Include="EventSystem\Events\SoundAlarmEvent.cs" />
     <Compile Include="EventSystem\IEventAggregator.cs" />
     <Compile Include="Factories\Container.cs" />
