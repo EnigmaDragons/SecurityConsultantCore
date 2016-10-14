@@ -14,49 +14,63 @@ namespace SecurityConsultantCore.Test
         [TestInitialize]
         public void Init()
         {
-            _incidents = new Incidents();
+            _incidents = new Incidents(GetTotalValuables());
         }
 
         [TestMethod]
-        public void Add_ValidIncident_AddedToCollection()
-        {
-            _incidents.Add(new Incident(new List<Valuable>()));
-
-            Assert.AreEqual(1, _incidents.AttemptedIncidents);
-        }
-
-        [TestMethod]
-        public void SuccessfulCount_OneSuccessful_ExpectedValueReturned()
+        public void FailedCount_OneFailedIncident_ExpectedValueReturned()
         {
             var valuable1 = new Valuable { Value = 100 };
-            var valuable2 = new Valuable { Value = 200 };
-            var incident = new Incident(new List<Valuable> { valuable1, valuable2 });
+            var incident = new Incident();
             incident.AddStolenItem(valuable1);
             _incidents.Add(incident);
 
-            int successful = _incidents.SuccessfulIncidents;
+            int failed = _incidents.FailedIncidents;
 
-            Assert.AreEqual(1, successful);
+            Assert.AreEqual(0, failed);
         }
 
         [TestMethod]
-        public void SuccessfulAndAttempted_OneOfEach_ExpectedValuesReturned()
+        public void FailedAndAttempted_OneOfEach_ExpectedValuesReturned()
         {
             var valuable1 = new Valuable { Value = 100 };
-            var valuable2 = new Valuable { Value = 200 };
-            var valuable3 = new Valuable { Value = 300 };
-            var valuable4 = new Valuable { Value = 400 };
-            var incident1 = new Incident(new List<Valuable> { valuable1, valuable2 });
-            var incident2 = new Incident(new List<Valuable> { valuable3, valuable4 });
+            var incident1 = new Incident();
+            var incident2 = new Incident();
             incident1.AddStolenItem(valuable1);
             _incidents.Add(incident1);
             _incidents.Add(incident2);
 
             int attempted = _incidents.AttemptedIncidents;
-            int successful = _incidents.SuccessfulIncidents;
+            int failed = _incidents.FailedIncidents;
 
             Assert.AreEqual(2, attempted);
-            Assert.AreEqual(1, successful);
+            Assert.AreEqual(1, failed);
+        }
+
+        [TestMethod]
+        public void GetTotalItemValue_NoValuables_0Returned()
+        {
+            var incidents = new Incidents(new List<Valuable>());
+
+            Assert.AreEqual(0.0, incidents.GetTotalItemValue());
+        }
+
+        [TestMethod]
+        public void GetTotalItemValue_Valuables_ExpectedValueReturned()
+        {
+            Assert.AreEqual(600.0, _incidents.GetTotalItemValue());
+        }
+
+
+
+        private List<Valuable> GetTotalValuables()
+        {
+            return new List<Valuable>
+            {
+                new Valuable { Value = 100 },
+                new Valuable { Value = 200 },
+                new Valuable { Value = 300 }
+            };
         }
     }
 }

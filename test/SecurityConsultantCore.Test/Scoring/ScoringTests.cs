@@ -1,80 +1,108 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecurityConsultantCore.Scoring;
 
 namespace SecurityConsultantCore.Test.Scoring
 {
-    [TestClass, ExcludeFromCodeCoverage]
+    [TestClass]
     public class ScoringTests
     {
-        [TestMethod]
-        public void Calculate_InvoiceDoublesBudget_ScoreIs0()
+        private const double _perfectScore = 1.0;
+        private const double _delta = 0.01;
+        private Score _score;
+        private List<IScoringCriteria> _criteria;
+
+        [TestInitialize]
+        public void Init()
         {
-            var score = new Score(1, 2);
-
-            double grade = score.Calculate();
-
-            Assert.AreEqual(0.0, grade);
+            _criteria = new List<IScoringCriteria>();
+            _score = new Score(_criteria);
         }
 
-        [TestMethod]
-        public void Calculate_InvoiceEqualsBudget_ScoreIs0()
-        {
-            var score = new Score(1, 1);
-
-            double grade = score.Calculate();
-
-            Assert.AreEqual(0.0, grade);
-        }
 
         [TestMethod]
-        public void Calculate_InvoiceHalfBudget_ScoreIs0Point5()
+        public void Score_NoCriteria_FinalScoreIsPerfect()
         {
-            var score = new Score(1, 0.5);
-
-            double grade = score.Calculate();
-
-            Assert.AreEqual(0.5, grade);
+            AssertFinalScoreIs(_perfectScore);
         }
 
         [TestMethod]
-        public void TestMethod()
+        public void Score_NoCriteria_SubScoresCountIsZero()
         {
-            WriteToDebug(1.0, 2.0);
-            WriteToDebug(1.0, 1.75);
-            WriteToDebug(1.0, 1.5);
-            WriteToDebug(1.0, 1.25);
-            WriteToDebug(1.0, 1.0);
-            WriteToDebug(1.0, 0.75);
-            WriteToDebug(1.0, 0.5);
-            WriteToDebug(1.0, 0.25);
+            var subscores = _score.GetSubScores();
+
+            Assert.AreEqual(0, subscores.Count());
         }
 
-        private void WriteToDebug(double budget, double invoiceTotal)
+        [TestMethod]
+        public void Score_OneCriteria_FinalScoreMatchesCriteriaScore()
         {
-            double grade = new Score(budget, invoiceTotal).Calculate();
-            Debug.WriteLine("budget: {0:0.00}\tinvoice: {1:0.00}\tgrade: {2:0.00}", budget, invoiceTotal, grade);
-        }
-    }
+            _criteria.Add(new FakeCriteria("Fake", 0.72, 2));
 
-    // Big time w.i.p.. Currently just calculating % of budget used and flooring at 0.00 if over budget (not too fun)
-    // Should also consider details of incident(s) to determine final score. 
-    // Eventually, I think the budget/invoice calculation will amount to more of a modifier on the final score
-    public class Score
-    {
-        private readonly double _budget;
-        private readonly double _invoiceTotal;
-
-        public Score(double budget, double invoiceTotal)
-        {
-            _budget = budget;
-            _invoiceTotal = invoiceTotal;
+            AssertFinalScoreIs(0.72);
         }
-        // Target is 0.0 - 1.0
-        public double Calculate()
+
+        [TestMethod]
+        public void Score_OneCriteria_SubScoresAreCorrect()
         {
-            double result = (_budget - _invoiceTotal) / _budget;
-            return result < 0.0 ? 0.00 : result;
+            _criteria.Add(new FakeCriteria("Fake", 0.77, 7));
+
+            var subScores = _score.GetSubScores().ToList();
+
+            Assert.AreEqual(1, subScores.Count());
+            Assert.AreEqual("Fake", subScores.First().Name);
+            Assert.AreEqual(0.77, subScores.First().Score, _delta);
+        }
+
+        [TestMethod]
+        public void Score_CriteriaAddedAfterCalculation_FinalUnchanged()
+        {
+            _score.GetFinalScore();
+            _criteria.Add(new FakeCriteria("DirtyCheater", 0.1, 10));
+
+            AssertFinalScoreIs(_perfectScore);
+        }
+
+        [TestMethod]
+        public void Score_CriteriaAddedAfterCalculation_SubScoresUnchanged()
+        {
+            _score.GetFinalScore();
+            _criteria.Add(new FakeCriteria("DirtyCheater", 0.1, 10));
+
+            var subScores = _score.GetSubScores();
+
+            Assert.AreEqual(0, subScores.Count());
+        }
+
+        [TestMethod]
+        public void Score_ThreeCriteria_FinalScoreIsWeightedComposite()
+        {
+            _criteria.Add(new FakeCriteria("IsRacist", 0.06, 1));
+            _criteria.Add(new FakeCriteria("IsSexist", 0.12, 2));
+            _criteria.Add(new FakeCriteria("IsHomophobic", 0.36, 3));
+
+            AssertFinalScoreIs(0.23);
+        }
+
+        [TestMethod]
+        public void Score_ThreeCriteria_SubScoresAreCorrect()
+        {
+            _criteria.Add(new FakeCriteria("IsRacist", 0.06, 1));
+            _criteria.Add(new FakeCriteria("IsSexist", 0.12, 2));
+            _criteria.Add(new FakeCriteria("IsHomophobic", 0.36, 3));
+
+            var subScores = _score.GetSubScores().ToList();
+
+            Assert.AreEqual(3, subScores.Count);
+            Assert.AreEqual(1, subScores.Count(s => s.Name.Equals("IsRacist")));
+            Assert.AreEqual(1, subScores.Count(s => s.Name.Equals("IsSexist")));
+            Assert.AreEqual(1, subScores.Count(s => s.Name.Equals("IsHomophobic")));
+        }
+
+        private void AssertFinalScoreIs(double expected)
+        {
+            Assert.AreEqual(expected, _score.GetFinalScore(), _delta);
         }
     }
 }
