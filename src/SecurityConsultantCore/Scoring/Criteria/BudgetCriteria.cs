@@ -19,7 +19,7 @@ namespace SecurityConsultantCore.Scoring.Criteria
         {
             double budgetRemaining = _totalBudget - _budgetUsed;
             double finalScore = budgetRemaining / (_totalBudget - _totalBudget * _marginOfError);
-            return new SubScore("TEST", Math.Min(1.0, finalScore), 0);
+            return new SubScore("Budget", Math.Min(1.0, finalScore), 0);
         }
     }
 }

@@ -7,55 +7,44 @@ namespace SecurityConsultantCore.Test.Scoring
     [TestClass, ExcludeFromCodeCoverage]
     public class BudgetCriteriaTests
     {
-
         [TestMethod]
         public void GetScore_AllBudgetUsedWithNoErrorMargin_ZeroReturned()
         {
-            var criteria = new BudgetCriteria(1, 1, 0.0);
-
-            var score = criteria.GetScore();
-
-            Assert.AreEqual(0.0, score.Score);
+            AssertScore(1, 1, 0.0, 0.0);
         }
 
         [TestMethod]
         public void GetScore_HalfBudgetUsedNoErrorMargin_CorrectScoreReturned()
         {
-            var criteria = new BudgetCriteria(1, 2, 0.0);
-
-            var score = criteria.GetScore();
-
-            Assert.AreEqual(0.5, score.Score);
+            AssertScore(1, 2, 0.0, 0.5);
         }
 
         [TestMethod]
         public void GetScore_10PercentBudgetUsedNoErrorMargin_CorrectScoreReturned()
         {
-            var criteria = new BudgetCriteria(1, 10, 0.0);
-
-            var score = criteria.GetScore();
-
-            Assert.AreEqual(0.9, score.Score);
+            AssertScore(1, 10, 0.0, 0.9);
         }
 
         [TestMethod]
         public void GetScore_ThreeQuartersBudgetUsedWith50PercentErrorMargin_CorrectScoreReturned()
         {
-            var criteria = new BudgetCriteria(3, 4, 0.5);
-
-            var score = criteria.GetScore();
-
-            Assert.AreEqual(0.5, score.Score);
+            AssertScore(3, 4, 0.5, 0.5);
         }
 
         [TestMethod]
         public void GetScore_OneQuarterBudgetUsedWith50PercentErrorMargin_CorrectScoreReturned()
         {
-            var criteria = new BudgetCriteria(1, 4, 0.5);
+            AssertScore(1, 4, 0.5, 1.0);
+        }
+
+        private void AssertScore(int budgetUsed, int totalBudget, double marginOfError, double expectedScore)
+        {
+            var criteria = new BudgetCriteria(budgetUsed, totalBudget, marginOfError);
 
             var score = criteria.GetScore();
 
-            Assert.AreEqual(1.0, score.Score);
+            Assert.AreEqual("Budget", score.Name);
+            Assert.AreEqual(expectedScore, score.Score);
         }
     }
 }

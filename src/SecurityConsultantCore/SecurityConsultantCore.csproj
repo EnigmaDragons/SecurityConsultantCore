@@ -140,6 +140,7 @@
     <Compile Include="Purchasing\Invoice.cs" />
     <Compile Include="Scoring\Criteria\BudgetCriteria.cs" />
     <Compile Include="Scoring\Criteria\IScoringCriteria.cs" />
+    <Compile Include="Scoring\Criteria\ValuablesCriteria.cs" />
     <Compile Include="Scoring\Score.cs" />
     <Compile Include="Scoring\SubScore.cs" />
     <Compile Include="Security\Alarms\AlarmBase.cs" />
