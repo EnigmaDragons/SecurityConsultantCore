@@ -5,7 +5,6 @@ using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.EngineInterfaces;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Factories;
-using System;
 using SecurityConsultantCore.Common;
 
 namespace SecurityConsultantCore.Domain
@@ -86,8 +85,7 @@ namespace SecurityConsultantCore.Domain
         public void ShowLayer(int layer)
         {
             _world.HideEverything();
-            _layers[layer].ForEach(space => space.Obj.GetAll()
-                .ForEach(obj => _world.Show(obj, new XYZ(space.Location, layer))));
+            _layers[layer].ForEach(space => _world.Show(space.Obj, new XYZ(space.Location, layer)));
         }
     }
 }

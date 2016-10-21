@@ -5,7 +5,7 @@ namespace SecurityConsultantCore.EngineInterfaces
 {
     public interface IWorld
     {
-        void Show(FacilityObject obj, XYZ location);
+        void Show(FacilitySpace space, XYZ location);
         void HideEverything();
     }
 }
