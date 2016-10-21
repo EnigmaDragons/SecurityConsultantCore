@@ -139,6 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
     <Compile Include="Scoring\Criteria\BudgetCriteria.cs" />
+    <Compile Include="Scoring\Criteria\IncidentCriteria.cs" />
     <Compile Include="Scoring\Criteria\IScoringCriteria.cs" />
     <Compile Include="Scoring\Criteria\ValuablesCriteria.cs" />
     <Compile Include="Scoring\Score.cs" />
