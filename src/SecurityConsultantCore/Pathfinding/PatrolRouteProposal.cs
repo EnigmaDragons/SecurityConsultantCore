@@ -1,21 +1,25 @@
 ﻿using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using SecurityConsultantCore.Common;
 
 namespace SecurityConsultantCore.Pathfinding
 {
     public class PatrolRouteProposal
     {
         private readonly IPathFinder _pathFinder;
-        private readonly List<Path> _segments;
+        private readonly ObservableList<Path> _segments;
         private XYZ _currentNode;
 
-        public PatrolRouteProposal(FacilityMap map, PatrolRoute route) : this(new CachedPathFinder(map), route.Start, route.Base.ToList()) {}
+        public PatrolRouteProposal(FacilityMap map, XYZ startingNode, PatrolRoute route, Action<IEnumerable<Path>> onChange) : 
+            this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(route.Base.ToList(), onChange)) {}
 
-        public PatrolRouteProposal(FacilityMap map, XYZ startingNode) : this(new CachedPathFinder(map), startingNode, new List<Path>()) {}
+        public PatrolRouteProposal(FacilityMap map, XYZ startingNode, Action<IEnumerable<Path>> onChange) : 
+            this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(onChange)) {}
 
-        private PatrolRouteProposal(IPathFinder pathFinder, XYZ startingNode, List<Path> segments)
+        private PatrolRouteProposal(IPathFinder pathFinder, XYZ startingNode, ObservableList<Path> segments)
         {
             _pathFinder = pathFinder;
             _currentNode = startingNode;
@@ -39,7 +43,7 @@ namespace SecurityConsultantCore.Pathfinding
             _segments.Clear();
         }
 
-        public IRoute Finalize()
+        public PatrolRoute Finalize()
         {
             return new PatrolRoute(_segments);
         }
