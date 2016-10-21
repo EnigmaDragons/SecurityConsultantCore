@@ -15,11 +15,11 @@ namespace SecurityConsultantCore.Test.EngineMocks
             _objects.Clear();
         }
 
-        public void Show(FacilityObject obj, XYZ location)
+        public void Show(FacilitySpace space, XYZ location)
         {
             if (!_objects.ContainsKey(location))
                 _objects[location] = new List<FacilityObject>();
-            _objects[location].Add(obj);
+            space.GetAll().ForEach(x => _objects[location].Add(x));
         }
 
         public FacilityObject ObjectAt(XYZ location, ObjectLayer layer)

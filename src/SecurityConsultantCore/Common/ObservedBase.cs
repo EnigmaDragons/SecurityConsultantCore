@@ -8,7 +8,8 @@ namespace SecurityConsultantCore.Common
 
         public void Subscribe(Observer<T> observer)
         {
-            _observers.Add(observer);
+            if (!_observers.Contains(observer))
+                _observers.Add(observer);
         }
 
         public void Unsubscribe(Observer<T> observer)

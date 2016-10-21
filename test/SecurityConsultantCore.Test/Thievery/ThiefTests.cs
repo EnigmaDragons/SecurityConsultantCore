@@ -171,6 +171,16 @@ namespace SecurityConsultantCore.Test.Thievery
             Assert.AreEqual(new XYZ(1, 1, 0), _traversedPaths.First().Last());
         }
 
+        [TestMethod]
+        public void Thief_Steal_ObjectNoLongerInOriginalSpace()
+        {
+            _layer[0, 0].Put(_upFacingValuable);
+
+            PerformRobbery();
+
+            Assert.AreEqual("None", _layer[0, 0].UpperObject.Type);
+        }
+
         private void AddPortals(LayerBuilder builder)
         {
             for (var row = 0; row < 3; row++)

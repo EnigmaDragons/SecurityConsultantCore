@@ -102,6 +102,18 @@ namespace SecurityConsultantCore.Test.Domain
         }
 
         [TestMethod]
+        public void FacilityMap_RemoveValuable_ValuableNoLongerInSpace()
+        {
+            _map.Add(_sampleLayer);
+            var jewels = new ValuableFacilityObject { Type = "Jewels", ObjectLayer = ObjectLayer.LowerObject };
+            _map[5, 5, 0].Put(jewels);
+
+            _map.Remove(jewels);
+
+            Assert.AreEqual(true, _map[5, 5, 0].IsEmpty);
+        }
+
+        [TestMethod]
         public void FacilityMap_Exists_ReturnsFalse()
         {
             _sampleLayer.Put(1, 1, _sampleSpace);
@@ -112,7 +124,7 @@ namespace SecurityConsultantCore.Test.Domain
         }
 
         [TestMethod]
-        public void FacilityMap_Exits_ReturnsTrue()
+        public void FacilityMap_Exist_ReturnsTrue()
         {
             _sampleLayer.Put(1, 1, _sampleSpace);
 
@@ -151,11 +163,6 @@ namespace SecurityConsultantCore.Test.Domain
             Assert.AreEqual(floor, _world.ObjectAt(new XYZ(1, 1, 0), ObjectLayer.Ground));
         }
 
-        private FacilityObject CreateFloor()
-        {
-            return new FacilityObject { ObjectLayer = ObjectLayer.Ground, Type = "Floor" };
-        }
-
         [TestMethod]
         public void FacilityMap_WhenShowingLayerTwoObjects_AllObjectsInWorld()
         {
@@ -190,6 +197,11 @@ namespace SecurityConsultantCore.Test.Domain
         private MapInstruction CreateInstruction(params string[] args)
         {
             return MapInstruction.FromStrings(args.ToList());
+        }
+
+        private FacilityObject CreateFloor()
+        {
+            return new FacilityObject { ObjectLayer = ObjectLayer.Ground, Type = "Floor" };
         }
     }
 }
