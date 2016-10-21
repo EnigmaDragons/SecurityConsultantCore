@@ -1,4 +1,4 @@
-﻿namespace SecurityConsultantCore.Scoring
+﻿namespace SecurityConsultantCore.Scoring.Criteria
 {
     public interface IScoringCriteria
     {
