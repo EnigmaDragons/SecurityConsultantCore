@@ -49,6 +49,10 @@
     <Compile Include="Common\Lazy.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
     <Compile Include="Common\Lists.cs" />
+    <Compile Include="Common\Observed.cs" />
+    <Compile Include="Common\ObservedBase.cs" />
+    <Compile Include="Common\Observer.cs" />
+    <Compile Include="Common\SimpleObserver.cs" />
     <Compile Include="Common\StringUtils.cs" />
     <Compile Include="Domain\Basic\ITyped.cs" />
     <Compile Include="Domain\Basic\ObjectLayer.cs" />
@@ -87,12 +91,14 @@
     <Compile Include="Domain\ValuablesContainer.cs" />
     <Compile Include="Domain\XYZObjectLayer.cs" />
     <Compile Include="EngineInterfaces\ISound.cs" />
+    <Compile Include="EngineInterfaces\IWorld.cs" />
     <Compile Include="EventSystem\EventAggregator.cs" />
     <Compile Include="EventSystem\Events\AlertSecurityEvent.cs" />
     <Compile Include="EventSystem\Events\SoundAlarmEvent.cs" />
     <Compile Include="EventSystem\IEventAggregator.cs" />
     <Compile Include="Factories\Container.cs" />
     <Compile Include="Factories\FacilityObjectFactory.cs" />
+    <Compile Include="Factories\PortalFactory.cs" />
     <Compile Include="Factories\SecurityObjectFactory.cs" />
     <Compile Include="Factories\StructureObjectFactory.cs" />
     <Compile Include="Factories\ValuableObjectFactory.cs" />
@@ -103,7 +109,6 @@
     <Compile Include="MapGeneration\LayerBuilder.cs" />
     <Compile Include="MapGeneration\LayerInstruction.cs" />
     <Compile Include="MapGeneration\LinkInstruction.cs" />
-    <Compile Include="MapGeneration\MapAssembler.cs" />
     <Compile Include="MapGeneration\MapException.cs" />
     <Compile Include="MapGeneration\MapInstruction.cs" />
     <Compile Include="MapGeneration\MapLanguageParsing.cs" />

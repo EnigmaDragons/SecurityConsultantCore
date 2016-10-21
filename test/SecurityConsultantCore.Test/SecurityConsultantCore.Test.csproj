@@ -69,6 +69,7 @@
     <Compile Include="Domain\FacilitySpaceTests.cs" />
     <Compile Include="Domain\ValuableFacilityObjectTests.cs" />
     <Compile Include="Domain\ValuablesContainerTests.cs" />
+    <Compile Include="EngineMocks\InMemoryWorld.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="EventSystem\EventAggregatorTests.cs" />
     <Compile Include="Scoring\FakeCriteria.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="MapGeneration\LayerBuilderTests.cs" />
     <Compile Include="MapGeneration\LayerInstructionTests.cs" />
     <Compile Include="MapGeneration\LinkInstructionTests.cs" />
-    <Compile Include="MapGeneration\MapAssemblerTests.cs" />
     <Compile Include="MapGeneration\MapInstructionTests.cs" />
     <Compile Include="MapGeneration\ObjectInstructionTests.cs" />
     <Compile Include="MapGeneration\PortalInstructionTests.cs" />

@@ -6,6 +6,7 @@ using MSTestExtensions;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Pathfinding;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.Pathfinding
 {
@@ -13,7 +14,7 @@ namespace SecurityConsultantCore.Test.Pathfinding
     [ExcludeFromCodeCoverage]
     public class LayeredPathFinderTests
     {
-        private readonly FacilityMap _map = new FacilityMap();
+        private readonly FacilityMap _map = new FacilityMap(new InMemoryWorld());
         private FacilityLayer _layer;
         private LayeredPathFinder _pathFinder;
 

@@ -6,7 +6,7 @@ using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class FacilitySpace
+    public class FacilitySpace : ObservedBase<FacilitySpace>
     {
         private static FacilitySpace _emptySpace;
         public static FacilitySpace Empty => _emptySpace ?? (_emptySpace = new FacilitySpace());
@@ -71,10 +71,15 @@ namespace SecurityConsultantCore.Domain
             return _layers.Any(x => x.Value.Equals(obj));
         }
 
+        public FacilityObject Get(string objType)
+        {
+            return GetAll().Single(x => x.Type.Equals(objType));
+        }
+
         public void Remove(FacilityObject obj)
         {
             if (_layers[obj.ObjectLayer].Type == obj.Type)
-                _layers[obj.ObjectLayer] = new FacilityObject();
+                Remove(obj.ObjectLayer);
         }
 
         public void Remove(IValuable valuable)
@@ -88,6 +93,7 @@ namespace SecurityConsultantCore.Domain
         public void Remove(ObjectLayer layer)
         {
             _layers[layer] = new FacilityObject();
+            NotifySubscribers(this);
         }
 
         public void Put(FacilityObject obj)
@@ -97,14 +103,10 @@ namespace SecurityConsultantCore.Domain
             Put(obj.ObjectLayer, obj);
         }
 
-        public FacilityObject Get(string objType)
-        {
-            return GetAll().Single(x => x.Type.Equals(objType));
-        }
-
         private void Put(ObjectLayer objLayer, FacilityObject obj)
         {
             _layers[objLayer] = obj;
+            NotifySubscribers(this);
         }
     }
 }

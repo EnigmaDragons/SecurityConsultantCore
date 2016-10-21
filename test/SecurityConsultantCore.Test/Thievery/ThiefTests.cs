@@ -10,6 +10,7 @@ using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Thievery;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.Thievery
 {
@@ -17,7 +18,7 @@ namespace SecurityConsultantCore.Test.Thievery
     [ExcludeFromCodeCoverage]
     public class ThiefTests : IBody
     {
-        private readonly FacilityMap _map = new FacilityMap();
+        private readonly FacilityMap _map = new FacilityMap(new InMemoryWorld());
         private readonly ValuableFacilityObject _upFacingValuable = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name" };
         private readonly ValuableFacilityObject _valuable2 = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name2" };
         private readonly FacilityObject _obstacle = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Not none" };
