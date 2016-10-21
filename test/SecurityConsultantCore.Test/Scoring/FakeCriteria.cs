@@ -1,4 +1,5 @@
 ﻿using SecurityConsultantCore.Scoring;
+using SecurityConsultantCore.Scoring.Criteria;
 
 namespace SecurityConsultantCore.Test.Scoring
 {
