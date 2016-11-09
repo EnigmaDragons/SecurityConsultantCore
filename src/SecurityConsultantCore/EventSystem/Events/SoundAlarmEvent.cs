@@ -2,6 +2,11 @@
 {
     public class AlarmSoundEvent
     {
-        public bool TurnSoundOn { get; set; }
+        public AlarmSoundEvent(bool turnSoundOn)
+        {
+            TurnSoundOn = turnSoundOn;
+        }
+
+        public bool TurnSoundOn { get; }
     }
 }

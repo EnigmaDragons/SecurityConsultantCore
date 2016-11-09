@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Security.Alarms;
 using SecurityConsultantCore.Test.EngineMocks;
 using System.Diagnostics.CodeAnalysis;
@@ -22,7 +23,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         {
             _sut.Arm();
 
-            _sut.Trigger();
+            _sut.Trigger(new XY());
 
             Assert.IsTrue(_sound.Played);
         }
@@ -32,7 +33,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         {
             _sut.Disarm();
 
-            _sut.Trigger();
+            _sut.Trigger(new XY());
 
             Assert.IsFalse(_sound.Played);
         }
@@ -41,7 +42,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         public void BasicAlarm_TurnOff_TurnsOffSound()
         {
             _sut.Arm();
-            _sut.Trigger();
+            _sut.Trigger(new XY());
 
             _sut.TurnOff();
 

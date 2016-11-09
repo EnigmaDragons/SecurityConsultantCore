@@ -96,6 +96,7 @@
     <Compile Include="EventSystem\EventAggregator.cs" />
     <Compile Include="EventSystem\Events\AlertSecurityEvent.cs" />
     <Compile Include="EventSystem\Events\GameStartEvent.cs" />
+    <Compile Include="EventSystem\Events\PositionedAlertSecurityEvent.cs" />
     <Compile Include="EventSystem\Events\SoundAlarmEvent.cs" />
     <Compile Include="EventSystem\IEventAggregator.cs" />
     <Compile Include="Factories\Container.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Security\Alarms\AlarmBase.cs" />
     <Compile Include="Security\Alarms\BasicAlarm.cs" />
     <Compile Include="Security\Alarms\IAlarm.cs" />
+    <Compile Include="Security\ControlPanel.cs" />
     <Compile Include="Security\Guards\Guard.cs" />
     <Compile Include="Security\Guards\IGuardBody.cs" />
     <Compile Include="Security\Alarms\AdvancedAlarm.cs" />

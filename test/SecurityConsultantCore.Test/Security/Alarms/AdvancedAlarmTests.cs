@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.EventSystem.Events;
 using SecurityConsultantCore.Security.Alarms;
 using SecurityConsultantCore.Test.EngineMocks;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace SecurityConsultantCore.Test.Security.Alarms
 {
@@ -18,7 +20,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         {
             var sut = new AdvancedAlarm(_eventAggregator, _sound);
 
-            sut.Trigger();
+            sut.Trigger(new XY());
 
             Assert.IsTrue(_sound.Played);
         }
@@ -28,9 +30,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         {
             var sut = new AdvancedAlarm(_eventAggregator, _sound);
             var securityAlerted = false;
-            _eventAggregator.Subscribe<AlertSecurityEvent>(e => securityAlerted = true);
+            _eventAggregator.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
 
-            sut.Trigger();
+            sut.Trigger(new XY());
 
             Assert.IsTrue(securityAlerted);
         }
@@ -39,7 +41,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         public void AdvancedAlarm_TurnedOff_TurnsOffAlarm()
         {
             var sut = new AdvancedAlarm(_eventAggregator, _sound);
-            sut.Trigger();
+            sut.Trigger(new XY());
 
             sut.TurnOff();
 
@@ -51,12 +53,52 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         {
             var sut = new AdvancedAlarm(_eventAggregator, _sound);
             var securityAlerted = false;
-            _eventAggregator.Subscribe<AlertSecurityEvent>(e => securityAlerted = true);
+            _eventAggregator.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
             sut.Disarm();
 
-            sut.Trigger();
+            sut.Trigger(new XY());
 
             Assert.IsFalse(securityAlerted);
+        }
+
+        [TestMethod]
+        public void AdvancedAlarm_Triggered_AlertSecurityEventHoldsPassedInTriggerPosition()
+        {
+            var sut = new AdvancedAlarm(_eventAggregator, _sound);
+            var expectedPosition = new XY(123, 123);
+            var actualPosition = new XY(0, 0);
+            _eventAggregator.Subscribe<PositionedAlertSecurityEvent>(e => actualPosition = e.TriggerLocation);
+
+            sut.Trigger(expectedPosition);
+
+            Assert.AreEqual(expectedPosition, actualPosition);
+        }
+
+        [TestMethod]
+        public void AdvancedAlarm_TriggeredMultipleTimes_OnlyCallsSecurityOnce()
+        {
+            var sut = new AdvancedAlarm(_eventAggregator, _sound);
+            var timesSecurityCalled = 0;
+            _eventAggregator.Subscribe<PositionedAlertSecurityEvent>(e => timesSecurityCalled++);
+
+            foreach(var _ in Enumerable.Range(0, 5))
+                sut.Trigger(new XY());
+
+            Assert.AreEqual(1, timesSecurityCalled);
+        }
+
+        [TestMethod]
+        public void AdvancedAlarm_WhenTurnedOff_CanAlertSecurityAgain()
+        {
+            var sut = new AdvancedAlarm(_eventAggregator, _sound);
+            var timesSecurityCalled = 0;
+            _eventAggregator.Subscribe<PositionedAlertSecurityEvent>(e => timesSecurityCalled++);
+            sut.Trigger(new XY());
+
+            sut.TurnOff();
+            sut.Trigger(new XY());
+
+            Assert.AreEqual(2, timesSecurityCalled);
         }
     }
 }

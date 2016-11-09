@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Security;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SecurityConsultantCore.Test.Security
@@ -60,37 +59,6 @@ namespace SecurityConsultantCore.Test.Security
         public void Disarm()
         {
             IsArmed = false;
-        }
-    }
-
-    public class ControlPanel
-    {
-        private List<IArmable> WiredComponents = new List<IArmable>();
-
-        public void WireComponent(IArmable component)
-        {
-            WiredComponents.Add(component);
-        }
-
-        public void RemoveComponent(IArmable component)
-        {
-            WiredComponents.Remove(component);
-        }
-
-        public void ArmComponents()
-        {
-            foreach(var c in WiredComponents)
-            {
-                c.Arm();
-            }
-        }
-
-        public void DisarmComponents()
-        {
-            foreach(var c in WiredComponents)
-            {
-                c.Disarm();
-            }
         }
     }
 }
