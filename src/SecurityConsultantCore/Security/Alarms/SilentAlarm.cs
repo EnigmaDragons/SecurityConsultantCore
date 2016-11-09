@@ -6,19 +6,19 @@ namespace SecurityConsultantCore.Security.Alarms
 {
     public class SilentAlarm : AlarmBase, IAlarm
     {
-        private readonly IEvents _eventNotification;
+        private readonly IEvents _events;
         private bool _securityAlerted;
 
-        public SilentAlarm(IEvents eventNotification)
+        public SilentAlarm(IEvents events)
         {
-            _eventNotification = eventNotification;
+            _events = events;
         }
 
         public void Trigger(XY _)
         {
             if(IsArmed && !_securityAlerted)
             {
-                _eventNotification.Publish(new AlertSecurityEvent());
+                _events.Publish(new AlertSecurityEvent());
                 _securityAlerted = true;
             }
         }

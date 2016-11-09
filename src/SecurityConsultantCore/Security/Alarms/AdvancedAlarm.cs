@@ -7,13 +7,13 @@ namespace SecurityConsultantCore.Security.Alarms
 {
     public class AdvancedAlarm : AlarmBase, IAlarm
     {
-        private readonly IEvents _eventNotification;
+        private readonly IEvents _events;
         private readonly ISound _alarmSound;
         private bool _securityAlerted;
 
-        public AdvancedAlarm(IEvents eventNotification, ISound alarmSound)
+        public AdvancedAlarm(IEvents events, ISound alarmSound)
         {
-            _eventNotification = eventNotification;
+            _events = events;
             _alarmSound = alarmSound;
         }
 
@@ -21,7 +21,7 @@ namespace SecurityConsultantCore.Security.Alarms
         {
             if(IsArmed && !_securityAlerted)
             {
-                _eventNotification.Publish(new PositionedAlertSecurityEvent(triggerLocation));
+                _events.Publish(new PositionedAlertSecurityEvent(triggerLocation));
                 _alarmSound.Play();
                 _securityAlerted = true;
             }

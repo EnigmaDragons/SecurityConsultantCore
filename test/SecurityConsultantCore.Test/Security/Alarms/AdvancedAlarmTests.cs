@@ -12,13 +12,13 @@ namespace SecurityConsultantCore.Test.Security.Alarms
     [TestClass, ExcludeFromCodeCoverage]
     public class AdvancedAlarmTests
     {
-        private IEvents _eventNotification = new Events();
-        private SoundMock _sound = new SoundMock();
+        private readonly IEvents _events = new Events();
+        private readonly SoundMock _sound = new SoundMock();
 
         [TestMethod]
         public void AdvancedAlarm_Triggered_SoundsAlarm()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
 
             sut.Trigger(new XY());
 
@@ -28,9 +28,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AdvancedAlarm_Triggered_AlertsSecurity()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
             var securityAlerted = false;
-            _eventNotification.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
+            _events.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
 
             sut.Trigger(new XY());
 
@@ -40,7 +40,7 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AdvancedAlarm_TurnedOff_TurnsOffAlarm()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
             sut.Trigger(new XY());
 
             sut.TurnOff();
@@ -51,10 +51,10 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AdvancedAlarm_Disarmed_TriggerDoesNothing()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
             var securityAlerted = false;
-            _eventNotification.Subscribe<AlertSecurityEvent>(e => securityAlerted = true);
-            _eventNotification.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
+            _events.Subscribe<AlertSecurityEvent>(e => securityAlerted = true);
+            _events.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
             sut.Disarm();
 
             sut.Trigger(new XY());
@@ -65,10 +65,10 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AdvancedAlarm_Triggered_AlertSecurityEventHoldsPassedInTriggerPosition()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
             var expectedPosition = new XY(123, 123);
             var actualPosition = new XY(0, 0);
-            _eventNotification.Subscribe<PositionedAlertSecurityEvent>(e => actualPosition = e.TriggerLocation);
+            _events.Subscribe<PositionedAlertSecurityEvent>(e => actualPosition = e.TriggerLocation);
 
             sut.Trigger(expectedPosition);
 
@@ -78,9 +78,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AdvancedAlarm_TriggeredMultipleTimes_OnlyCallsSecurityOnce()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
             var timesSecurityCalled = 0;
-            _eventNotification.Subscribe<PositionedAlertSecurityEvent>(e => timesSecurityCalled++);
+            _events.Subscribe<PositionedAlertSecurityEvent>(e => timesSecurityCalled++);
 
             foreach(var _ in Enumerable.Range(0, 5))
                 sut.Trigger(new XY());
@@ -91,9 +91,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void AdvancedAlarm_WhenTurnedOff_CanAlertSecurityAgain()
         {
-            var sut = new AdvancedAlarm(_eventNotification, _sound);
+            var sut = new AdvancedAlarm(_events, _sound);
             var timesSecurityCalled = 0;
-            _eventNotification.Subscribe<PositionedAlertSecurityEvent>(e => timesSecurityCalled++);
+            _events.Subscribe<PositionedAlertSecurityEvent>(e => timesSecurityCalled++);
             sut.Trigger(new XY());
 
             sut.TurnOff();

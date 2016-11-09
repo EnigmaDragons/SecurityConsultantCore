@@ -11,14 +11,14 @@ namespace SecurityConsultantCore.Test.Security.Alarms
     [TestClass, ExcludeFromCodeCoverage]
     public class SilentAlarmTests
     {
-        private IEvents _eventNotification = new Events();
+        private readonly IEvents _events = new Events();
 
         [TestMethod]
         public void SilentAlarm_Triggered_FiresAlertEvent()
         {
-            var sut = new SilentAlarm(_eventNotification);
+            var sut = new SilentAlarm(_events);
             var alerted = false;
-            _eventNotification.Subscribe<AlertSecurityEvent>(e => alerted = true);
+            _events.Subscribe<AlertSecurityEvent>(e => alerted = true);
 
             sut.Trigger(new XY());
 
@@ -28,9 +28,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void SilentAlarm_Disarmed_TriggerDoesNothing()
         {
-            var sut = new SilentAlarm(_eventNotification);
+            var sut = new SilentAlarm(_events);
             var alerted = false;
-            _eventNotification.Subscribe<AlertSecurityEvent>(e => alerted = true);
+            _events.Subscribe<AlertSecurityEvent>(e => alerted = true);
 
             sut.Disarm();
             sut.Trigger(new XY());
@@ -41,9 +41,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void SilentAlarm_TriggeredMultipleTimes_OnlyCallsSecurityOnce()
         {
-            var sut = new SilentAlarm(_eventNotification);
+            var sut = new SilentAlarm(_events);
             var timesSecurityCalled = 0;
-            _eventNotification.Subscribe<AlertSecurityEvent>(e => timesSecurityCalled++);
+            _events.Subscribe<AlertSecurityEvent>(e => timesSecurityCalled++);
 
             foreach (var _ in Enumerable.Range(0, 5))
                 sut.Trigger(new XY());
@@ -54,9 +54,9 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         [TestMethod]
         public void SilentAlarm_WhenTurnedOff_CanAlertSecurityAgain()
         {
-            var sut = new SilentAlarm(_eventNotification);
+            var sut = new SilentAlarm(_events);
             var timesSecurityCalled = 0;
-            _eventNotification.Subscribe<AlertSecurityEvent>(e => timesSecurityCalled++);
+            _events.Subscribe<AlertSecurityEvent>(e => timesSecurityCalled++);
 
             sut.Trigger(new XY());
             sut.TurnOff();
