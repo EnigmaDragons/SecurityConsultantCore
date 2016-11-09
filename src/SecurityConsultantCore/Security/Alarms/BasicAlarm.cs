@@ -1,4 +1,5 @@
-﻿using SecurityConsultantCore.EngineInterfaces;
+﻿using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.EngineInterfaces;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
@@ -11,7 +12,7 @@ namespace SecurityConsultantCore.Security.Alarms
             _alarmSound = alarmSound;
         }
 
-        public void Trigger()
+        public void Trigger(XY _)
         {
             if (IsArmed)
                 _alarmSound.Play();

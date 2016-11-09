@@ -95,6 +95,7 @@
     <Compile Include="EngineInterfaces\ISound.cs" />
     <Compile Include="EngineInterfaces\IWorld.cs" />
     <Compile Include="EventSystem\Events.cs" />
+    <Compile Include="EventSystem\EventTypes\PositionedAlertSecurityEvent.cs" />
     <Compile Include="EventSystem\EventTypes\AlertSecurityEvent.cs" />
     <Compile Include="EventSystem\EventTypes\GameEndEvent.cs" />
     <Compile Include="EventSystem\EventTypes\GameStartEvent.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
     <Compile Include="Scoring\Criteria\BudgetCriteria.cs" />
+    <Compile Include="Scoring\Criteria\IncidentCriteria.cs" />
     <Compile Include="Scoring\Criteria\IScoringCriteria.cs" />
     <Compile Include="Scoring\Criteria\ValuablesCriteria.cs" />
     <Compile Include="Scoring\Score.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Security\Alarms\AlarmBase.cs" />
     <Compile Include="Security\Alarms\BasicAlarm.cs" />
     <Compile Include="Security\Alarms\IAlarm.cs" />
+    <Compile Include="Security\ControlPanel.cs" />
     <Compile Include="Security\Guards\Guard.cs" />
     <Compile Include="Security\Guards\IGuardBody.cs" />
     <Compile Include="Security\Alarms\AdvancedAlarm.cs" />
@@ -168,7 +171,9 @@
     <Compile Include="Thievery\ThiefDesires.cs" />
     <Compile Include="Thievery\ThiefTeam.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="EventSystem\Events\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

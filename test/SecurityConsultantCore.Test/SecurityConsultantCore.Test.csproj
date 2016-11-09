@@ -75,6 +75,7 @@
     <Compile Include="EventSystem\EventsTests.cs" />
     <Compile Include="Scoring\BudgetCriteriaTests.cs" />
     <Compile Include="Scoring\FakeCriteria.cs" />
+    <Compile Include="Scoring\IncidentCriteriaTests.cs" />
     <Compile Include="Scoring\ScoringTests.cs" />
     <Compile Include="Scoring\ValuablesCriteriaTests.cs" />
     <Compile Include="Thievery\IncidentsTests.cs" />

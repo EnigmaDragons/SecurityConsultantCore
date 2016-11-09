@@ -1,25 +1,31 @@
-﻿using SecurityConsultantCore.EventSystem;
+﻿﻿using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.EventSystem.EventTypes;
+﻿using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
     public class SilentAlarm : AlarmBase, IAlarm
     {
-        IEvents _eventNotification;
+        private readonly IEvents _eventNotification;
+        private bool _securityAlerted;
 
         public SilentAlarm(IEvents eventNotification)
         {
             _eventNotification = eventNotification;
         }
 
-        public void Trigger()
+        public void Trigger(XY _)
         {
-            if(IsArmed)
+            if(IsArmed && !_securityAlerted)
+            {
                 _eventNotification.Publish(new AlertSecurityEvent());
+                _securityAlerted = true;
+            }
         }
 
         public void TurnOff()
         {
+            _securityAlerted = false;
         }
     }
 }

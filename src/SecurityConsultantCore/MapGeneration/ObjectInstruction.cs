@@ -49,24 +49,26 @@ namespace SecurityConsultantCore.MapGeneration
                 throw new ArgumentException(
                     $"Invalid input string: '{arg}'. Expected format: 'objectname: (x, y, orientation)'");
 
-            var result = new List<ObjectInstruction>();
             var parts = arg.CleanAndSplit(':');
             var objectName = parts.First();
             var orientation = GetOrientation(parts);
             var placements = parts.Last().Split(';');
 
-            foreach (var placement in placements.Where(x => x.Length > 0))
-                if (IsRangeInstruction(placement))
-                    result.AddRange(GetRangeInstructions(objectName, placement, orientation));
-                else
-                    result.Add(new ObjectInstruction(objectName, GetXYOrientation(placement, orientation)));
-
-            return result;
+            return CreateInstructions(placements, objectName, orientation);
         }
 
         private static Orientation GetOrientation(string[] parts)
         {
             return parts.Count() > 2 ? Orientation.FromAbbreviation(parts[1]) : Orientation.None;
+        }
+
+        private static List<ObjectInstruction> CreateInstructions(string[] placements, string objectName, Orientation orientation)
+        {
+            return placements.Where(x => x.Length > 0)
+                .SelectMany(x => IsRangeInstruction(x)
+                    ? GetRangeInstructions(objectName, x, orientation)
+                    : new List<ObjectInstruction> { new ObjectInstruction(objectName, GetXYOrientation(x, orientation))})
+                .ToList();
         }
 
         private static XYOrientation GetXYOrientation(string placement, Orientation defaultOrientation)
