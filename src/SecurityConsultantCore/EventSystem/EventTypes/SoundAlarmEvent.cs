@@ -1,4 +1,4 @@
-﻿namespace SecurityConsultantCore.EventSystem.Events
+﻿namespace SecurityConsultantCore.EventSystem.EventTypes
 {
     public class AlarmSoundEvent
     {

@@ -1,21 +1,21 @@
 ﻿using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.Events;
+using SecurityConsultantCore.EventSystem.EventTypes;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
     public class SilentAlarm : AlarmBase, IAlarm
     {
-        IEventAggregator _eventAggregator;
+        IEvents _eventNotification;
 
-        public SilentAlarm(IEventAggregator eventAggregator)
+        public SilentAlarm(IEvents eventNotification)
         {
-            _eventAggregator = eventAggregator;
+            _eventNotification = eventNotification;
         }
 
         public void Trigger()
         {
             if(IsArmed)
-                _eventAggregator.Publish(new AlertSecurityEvent());
+                _eventNotification.Publish(new AlertSecurityEvent());
         }
 
         public void TurnOff()

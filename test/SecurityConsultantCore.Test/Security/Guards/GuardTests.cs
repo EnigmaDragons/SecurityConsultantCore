@@ -6,14 +6,14 @@ using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Security.Guards;
 using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.Events;
+using SecurityConsultantCore.EventSystem.EventTypes;
 
 namespace SecurityConsultantCore.Test.Security.Guards
 {
     [TestClass]
     public class GuardTests : IGuardBody
     {
-        private EventAggregator _eventAggregator;
+        private Events _eventNotification;
         private XYZ _startLocation;
         private Guard _guard;
         private List<Path> _traversePaths = new List<Path>();
@@ -22,9 +22,9 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestInitialize]
         public void Init()
         {
-            _eventAggregator = new EventAggregator();
+            _eventNotification = new Events();
             _startLocation = new XYZ(0, 0, 0);
-            _guard = new Guard(this, _startLocation, _eventAggregator);
+            _guard = new Guard(this, _startLocation, _eventNotification);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_WhereAreYou_IsStartingLocation()
         {
-            var currentLocation = new Guard(this, _startLocation, _eventAggregator).WhereAreYou();
+            var currentLocation = new Guard(this, _startLocation, _eventNotification).WhereAreYou();
 
             Assert.AreEqual(_startLocation, currentLocation);
         }
@@ -84,7 +84,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
             _maxTravelSegments = 1;
             var route = new PatrolRoute(new Path(new XYZ(0, 1, 0)));
             _guard.AssignPatrolRoute(route);
-            _eventAggregator.Publish(new GameStartEvent());
+            _eventNotification.Publish(new GameStartEvent());
 
             var currentLocation = _guard.WhereAreYou();
 

@@ -1,17 +1,17 @@
 ﻿using SecurityConsultantCore.EngineInterfaces;
 using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.Events;
+using SecurityConsultantCore.EventSystem.EventTypes;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
     public class AdvancedAlarm : AlarmBase, IAlarm
     {
-        private IEventAggregator _eventAggregator;
+        private IEvents _eventNotification;
         private ISound _alarmSound;
 
-        public AdvancedAlarm(IEventAggregator eventAggregator, ISound alarmSound)
+        public AdvancedAlarm(IEvents eventNotification, ISound alarmSound)
         {
-            _eventAggregator = eventAggregator;
+            _eventNotification = eventNotification;
             _alarmSound = alarmSound;
         }
 
@@ -19,7 +19,7 @@ namespace SecurityConsultantCore.Security.Alarms
         {
             if(IsArmed)
             {
-                _eventAggregator.Publish(new AlertSecurityEvent());
+                _eventNotification.Publish(new AlertSecurityEvent());
                 _alarmSound.Play();
             }
         }

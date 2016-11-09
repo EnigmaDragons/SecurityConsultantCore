@@ -9,12 +9,12 @@ namespace SecurityConsultantCore.Test.EventSystem
     public class EventTwo { }
 
     [TestClass, ExcludeFromCodeCoverage]
-    public class EventAggregatorTests
+    public class EventsTests
     {
         [TestMethod]
-        public void EventAggregator_OnPublish_SubscriberActionRun()
+        public void Events_OnPublish_SubscriberActionRun()
         {
-            var sut = new EventAggregator();
+            var sut = new Events();
             var didActionRun = false;
             sut.Subscribe<EventOne>(e => didActionRun = true);
 
@@ -24,9 +24,9 @@ namespace SecurityConsultantCore.Test.EventSystem
         }
 
         [TestMethod]
-        public void EventAggregator_OnPublishOneType_DoesNotPublishOtherTypes()
+        public void Events_OnPublishOneType_DoesNotPublishOtherTypes()
         {
-            var sut = new EventAggregator();
+            var sut = new Events();
             var actionOneFired = false;
             var actionTwoFired = false;
             sut.Subscribe<EventOne>(e => actionOneFired = true);
