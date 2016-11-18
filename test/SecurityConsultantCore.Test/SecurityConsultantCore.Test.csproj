@@ -70,22 +70,25 @@
     <Compile Include="Domain\FacilitySpaceTests.cs" />
     <Compile Include="Domain\ValuableFacilityObjectTests.cs" />
     <Compile Include="Domain\ValuablesContainerTests.cs" />
+    <Compile Include="EngineMocks\InMemoryWorld.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
-    <Compile Include="EventSystem\EventAggregatorTests.cs" />
+    <Compile Include="EventSystem\EventsTests.cs" />
     <Compile Include="PlayerCommands\BuildCommandTests.cs" />
     <Compile Include="PlayerCommands\EditCommandTests.cs" />
     <Compile Include="PlayerCommands\EraseCommandTests.cs" />
     <Compile Include="PlayerCommands\FakeEditable.cs" />
     <Compile Include="PlayerCommands\InspectCommandTests.cs" />
     <Compile Include="PlayerCommands\PlacementValidationTests.cs" />
+    <Compile Include="Scoring\BudgetCriteriaTests.cs" />
     <Compile Include="Scoring\FakeCriteria.cs" />
+    <Compile Include="Scoring\IncidentCriteriaTests.cs" />
     <Compile Include="Scoring\ScoringTests.cs" />
+    <Compile Include="Scoring\ValuablesCriteriaTests.cs" />
     <Compile Include="Thievery\IncidentsTests.cs" />
     <Compile Include="Interactors\SecurityPlacementValidatorTests.cs" />
     <Compile Include="MapGeneration\LayerBuilderTests.cs" />
     <Compile Include="MapGeneration\LayerInstructionTests.cs" />
     <Compile Include="MapGeneration\LinkInstructionTests.cs" />
-    <Compile Include="MapGeneration\MapAssemblerTests.cs" />
     <Compile Include="MapGeneration\MapInstructionTests.cs" />
     <Compile Include="MapGeneration\ObjectInstructionTests.cs" />
     <Compile Include="MapGeneration\PortalInstructionTests.cs" />
@@ -103,8 +106,11 @@
     <Compile Include="Security\Alarms\SilentAlarmTests.cs" />
     <Compile Include="Security\Alarms\AdvancedAlarmTests.cs" />
     <Compile Include="Security\ControlPanelTests.cs" />
-    <Compile Include="Thievery\IncidentTests.cs" />
+    <Compile Include="Thievery\ThiefTeamTests.cs" />
     <Compile Include="Thievery\ThiefTests.cs" />
+    <Compile Include="_TestDoubles\BodyDummy.cs" />
+    <Compile Include="_TestDoubles\SingleMemberThiefTeam.cs" />
+    <Compile Include="_TestDoubles\ThiefTeamFactoryStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\SecurityConsultantCore\SecurityConsultantCore.csproj">

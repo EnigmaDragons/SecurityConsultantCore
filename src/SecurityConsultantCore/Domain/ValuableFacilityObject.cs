@@ -28,12 +28,13 @@ namespace SecurityConsultantCore.Domain
             Value = obj.Value;
             Publicity = obj.Publicity;
             Liquidity = obj.Liquidity;
+            Name = obj.Name;
             base.LinkTo(obj);
         }
 
         protected bool Equals(ValuableFacilityObject other)
         {
-            return base.Equals(other) && string.Equals(Id, other.Id);
+            return base.Equals(other) && string.Equals(Id, other.Id) && string.Equals(Name, other.Name);
         }
 
         public override bool Equals(object obj)

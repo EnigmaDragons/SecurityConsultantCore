@@ -4,6 +4,7 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Pathfinding;
+using SecurityConsultantCore.Test.EngineMocks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +13,7 @@ namespace SecurityConsultantCore.Test.Pathfinding
     [TestClass]
     public class PatrolRouteProposalTests
     {
-        private readonly FacilityMap _map = new FacilityMap();
+        private readonly FacilityMap _map = new FacilityMap(new InMemoryWorld());
         private readonly FacilityObject _obstacle = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Not none" };
 
         private FacilityLayer _layer;

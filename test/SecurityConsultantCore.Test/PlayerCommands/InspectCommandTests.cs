@@ -5,6 +5,7 @@ using SecurityConsultantCore.PlayerCommands;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
@@ -20,7 +21,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestInitialize]
         public void Init()
         {
-            map = new FacilityMap();
+            map = new FacilityMap(new InMemoryWorld());
             layer = new FacilityLayer(2, 2);
             map.Add(layer);
         }

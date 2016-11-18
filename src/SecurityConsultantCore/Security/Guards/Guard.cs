@@ -3,7 +3,7 @@ using System.Linq;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.Events;
+using SecurityConsultantCore.EventSystem.EventTypes;
 
 namespace SecurityConsultantCore.Security.Guards
 {
@@ -16,11 +16,11 @@ namespace SecurityConsultantCore.Security.Guards
         private List<Path> _patrolSegments = new List<Path>();
         private bool _isDone;
 
-        public Guard(IGuardBody guard, XYZ startLocation, IEventAggregator eventAggregator)
+        public Guard(IGuardBody guard, XYZ startLocation, IEvents eventNotification)
         {
             _guard = guard;
             _currentLocation = startLocation;
-            eventAggregator.Subscribe<GameStartEvent>(start => Go());
+            eventNotification.Subscribe<GameStartEvent>(start => Go());
         }
 
         public void AssignPatrolRoute(PatrolRoute route)

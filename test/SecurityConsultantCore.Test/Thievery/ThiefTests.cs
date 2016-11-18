@@ -5,19 +5,21 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Thievery;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.Thievery
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class ThiefTests : IBody
+    public class ThiefTests : SimpleObserver<IEnumerable<IValuable>>, IBody
     {
-        private readonly FacilityMap _map = new FacilityMap();
+        private readonly FacilityMap _map = new FacilityMap(new InMemoryWorld());
         private readonly ValuableFacilityObject _upFacingValuable = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name" };
         private readonly ValuableFacilityObject _valuable2 = new ValuableFacilityObject { ObjectLayer = ObjectLayer.UpperObject, Orientation = Orientation.Up, Type = "Unique Name2" };
         private readonly FacilityObject _obstacle = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Not none" };
@@ -37,6 +39,7 @@ namespace SecurityConsultantCore.Test.Thievery
         public void Init()
         {
             _thief = new Thief(this, _map);
+            _thief.Subscribe(this);
             var builder = new LayerBuilder(3, 3);
             builder.PutFloor(new XY(0, 0), new XY(2, 2));
             AddPortals(builder);
@@ -168,6 +171,27 @@ namespace SecurityConsultantCore.Test.Thievery
             PerformRobbery();
 
             Assert.AreEqual(new XYZ(1, 1, 0), _traversedPaths.First().Last());
+        }
+
+        [TestMethod]
+        public void Thief_Steal_ObjectNoLongerInOriginalSpace()
+        {
+            _layer[0, 0].Put(_upFacingValuable);
+
+            PerformRobbery();
+
+            Assert.AreEqual("None", _layer[0, 0].UpperObject.Type);
+        }
+
+        [TestMethod]
+        public void Thief_WhatDidYouSteal_IsCorrect()
+        {
+            _layer[0, 0].Put(_upFacingValuable);
+
+            PerformRobbery();
+
+            Assert.AreEqual(1, UpdateCount);
+            Assert.AreEqual(_upFacingValuable, LastUpdate.First());
         }
 
         private void AddPortals(LayerBuilder builder)

@@ -2,6 +2,7 @@
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
@@ -11,7 +12,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void BuildCommand_Build_ObjectPlaced()
         {
-            var map = new FacilityMap();
+            var map = new FacilityMap(new InMemoryWorld());
             map.Add(new FacilityLayer(3, 3));
             var securityObj = new SecurityObject { ObjectLayer = ObjectLayer.LowerObject };
             var command = new BuildCommand(map, securityObj, new XYZ(0, 0, 0));

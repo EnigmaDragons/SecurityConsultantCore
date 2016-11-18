@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SecurityConsultantCore.EventSystem
 {
-    public class EventAggregator : IEventAggregator
+    public class Events : IEvents
     {
         Dictionary<Type, List<object>> _subscriptions = new Dictionary<Type, List<object>>();
 

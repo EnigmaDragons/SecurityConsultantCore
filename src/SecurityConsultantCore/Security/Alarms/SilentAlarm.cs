@@ -1,25 +1,31 @@
-﻿using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.Events;
+﻿﻿using SecurityConsultantCore.EventSystem;
+using SecurityConsultantCore.EventSystem.EventTypes;
+﻿using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
     public class SilentAlarm : AlarmBase, IAlarm
     {
-        IEventAggregator _eventAggregator;
+        private readonly IEvents _events;
+        private bool _securityAlerted;
 
-        public SilentAlarm(IEventAggregator eventAggregator)
+        public SilentAlarm(IEvents events)
         {
-            _eventAggregator = eventAggregator;
+            _events = events;
         }
 
-        public void Trigger()
+        public void Trigger(XY _)
         {
-            if(IsArmed)
-                _eventAggregator.Publish(new AlertSecurityEvent());
+            if(IsArmed && !_securityAlerted)
+            {
+                _events.Publish(new AlertSecurityEvent());
+                _securityAlerted = true;
+            }
         }
 
         public void TurnOff()
         {
+            _securityAlerted = false;
         }
     }
 }

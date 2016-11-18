@@ -2,12 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.EngineInterfaces;
+using SecurityConsultantCore.MapGeneration;
+using SecurityConsultantCore.Factories;
+using SecurityConsultantCore.Common;
 
 namespace SecurityConsultantCore.Domain
 {
     public class FacilityMap : IEnumerable<ZLocation<FacilityLayer>>
     {
         private readonly List<FacilityLayer> _layers = new List<FacilityLayer>();
+        private readonly IWorld _world;
+
+        public FacilityMap(IWorld world, MapInstruction inst)
+        {
+            _world = world;
+            inst.Layers.ForEach(x => Add(LayerBuilder.Assemble(x)));
+            inst.Portals.ForEach(x => this[x.Location].Put(PortalFactory.Create(x)));
+        }
+
+        public FacilityMap(IWorld world)
+        {
+            _world = world;
+        }
 
         public int LayerCount => _layers.Count;
 
@@ -57,12 +74,18 @@ namespace SecurityConsultantCore.Domain
 
         public bool Exists(XYZ xyz)
         {
-            return IsInZBounds(xyz) && _layers[xyz.Z].Exists((XY)xyz);
+            return IsInZBounds(xyz) && _layers[xyz.Z].Exists(xyz);
         }
 
         private bool IsInZBounds(XYZ xyz)
         {
             return xyz.Z >= 0 && _layers.Count > xyz.Z;
+        }
+
+        public void ShowLayer(int layer)
+        {
+            _world.HideEverything();
+            _layers[layer].ForEach(space => _world.Show(space.Obj, new XYZ(space.Location, layer)));
         }
     }
 }

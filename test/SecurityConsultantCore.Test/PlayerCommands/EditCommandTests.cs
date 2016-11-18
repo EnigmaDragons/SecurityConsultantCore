@@ -2,6 +2,7 @@
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
@@ -14,7 +15,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestInitialize]
         public void Init()
         {
-            _map = new FacilityMap();
+            _map = new FacilityMap(new InMemoryWorld());
             _layer = new FacilityLayer(2, 2);
             _map.Add(_layer);
         }
@@ -22,7 +23,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void EditCommand_GoWithNoObjectOnSpace_NothingHappens()
         {
-            var command = new EditCommand(new FacilityMap(), new XYZ(1, 1, 1), this);
+            var command = new EditCommand(new FacilityMap(new InMemoryWorld()), new XYZ(1, 1, 1), this);
 
             command.Go();
         }

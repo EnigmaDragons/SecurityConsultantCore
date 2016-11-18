@@ -26,28 +26,24 @@ namespace SecurityConsultantCore.MapGeneration
                 throw new ArgumentException("Layer size not found.");
 
             var size = GetSize(lines.Single(x => x.Contains("Layer") && x.Contains("Size=")));
-
-            var rooms = new List<RoomInstruction>();
             var links = lines.Where(x => x.StartsWith("Link:")).Select(GetLinkInstruction).ToList();
+            return new LayerInstruction(size, CreateRoomInstructions(lines), links);
+        }
 
-            var foundFirstRoom = false;
+        private static List<RoomInstruction> CreateRoomInstructions(List<string> lines)
+        {
+            var roomLines = new List<List<string>>();
             var currentLines = new List<string>();
             foreach (var line in lines.Where(x => !x.StartsWith("Link:")))
             {
                 if (line.StartsWith("Room"))
                 {
-                    if (foundFirstRoom)
-                        rooms.Add(RoomInstruction.FromStrings(currentLines));
-                    else
-                        foundFirstRoom = true;
-                    currentLines.Clear();
+                    currentLines = new List<string>();
+                    roomLines.Add(currentLines);
                 }
                 currentLines.Add(line);
             }
-            if (foundFirstRoom)
-                rooms.Add(RoomInstruction.FromStrings(currentLines));
-
-            return new LayerInstruction(size, rooms, links);
+            return roomLines.Select(RoomInstruction.FromStrings).ToList();
         }
 
         private static LinkInstruction GetLinkInstruction(string arg)

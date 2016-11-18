@@ -5,6 +5,7 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Factories;
 using SecurityConsultantCore.MapGeneration;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.MapGeneration
 {
@@ -302,7 +303,7 @@ namespace SecurityConsultantCore.Test.MapGeneration
 
         private FacilityMap CreateEmptyMap()
         {
-            var map = new FacilityMap();
+            var map = new FacilityMap(new InMemoryWorld());
             _layer = new FacilityLayer(3, 3);
             map.Add(_layer);
             return map;

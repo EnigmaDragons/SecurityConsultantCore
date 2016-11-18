@@ -2,6 +2,7 @@
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
@@ -11,7 +12,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void EraseCommand_EraseSecurityObjectAtLocation()
         {
-            var map = new FacilityMap();
+            var map = new FacilityMap(new InMemoryWorld());
             map.Add(new FacilityLayer(1, 1));
             map[0, 0, 0].Put(new SecurityObject { ObjectLayer = ObjectLayer.LowerObject });
             var command = new EraseCommand(map, new XYZ(0, 0, 0));

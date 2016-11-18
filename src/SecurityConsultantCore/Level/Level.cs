@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SecurityConsultantCore.EventSystem.Events
+namespace SecurityConsultantCore.Level
 {
-    public class AlertSecurityEvent
+    class Level
     {
     }
 }

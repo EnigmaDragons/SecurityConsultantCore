@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.Common;
 
 namespace SecurityConsultantCore.Test.Domain
 {
@@ -164,6 +165,75 @@ namespace SecurityConsultantCore.Test.Domain
             space.Remove(ObjectLayer.Ground);
 
             Assert.AreEqual("None", space.Ground.Type);
+        }
+
+        [TestMethod]
+        public void FacilitySpace_ObjectPlaced_ObserverNotified()
+        {
+            var space = new FacilitySpace();
+            var obs = new SimpleObserver<FacilitySpace>();
+            var obj = new FacilityObject { Type = "Floor", ObjectLayer = ObjectLayer.Ground };
+            space.Subscribe(obs);
+
+            space.Put(obj);
+
+            Assert.AreEqual(space, obs.LastUpdate);
+        }
+
+        [TestMethod]
+        public void FacilitySpace_RemoveFacilityObject_ObserverNotified()
+        {
+            var space = new FacilitySpace();
+            var obs = new SimpleObserver<FacilitySpace>();
+            var obj = new FacilityObject { Type = "Floor", ObjectLayer = ObjectLayer.Ground };
+            space.Put(obj);
+            space.Subscribe(obs);
+
+            space.Remove(obj);
+
+            Assert.AreEqual(space, obs.LastUpdate);
+        }
+
+        [TestMethod]
+        public void FacilitySpace_RemoveObjectLayer_ObserverNotified()
+        {
+            var space = new FacilitySpace();
+            var obs = new SimpleObserver<FacilitySpace>();
+            var obj = new FacilityObject { Type = "Floor", ObjectLayer = ObjectLayer.Ground };
+            space.Put(obj);
+            space.Subscribe(obs);
+
+            space.Remove(ObjectLayer.Ground);
+
+            Assert.AreEqual(space, obs.LastUpdate);
+        }
+
+        [TestMethod]
+        public void FacilitySpace_RemoveValuable_ObserverNotified()
+        {
+            var space = new FacilitySpace();
+            var obs = new SimpleObserver<FacilitySpace>();
+            var valuable = new ValuableFacilityObject { Type = "Vase", ObjectLayer = ObjectLayer.LowerObject };
+            space.Put(valuable);
+            space.Subscribe(obs);
+
+            space.Remove((IValuable)valuable);
+
+            Assert.AreEqual(space, obs.LastUpdate);
+        }
+
+        [TestMethod]
+        public void FacilitySpace_NoValuableRemoved_ObserverNotNotified()
+        {
+            var space = new FacilitySpace();
+            var obs = new SimpleObserver<FacilitySpace>();
+            var obj = new FacilityObject { Type = "Floor", ObjectLayer = ObjectLayer.Ground };
+            space.Put(obj);
+            space.Subscribe(obs);
+
+            space.Remove(new FacilityObject { Type = "Door" });
+
+            Assert.AreEqual(0, obs.UpdateCount);
         }
 
         private FacilityObject CreatePortal(string portalType)

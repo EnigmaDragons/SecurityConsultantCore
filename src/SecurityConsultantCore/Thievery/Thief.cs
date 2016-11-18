@@ -7,7 +7,7 @@ using SecurityConsultantCore.Pathfinding;
 
 namespace SecurityConsultantCore.Thievery
 {
-    public class Thief
+    public class Thief : ObservedBase<IEnumerable<IValuable>>
     {
         private readonly IBody _thiefBody;
         private readonly IDesires _desires;
@@ -16,6 +16,7 @@ namespace SecurityConsultantCore.Thievery
 
         private int ItemsRemaining { get; set; }
         private XYZ CurrentLocation { get; set; }
+        private List<IValuable> StolenItems { get; } = new List<IValuable>();
 
         public Thief(IBody thiefBody, FacilityMap map) : this(thiefBody, map, new ThiefDesires(map.SpatialValuables)) {}
 
@@ -67,6 +68,7 @@ namespace SecurityConsultantCore.Thievery
         private void Exit()
         {
             _thiefBody.BeginMove(GetExitPath(), () => _thiefBody.Exit());
+            NotifySubscribers(StolenItems);
         }
 
         private Path GetExitPath()
@@ -113,6 +115,7 @@ namespace SecurityConsultantCore.Thievery
             if (IsFacilityValuable(valuable))
                 _thiefBody.StealAt(valuable);
             _map.Remove(valuable.Obj);
+            StolenItems.Add(valuable.Obj);
         }
 
         private bool IsFacilityValuable(SpatialValuable valuable)

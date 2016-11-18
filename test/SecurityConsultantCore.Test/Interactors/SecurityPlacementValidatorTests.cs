@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Interactors;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.Interactors
 {
@@ -163,7 +164,7 @@ namespace SecurityConsultantCore.Test.Interactors
 
         private FacilityMap CreateSampleMap(FacilitySpace facilitySpace)
         {
-            var map = new FacilityMap();
+            var map = new FacilityMap(new InMemoryWorld());
             var layer = new FacilityLayer();
             layer.Put(0, 0, facilitySpace);
             map.Add(layer);

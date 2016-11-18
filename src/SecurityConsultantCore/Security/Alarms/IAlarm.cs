@@ -1,11 +1,10 @@
-﻿namespace SecurityConsultantCore.Security.Alarms
+﻿using SecurityConsultantCore.Domain.Basic;
+
+namespace SecurityConsultantCore.Security.Alarms
 {
-    public interface IAlarm
+    public interface IAlarm : IArmable
     {
-        bool IsArmed { get; }
-        void Arm();
-        void Disarm();
-        void Trigger();
+        void Trigger(XY triggerPosition);
         void TurnOff();
     }
 }

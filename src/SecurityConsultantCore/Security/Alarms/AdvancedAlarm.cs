@@ -1,32 +1,36 @@
-﻿using SecurityConsultantCore.EngineInterfaces;
+﻿using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.EngineInterfaces;
 using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.Events;
+using SecurityConsultantCore.EventSystem.EventTypes;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
     public class AdvancedAlarm : AlarmBase, IAlarm
     {
-        private IEventAggregator _eventAggregator;
-        private ISound _alarmSound;
+        private readonly IEvents _events;
+        private readonly ISound _alarmSound;
+        private bool _securityAlerted;
 
-        public AdvancedAlarm(IEventAggregator eventAggregator, ISound alarmSound)
+        public AdvancedAlarm(IEvents events, ISound alarmSound)
         {
-            _eventAggregator = eventAggregator;
+            _events = events;
             _alarmSound = alarmSound;
         }
 
-        public void Trigger()
+        public void Trigger(XY triggerLocation)
         {
-            if(IsArmed)
+            if(IsArmed && !_securityAlerted)
             {
-                _eventAggregator.Publish(new AlertSecurityEvent());
+                _events.Publish(new PositionedAlertSecurityEvent(triggerLocation));
                 _alarmSound.Play();
+                _securityAlerted = true;
             }
         }
 
         public void TurnOff()
         {
             _alarmSound.Stop();
+            _securityAlerted = false;
         }
     }
 }

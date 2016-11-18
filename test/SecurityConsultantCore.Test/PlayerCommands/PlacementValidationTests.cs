@@ -2,6 +2,7 @@
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
@@ -11,7 +12,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void PlacementValidation_PlaceOffMap_Invalid()
         {
-            var validation = new PlacementValidation(new FacilityMap(), new SecurityObject(), SpecialLocation.OffOfMap);
+            var validation = new PlacementValidation(new FacilityMap(new InMemoryWorld()), new SecurityObject(), SpecialLocation.OffOfMap);
 
             var isValid = validation.Check();
 
@@ -44,7 +45,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
 
         private FacilityMap CreateMap()
         {
-            var map = new FacilityMap();
+            var map = new FacilityMap(new InMemoryWorld());
             map.Add(new FacilityLayer(1, 1));
             return map;
         }
