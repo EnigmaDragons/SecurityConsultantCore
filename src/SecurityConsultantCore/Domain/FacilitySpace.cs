@@ -38,6 +38,7 @@ namespace SecurityConsultantCore.Domain
         public IEnumerable<FacilityPortal> Portals => GetAll().OfType<FacilityPortal>();
         public IEnumerable<ValuablesContainer> FacilityContainers => GetAll().OfType<ValuablesContainer>();
         public IEnumerable<Oriented<IValuable>> OrientedValuables => Valuables.Select(AsOriented);
+        public IEnumerable<ValuableFacilityObject> FacilityValuables => GetAll().OfType<ValuableFacilityObject>();
 
         private Oriented<IValuable> AsOriented(IValuable valuable)
         {

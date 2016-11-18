@@ -72,6 +72,12 @@
     <Compile Include="Domain\ValuablesContainerTests.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="EventSystem\EventAggregatorTests.cs" />
+    <Compile Include="PlayerCommands\BuildCommandTests.cs" />
+    <Compile Include="PlayerCommands\EditCommandTests.cs" />
+    <Compile Include="PlayerCommands\EraseCommandTests.cs" />
+    <Compile Include="PlayerCommands\FakeEditable.cs" />
+    <Compile Include="PlayerCommands\InspectCommandTests.cs" />
+    <Compile Include="PlayerCommands\PlacementValidationTests.cs" />
     <Compile Include="Scoring\FakeCriteria.cs" />
     <Compile Include="Scoring\ScoringTests.cs" />
     <Compile Include="Thievery\IncidentsTests.cs" />
