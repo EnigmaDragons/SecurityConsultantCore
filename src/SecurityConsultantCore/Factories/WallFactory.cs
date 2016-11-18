@@ -97,7 +97,7 @@ namespace SecurityConsultantCore.Factories
 
         private static FacilityObject Create(string type, Orientation orientation)
         {
-            return new StructureObject {Type = type, Orientation = orientation, ObjectLayer = ObjectLayer.LowerObject};
+            return new StructureObject {Type = type, Orientation = orientation };
         }
 
         public static List<string> GetConstructables()

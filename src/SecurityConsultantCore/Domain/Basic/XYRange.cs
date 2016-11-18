@@ -15,10 +15,10 @@ namespace SecurityConsultantCore.Domain.Basic
             _end = end;
         }
 
-        public int MinX => Math.Min(_start.X, _end.X);
-        public int MaxX => Math.Max(_start.X, _end.X);
-        public int MinY => Math.Min(_start.Y, _end.Y);
-        public int MaxY => Math.Max(_start.Y, _end.Y);
+        public double MinX => Math.Min(_start.X, _end.X);
+        public double MaxX => Math.Max(_start.X, _end.X);
+        public double MinY => Math.Min(_start.Y, _end.Y);
+        public double MaxY => Math.Max(_start.Y, _end.Y);
 
         public IEnumerator<XY> GetEnumerator()
         {

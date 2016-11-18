@@ -23,7 +23,7 @@ namespace SecurityConsultantCore.Domain
 
         public static FacilityPortal FromObject(FacilityObject obj)
         {
-            return new FacilityPortal {Type = obj.Type, ObjectLayer = obj.ObjectLayer, Orientation = obj.Orientation};
+            return new FacilityPortal {Type = obj.Type, Size = obj.Size, Orientation = obj.Orientation};
         }
     }
 }

@@ -45,9 +45,9 @@ namespace SecurityConsultantCore.Factories
             {
                 return new Dictionary<string, FacilityPortal>
                 {
-                    { "Door", new FacilityPortal {Type = "Door", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "Window", new FacilityPortal {Type = "Window", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "StairsDown", new FacilityPortal {Type = "StairsDown", ObjectLayer = ObjectLayer.LowerObject} },
+                    { "Door", new FacilityPortal {Type = "Door" } },
+                    { "Window", new FacilityPortal {Type = "Window" } },
+                    { "StairsDown", new FacilityPortal {Type = "StairsDown" } },
                 };
             }
         }

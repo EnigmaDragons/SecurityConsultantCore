@@ -6,11 +6,11 @@ namespace SecurityConsultantCore.Domain.Basic
 {
     public class XYOrientation : XY
     {
-        public XYOrientation(int x, int y) : this(x, y, Orientation.None)
+        public XYOrientation(double x, double y) : this(x, y, Orientation.None)
         {
         }
 
-        public XYOrientation(int x, int y, Orientation orientation) : base(x, y)
+        public XYOrientation(double x, double y, Orientation orientation) : base(x, y)
         {
             Orientation = orientation;
         }

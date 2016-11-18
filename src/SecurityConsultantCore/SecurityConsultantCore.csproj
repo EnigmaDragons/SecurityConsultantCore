@@ -79,7 +79,6 @@
     <Compile Include="Domain\FacilityObject.cs" />
     <Compile Include="Domain\FacilityObjectNames.cs" />
     <Compile Include="Domain\FacilityPortal.cs" />
-    <Compile Include="Domain\FacilitySpace.cs" />
     <Compile Include="Domain\IPortals.cs" />
     <Compile Include="Domain\IValuable.cs" />
     <Compile Include="Domain\Liquidity.cs" />

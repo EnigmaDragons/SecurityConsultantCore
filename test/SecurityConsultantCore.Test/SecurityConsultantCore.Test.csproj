@@ -65,10 +65,7 @@
     <Compile Include="Domain\Basic\XYZWTests.cs" />
     <Compile Include="Domain\FacilityLayerTests.cs" />
     <Compile Include="Domain\FacilityMapTests.cs" />
-    <Compile Include="Domain\FacilityObjectTests.cs" />
     <Compile Include="Domain\FacilityPortalTests.cs" />
-    <Compile Include="Domain\FacilitySpaceTests.cs" />
-    <Compile Include="Domain\ValuableFacilityObjectTests.cs" />
     <Compile Include="Domain\ValuablesContainerTests.cs" />
     <Compile Include="EngineMocks\InMemoryWorld.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />

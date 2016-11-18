@@ -11,14 +11,17 @@ namespace SecurityConsultantCore.Domain.Basic
         {
         } //For Serialization
 
-        public XY(int x, int y)
+        public XY(double x, double y)
         {
             X = x;
             Y = y;
         }
 
-        public int X { get; }
-        public int Y { get; }
+        public double X { get; }
+        public double Y { get; }
+
+        public int XInt => (int)X;
+        public int YInt => (int)Y;
 
         public override string ToString()
         {
@@ -42,7 +45,7 @@ namespace SecurityConsultantCore.Domain.Basic
         {
             unchecked
             {
-                return (X*397) ^ Y;
+                return ((int)X*397) ^ (int)Y;
             }
         }
 

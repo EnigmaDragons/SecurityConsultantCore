@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using SecurityConsultantCore.Common;
+﻿using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.Domain.Basic;
+using System;
+using System.Collections.Generic;
 
 namespace SecurityConsultantCore.Factories
 {
@@ -42,7 +41,6 @@ namespace SecurityConsultantCore.Factories
                             new ValuableFacilityObject { Type = "Painting" + Rng(1, 11),
                                 Name = "Painting",
                                 Value = Rng(200, 3000),
-                                ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
                                 Publicity = Publicity.Famous
                             }
@@ -55,7 +53,6 @@ namespace SecurityConsultantCore.Factories
                                 Type = "Table",
                                 Name = "An Ordinary Table",
                                 Value = Rng(50, 150),
-                                ObjectLayer = ObjectLayer.LowerObject,
                                 Liquidity = Liquidity.Medium,
                                 Publicity = Publicity.Obvious
                             }
@@ -68,7 +65,6 @@ namespace SecurityConsultantCore.Factories
                                 Type = "PaintingWideLeft1",
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
-                                ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
                                 Publicity = Publicity.Famous
                             }
@@ -81,7 +77,6 @@ namespace SecurityConsultantCore.Factories
                                 Type = "PaintingWideRight1",
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
-                                ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
                                 Publicity = Publicity.Famous
                             }
@@ -94,7 +89,6 @@ namespace SecurityConsultantCore.Factories
                                 Type = "PaintingWideLeft2",
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
-                                ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
                                 Publicity = Publicity.Famous
                             }
@@ -107,7 +101,6 @@ namespace SecurityConsultantCore.Factories
                                 Type = "PaintingWideRight2",
                                 Name = "Large Painting",
                                 Value = Rng(800, 6000),
-                                ObjectLayer = ObjectLayer.UpperObject,
                                 Liquidity = Liquidity.Low,
                                 Publicity = Publicity.Famous
                             }
@@ -120,7 +113,6 @@ namespace SecurityConsultantCore.Factories
                                 Type = "GarbageBin",
                                 Name = "One Man's Trash Can",
                                 Value = Rng(5, 15),
-                                ObjectLayer = ObjectLayer.LowerObject,
                                 Liquidity = Liquidity.Low,
                                 Publicity = Publicity.Confidential
                             }

@@ -8,7 +8,7 @@ namespace SecurityConsultantCore.Domain.Basic
         {
         }
 
-        public XYZOriented(int x, int y, int z, Orientation w, T obj) : base(x, y, z, w)
+        public XYZOriented(double x, double y, int z, Orientation w, T obj) : base(x, y, z, w)
         {
             Obj = obj;
         }

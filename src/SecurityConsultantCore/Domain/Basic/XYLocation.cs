@@ -10,7 +10,7 @@
 
         public XY Location { get; }
         public T Obj { get; private set; }
-        public int X => Location.X;
-        public int Y => Location.Y;
+        public double X => Location.X;
+        public double Y => Location.Y;
     }
 }

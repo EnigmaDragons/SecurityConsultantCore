@@ -9,7 +9,7 @@ namespace SecurityConsultantCore.Domain.Basic
             W = w;
         }
 
-        public XYZW(int x, int y, int z, T w) : base(x, y, z)
+        public XYZW(double x, double y, int z, T w) : base(x, y, z)
         {
             W = w;
         }

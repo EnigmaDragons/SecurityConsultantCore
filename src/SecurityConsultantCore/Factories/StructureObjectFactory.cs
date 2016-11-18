@@ -34,15 +34,15 @@ namespace SecurityConsultantCore.Factories
             {
                 return new Dictionary<string, FacilityObject>
                 {
-                    { "Floor", new FacilityObject {Type = "Floor", ObjectLayer = ObjectLayer.Ground} },
-                    { "Toilet", new FacilityObject {Type = "Toilet", ObjectLayer = ObjectLayer.LowerObject} },
-                    { "Sink", new FacilityObject {Type = "Sink", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "TowelDispenser", new FacilityObject {Type = "TowelDispenser", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "SmallMirror", new FacilityObject {Type = "SmallMirror", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "Door", new FacilityPortal {Type = "Door", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "Window", new FacilityPortal {Type = "Window", ObjectLayer = ObjectLayer.UpperObject} },
-                    { "StairsDown", new FacilityPortal {Type = "StairsDown", ObjectLayer = ObjectLayer.LowerObject} },
-                    { "SlopedFloor", new FacilityObject {Type = "SlopedFloor", ObjectLayer = ObjectLayer.Ground} }
+                    { "Floor", new FacilityObject {Type = "Floor" } },
+                    { "Toilet", new FacilityObject {Type = "Toilet" } },
+                    { "Sink", new FacilityObject {Type = "Sink" } },
+                    { "TowelDispenser", new FacilityObject {Type = "TowelDispenser" } },
+                    { "SmallMirror", new FacilityObject {Type = "SmallMirror" } },
+                    { "Door", new FacilityPortal {Type = "Door" } },
+                    { "Window", new FacilityPortal {Type = "Window" } },
+                    { "StairsDown", new FacilityPortal {Type = "StairsDown" } },
+                    { "SlopedFloor", new FacilityObject {Type = "SlopedFloor" } }
                 };
             }
         }

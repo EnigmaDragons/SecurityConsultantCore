@@ -15,8 +15,8 @@
 
         public XYZObjectLayer Location { get; }
         public T Obj { get; }
-        public int X => Location.X;
-        public int Y => Location.Y;
+        public double X => Location.X;
+        public double Y => Location.Y;
         public int Z => Location.Z;
         public ObjectLayer Layer => Location.W;
 

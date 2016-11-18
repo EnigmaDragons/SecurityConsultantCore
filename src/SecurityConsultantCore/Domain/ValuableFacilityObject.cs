@@ -11,27 +11,6 @@ namespace SecurityConsultantCore.Domain
         public Liquidity Liquidity { get; set; } = Liquidity.Low;
         public string[] Traits { get; set; } = new string[0];
 
-        public override void LinkTo(FacilityObject obj)
-        {
-            if (obj is ValuableFacilityObject)
-            {
-                LinkTo((ValuableFacilityObject) obj);
-                return;
-            }
-
-            base.LinkTo(obj);
-        }
-
-        public void LinkTo(ValuableFacilityObject obj)
-        {
-            Id = obj.Id;
-            Value = obj.Value;
-            Publicity = obj.Publicity;
-            Liquidity = obj.Liquidity;
-            Name = obj.Name;
-            base.LinkTo(obj);
-        }
-
         protected bool Equals(ValuableFacilityObject other)
         {
             return base.Equals(other) && string.Equals(Id, other.Id) && string.Equals(Name, other.Name);

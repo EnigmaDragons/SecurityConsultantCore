@@ -50,7 +50,7 @@ namespace SecurityConsultantCore.Pathfinding
             return new XY(start.X*3 + 1, start.Y*3 + 1);
         }
 
-        private int GetContractedCoordinate(int x)
+        private int GetContractedCoordinate(double x)
         {
             return (int) Math.Floor((double) x/3);
         }

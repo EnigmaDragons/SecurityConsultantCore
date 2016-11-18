@@ -34,8 +34,8 @@ namespace SecurityConsultantCore.Factories
             {
                 return new Dictionary<string, SecurityObject>
                 {
-                    { "FloorPressurePlate", new SecurityObject { Type = "FloorPressurePlate", Cost = 1000, ObjectLayer = ObjectLayer.GroundPlaceable, Traits = new[] {"OpenSpace"} } },
-                    { "BatonSecurityGuard", new SecurityObject { Type = "BatonSecurityGuard", Cost = 1500, ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] {"OpenSpace"} } }
+                    { "FloorPressurePlate", new SecurityObject { Type = "FloorPressurePlate", Cost = 1000, Traits = new[] {"OpenSpace"} } },
+                    { "BatonSecurityGuard", new SecurityObject { Type = "BatonSecurityGuard", Cost = 1500, Traits = new[] {"OpenSpace"} } }
                 };
             }
         }

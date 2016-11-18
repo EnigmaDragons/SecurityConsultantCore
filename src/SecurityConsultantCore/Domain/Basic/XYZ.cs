@@ -13,7 +13,7 @@ namespace SecurityConsultantCore.Domain.Basic
             Z = z;
         }
 
-        public XYZ(int x, int y, int z) : base(x, y)
+        public XYZ(double x, double y, int z) : base(x, y)
         {
             Z = z;
         }
