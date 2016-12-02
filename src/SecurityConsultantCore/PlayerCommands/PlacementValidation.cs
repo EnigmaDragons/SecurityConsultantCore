@@ -8,9 +8,9 @@ namespace SecurityConsultantCore.PlayerCommands
     {
         private FacilityMap _map;
         private XYZ _location;
-        private SecurityObject _securityObject;
+        private SecurityObjectBase _securityObject;
 
-        public PlacementValidation(FacilityMap map, SecurityObject securityObject, XYZ location)
+        public PlacementValidation(FacilityMap map, SecurityObjectBase securityObject, XYZ location)
         {
             _map = map;
             _securityObject = securityObject;

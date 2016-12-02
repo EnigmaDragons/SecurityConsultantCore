@@ -8,7 +8,7 @@ namespace SecurityConsultantCore.Factories
     {
         private static SecurityObjectContainer _container;
 
-        public static SecurityObject Create(string type)
+        public static SecurityObjectBase Create(string type)
         {
             return GetContainer().Create(type);
         }
@@ -23,20 +23,16 @@ namespace SecurityConsultantCore.Factories
             return _container ?? (_container = new SecurityObjectContainer());
         }
 
-        private class SecurityObjectContainer : Container<SecurityObject>
+        private class SecurityObjectContainer : Container<SecurityObjectBase>
         {
             protected override string GetKey(string id)
             {
                 return id;
             }
 
-            protected override Dictionary<string, SecurityObject> GetObjects()
+            protected override Dictionary<string, SecurityObjectBase> GetObjects()
             {
-                return new Dictionary<string, SecurityObject>
-                {
-                    { "FloorPressurePlate", new SecurityObject { Type = "FloorPressurePlate", Cost = 1000, ObjectLayer = ObjectLayer.GroundPlaceable, Traits = new[] {"OpenSpace"} } },
-                    { "BatonSecurityGuard", new SecurityObject { Type = "BatonSecurityGuard", Cost = 1500, ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] {"OpenSpace"} } }
-                };
+                return new Dictionary<string, SecurityObjectBase> {};
             }
         }
     }

@@ -4,6 +4,7 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Interactors;
 using SecurityConsultantCore.Test.EngineMocks;
+using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Interactors
 {
@@ -18,7 +19,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace()));
 
-            AssertCannotPlace(new SecurityObject());
+            AssertCannotPlace(new FakeSecurityObject());
         }
 
         [TestMethod]
@@ -26,7 +27,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor() }));
 
-            AssertCannotPlace(new SecurityObject());
+            AssertCannotPlace(new FakeSecurityObject());
         }
 
         [TestMethod]
@@ -34,9 +35,9 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor() }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.GroundPlaceable });
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable });
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.GroundPlaceable });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable });
         }
 
         [TestMethod]
@@ -44,7 +45,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), GroundPlaceable = CreateObject("Thing") }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.GroundPlaceable });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.GroundPlaceable });
         }
 
         [TestMethod]
@@ -52,7 +53,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerPlaceable = CreateObject("Thing") }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable });
         }
 
         [TestMethod]
@@ -60,7 +61,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), UpperPlaceable = CreateObject("Thing") }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable });
         }
 
         [TestMethod]
@@ -68,7 +69,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor() }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new [] {"Attachment:Wall"} });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new [] {"Attachment:Wall"} });
         }
 
         [TestMethod]
@@ -76,7 +77,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerObject = CreateObject("Wall") }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] {"Attachment:Wall"}});
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] {"Attachment:Wall"}});
         }
 
         [TestMethod]
@@ -84,7 +85,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerObject = CreateObject("Wall-Left") }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:Wall" } });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:Wall" } });
         }
 
         [TestMethod]
@@ -92,7 +93,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor() }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:SpatialValuables" } });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:SpatialValuables" } });
         }
 
         [TestMethod]
@@ -100,7 +101,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerObject = CreateObject("SpatialValuables-StackOfMoney") }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:SpatialValuables" } });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.UpperPlaceable, Traits = new[] { "Attachment:SpatialValuables" } });
         }
 
         [TestMethod]
@@ -108,7 +109,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), LowerObject = CreateObject("TableEnd-Down") }));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
         }
 
         [TestMethod]
@@ -116,7 +117,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor() }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
         }
 
         [TestMethod]
@@ -124,7 +125,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace { Ground = CreateFloor(), Ceiling = CreateObject("CeilingFan") }));
 
-            AssertCanPlace(new SecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
+            AssertCanPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
         }
 
         [TestMethod]
@@ -132,7 +133,7 @@ namespace SecurityConsultantCore.Test.Interactors
         {
             SetMap(CreateSampleMap(new FacilitySpace()));
 
-            AssertCannotPlace(new SecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
+            AssertCannotPlace(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerPlaceable, Traits = new[] { "OpenSpace" } });
         }
 
         private void SetMap(FacilityMap map)
@@ -150,13 +151,13 @@ namespace SecurityConsultantCore.Test.Interactors
             return CreateObject("Floor");
         }
 
-        private void AssertCanPlace(SecurityObject securityObject)
+        private void AssertCanPlace(FakeSecurityObject securityObject)
         {
             Assert.IsTrue(_validator.CanPlace(0, 0, 0, securityObject));
             Assert.IsTrue(_validator.CanPlace(new XYZ(0, 0, 0), securityObject));
         }
 
-        private void AssertCannotPlace(SecurityObject securityObject)
+        private void AssertCannotPlace(FakeSecurityObject securityObject)
         {
             Assert.IsFalse(_validator.CanPlace(0, 0, 0, securityObject));
             Assert.IsFalse(_validator.CanPlace(new XYZ(0, 0, 0), securityObject));

@@ -76,7 +76,6 @@
     <Compile Include="PlayerCommands\BuildCommandTests.cs" />
     <Compile Include="PlayerCommands\EditCommandTests.cs" />
     <Compile Include="PlayerCommands\EraseCommandTests.cs" />
-    <Compile Include="PlayerCommands\FakeEditable.cs" />
     <Compile Include="PlayerCommands\InspectCommandTests.cs" />
     <Compile Include="PlayerCommands\PlacementValidationTests.cs" />
     <Compile Include="Scoring\BudgetCriteriaTests.cs" />
@@ -109,6 +108,7 @@
     <Compile Include="Thievery\ThiefTeamTests.cs" />
     <Compile Include="Thievery\ThiefTests.cs" />
     <Compile Include="_TestDoubles\BodyDummy.cs" />
+    <Compile Include="_TestDoubles\FakeSecurityObject.cs" />
     <Compile Include="_TestDoubles\SingleMemberThiefTeam.cs" />
     <Compile Include="_TestDoubles\ThiefTeamFactoryStub.cs" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Purchasing;
+using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Purchasing
 {
@@ -13,7 +14,7 @@ namespace SecurityConsultantCore.Test.Purchasing
         [TestMethod]
         public void CalculateTotal_EmptyCollection_0Returned()
         {
-            var invoice = new Invoice(new List<SecurityObject>());
+            var invoice = new Invoice(new List<SecurityObjectBase>());
 
             int totalCost = invoice.CalculateTotal();
 
@@ -23,7 +24,7 @@ namespace SecurityConsultantCore.Test.Purchasing
         [TestMethod]
         public void CalculateTotal_CollectionWithSingleItem_ExpectedResultReturned()
         {
-            var invoice = new Invoice(new List<SecurityObject> { new SecurityObject {Cost = 1000} });
+            var invoice = new Invoice(new List<SecurityObjectBase> { new FakeSecurityObject { Cost = 1000} });
 
             int totalCost = invoice.CalculateTotal();
 
@@ -33,11 +34,11 @@ namespace SecurityConsultantCore.Test.Purchasing
         [TestMethod]
         public void CalculateTotal_CollectionWithMultipleEntries_ExpectedResultsReturned()
         {
-            var invoice = new Invoice(new List<SecurityObject>
+            var invoice = new Invoice(new List<SecurityObjectBase>
             {
-                new SecurityObject { Cost = 1000 },
-                new SecurityObject { Cost = 1500 },
-                new SecurityObject { Cost = 2000 }
+                new FakeSecurityObject { Cost = 1000 },
+                new FakeSecurityObject { Cost = 1500 },
+                new FakeSecurityObject { Cost = 2000 }
             });
 
             int totalCost = invoice.CalculateTotal();

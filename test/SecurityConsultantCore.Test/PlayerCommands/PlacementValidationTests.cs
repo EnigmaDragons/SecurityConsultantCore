@@ -3,6 +3,7 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.PlayerCommands;
 using SecurityConsultantCore.Test.EngineMocks;
+using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
@@ -12,7 +13,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void PlacementValidation_PlaceOffMap_Invalid()
         {
-            var validation = new PlacementValidation(new FacilityMap(new InMemoryWorld()), new SecurityObject(), SpecialLocation.OffOfMap);
+            var validation = new PlacementValidation(new FacilityMap(new InMemoryWorld()), new FakeSecurityObject(), SpecialLocation.OffOfMap);
 
             var isValid = validation.Check();
 
@@ -22,7 +23,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void PlacementValidation_ValidPlacement_Valid()
         {
-            var validation = new PlacementValidation(CreateMap(), new SecurityObject { ObjectLayer = ObjectLayer.LowerObject }, new XYZ(0, 0, 0));
+            var validation = new PlacementValidation(CreateMap(), new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerObject }, new XYZ(0, 0, 0));
 
             var isValid = validation.Check();
 
@@ -34,7 +35,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         {
             var map = CreateMap();
             map[0, 0, 0].Put(new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Wall" });
-            var validation = new PlacementValidation(map, new SecurityObject { ObjectLayer = ObjectLayer.LowerObject }, new XYZ(0, 0, 0));
+            var validation = new PlacementValidation(map, new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerObject }, new XYZ(0, 0, 0));
 
             var isValid = validation.Check();
 

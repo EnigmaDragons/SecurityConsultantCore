@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Common;
+using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Domain
 {
@@ -253,7 +254,7 @@ namespace SecurityConsultantCore.Test.Domain
 
         private FacilityObject CreateSecurityObject(string securityType)
         {
-            return new SecurityObject { Type = securityType };
+            return new FakeSecurityObject { Type = securityType };
         }
         
         private void AssertSpaceContentsAre(FacilitySpace space, string ground = "None", string lowerObj = "None", string upperObj = "None", 

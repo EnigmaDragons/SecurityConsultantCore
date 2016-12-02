@@ -6,9 +6,9 @@ namespace SecurityConsultantCore.Purchasing
 {
     public class Invoice
     {
-        private readonly List<SecurityObject> _securityObjects;
+        private readonly List<SecurityObjectBase> _securityObjects;
 
-        public Invoice(List<SecurityObject> securityObjects)
+        public Invoice(List<SecurityObjectBase> securityObjects)
         {
             _securityObjects = securityObjects;
         }

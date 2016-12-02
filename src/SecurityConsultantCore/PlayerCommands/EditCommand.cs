@@ -1,24 +1,28 @@
-﻿using SecurityConsultantCore.Domain;
+﻿using System.Linq;
+using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.PlayerCommands
 {
     public class EditCommand
     {
-        private readonly FacilityMap _facilityMap;
-        private readonly XYZ _xyz;
-        private readonly IPlayerEdit _playerEdit;
+        private readonly FacilityMap _map;
+        private readonly XYZ _location;
+        private readonly IEngineer _engineer;
 
-        public EditCommand(FacilityMap facilityMap, XYZ xyz, IPlayerEdit playerEdit)
+        public EditCommand(FacilityMap map, XYZ location, IEngineer engineer)
         {
-            _facilityMap = facilityMap;
-            _xyz = xyz;
-            _playerEdit = playerEdit;
+            _map = map;
+            _location = location;
+            _engineer = engineer;
         }
 
         public void Go()
         {
-            
+            if (!_map[_location].Placeables.Any())
+                return;
+            var securityObject = _map[_location].Placeables.First();
+            securityObject.ConsultWith(_engineer);
         }
     }
 }

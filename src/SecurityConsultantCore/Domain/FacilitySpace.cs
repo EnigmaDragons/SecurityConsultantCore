@@ -34,7 +34,7 @@ namespace SecurityConsultantCore.Domain
         public IEnumerable<IValuable> Valuables => GetAll().OfType<IValuable>()
             .Union(GetAll().OfType<ValuablesContainer>().SelectMany(z => z.Valuables));
 
-        public IEnumerable<SecurityObject> Placeables => GetAll().OfType<SecurityObject>();
+        public IEnumerable<SecurityObjectBase> Placeables => GetAll().OfType<SecurityObjectBase>();
         public IEnumerable<FacilityPortal> Portals => GetAll().OfType<FacilityPortal>();
         public IEnumerable<ValuablesContainer> FacilityContainers => GetAll().OfType<ValuablesContainer>();
         public IEnumerable<Oriented<IValuable>> OrientedValuables => Valuables.Select(AsOriented);

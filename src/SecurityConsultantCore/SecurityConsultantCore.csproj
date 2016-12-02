@@ -85,7 +85,7 @@
     <Compile Include="Domain\Liquidity.cs" />
     <Compile Include="Domain\SpatialValuable.cs" />
     <Compile Include="Domain\Publicity.cs" />
-    <Compile Include="Domain\SecurityObject.cs" />
+    <Compile Include="Domain\SecurityObjectBase.cs" />
     <Compile Include="Domain\SpecialLocation.cs" />
     <Compile Include="Domain\StructureObject.cs" />
     <Compile Include="Domain\Valuable.cs" />
@@ -142,9 +142,9 @@
     <Compile Include="PlayerCommands\BuildCommand.cs" />
     <Compile Include="PlayerCommands\EditCommand.cs" />
     <Compile Include="PlayerCommands\EraseCommand.cs" />
+    <Compile Include="PlayerCommands\IEngineer.cs" />
     <Compile Include="PlayerCommands\InspectCommand.cs" />
-    <Compile Include="PlayerCommands\IPlayerEdit.cs" />
-    <Compile Include="PlayerCommands\IPlayerNotification.cs" />
+    <Compile Include="PlayerCommands\IInspector.cs" />
     <Compile Include="PlayerCommands\PlacementValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
@@ -178,9 +178,7 @@
     <Compile Include="Thievery\ThiefDesires.cs" />
     <Compile Include="Thievery\ThiefTeam.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EventSystem\Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

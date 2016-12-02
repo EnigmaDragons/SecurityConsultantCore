@@ -53,7 +53,6 @@ namespace SecurityConsultantCore.Test.Security.Alarms
         {
             var sut = new AdvancedAlarm(_events, _sound);
             var securityAlerted = false;
-            _events.Subscribe<AlertSecurityEvent>(e => securityAlerted = true);
             _events.Subscribe<PositionedAlertSecurityEvent>(e => securityAlerted = true);
             sut.Disarm();
 

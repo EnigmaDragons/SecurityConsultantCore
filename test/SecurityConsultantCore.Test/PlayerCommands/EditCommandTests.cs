@@ -7,37 +7,48 @@ using SecurityConsultantCore.Test.EngineMocks;
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
     [TestClass]
-    public class EditCommandTests : IPlayerEdit
+    public class EditCommandTests : SecurityObjectBase, IEngineer
     {
         private FacilityMap _map;
         private FacilityLayer _layer;
 
+        private IEngineer _player;
+        private IEngineer _engineer;
+
         [TestInitialize]
         public void Init()
         {
+            _player = this;
+            ObjectLayer = ObjectLayer.GroundPlaceable;
             _map = new FacilityMap(new InMemoryWorld());
             _layer = new FacilityLayer(2, 2);
             _map.Add(_layer);
         }
 
         [TestMethod]
-        public void EditCommand_GoWithNoObjectOnSpace_NothingHappens()
+        public void EditCommand_GoWithNoObjectOnSpace_NoObjectConsultsWithNoPlayer()
         {
-            var command = new EditCommand(new FacilityMap(new InMemoryWorld()), new XYZ(1, 1, 1), this);
+            var command = new EditCommand(_map, new XYZ(1, 1, 0), this);
 
             command.Go();
+
+            Assert.AreEqual(null, _engineer);
         }
 
         [TestMethod]
-        public void EditCommand_GoWithObjectOnSpace_SomethingHappens()
+        public void EditCommand_PlayerEditsASecurityObject_ObjectConsultsWithPlayer()
         {
-//            _layer[1, 1].Put();
-//            var command = new EditCommand(_map, );
+            _layer[1, 1].Put(this);
+            var command = new EditCommand(_map, new XYZ(1, 1, 0), _player);
+
+            command.Go();
+
+            Assert.AreEqual(_player, _engineer);
         }
 
-        public void PresentOption()
+        public override void ConsultWith(IEngineer engineer)
         {
-            throw new System.NotImplementedException();
+            _engineer = engineer;
         }
     }
 }

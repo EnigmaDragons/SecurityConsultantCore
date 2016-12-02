@@ -7,10 +7,10 @@ namespace SecurityConsultantCore.PlayerCommands
     public class BuildCommand
     {
         private FacilityMap _map;
-        private SecurityObject _securityObject;
+        private SecurityObjectBase _securityObject;
         private XYZ _location;
 
-        public BuildCommand(FacilityMap map, SecurityObject securityObject, XYZ location)
+        public BuildCommand(FacilityMap map, SecurityObjectBase securityObject, XYZ location)
         {
             _map = map;
             _securityObject = securityObject;

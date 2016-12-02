@@ -17,12 +17,12 @@ namespace SecurityConsultantCore.Interactors
             _map = map;
         }
 
-        public bool CanPlace(XYZ location, SecurityObject obj)
+        public bool CanPlace(XYZ location, SecurityObjectBase obj)
         {
             return CanPlace(location.X, location.Y, location.Z, obj);
         }
 
-        public bool CanPlace(int x, int y, int z, SecurityObject obj)
+        public bool CanPlace(int x, int y, int z, SecurityObjectBase obj)
         {
             var space = GetSpace(x, y, z);
             if (space == FacilitySpace.Empty)
@@ -36,7 +36,7 @@ namespace SecurityConsultantCore.Interactors
             return true;
         }
 
-        private bool SlotIsTaken(SecurityObject obj, FacilitySpace space)
+        private bool SlotIsTaken(SecurityObjectBase obj, FacilitySpace space)
         {
             var slot = obj.ObjectLayer;
             if (slot == ObjectLayer.Unknown)
@@ -50,17 +50,17 @@ namespace SecurityConsultantCore.Interactors
             return false;
         }
 
-        private bool CannotAttach(SecurityObject obj, FacilitySpace space)
+        private bool CannotAttach(SecurityObjectBase obj, FacilitySpace space)
         {
             return IsAttachment(obj) && !IsAttachable(space, obj);
         }
 
-        private bool IsAttachment(SecurityObject securityObject)
+        private bool IsAttachment(SecurityObjectBase securityObject)
         {
             return HasTrait(securityObject, AttachmentTrait);
         }
 
-        private bool IsAttachable(FacilitySpace space, SecurityObject securityObject)
+        private bool IsAttachable(FacilitySpace space, SecurityObjectBase securityObject)
         {
             var targets =
                 securityObject.Traits.Where(x => x.Contains(AttachmentTrait))
@@ -69,12 +69,12 @@ namespace SecurityConsultantCore.Interactors
             return space.GetAll().Any(content => targets.Any(content.Type.Contains));
         }
 
-        private bool DoesNotHaveSufficientSpace(SecurityObject obj, FacilitySpace space)
+        private bool DoesNotHaveSufficientSpace(SecurityObjectBase obj, FacilitySpace space)
         {
             return NeedsOpenSpace(obj) && !space.IsOpenSpace;
         }
 
-        private bool NeedsOpenSpace(SecurityObject securityObject)
+        private bool NeedsOpenSpace(SecurityObjectBase securityObject)
         {
             return HasTrait(securityObject, OpenSpaceTrait);
         }
@@ -84,7 +84,7 @@ namespace SecurityConsultantCore.Interactors
             return !spaceSlotContent.Equals("None");
         }
 
-        private static bool HasTrait(SecurityObject securityObject, string trait)
+        private static bool HasTrait(SecurityObjectBase securityObject, string trait)
         {
             return securityObject.Traits.Any(x => x.Contains(trait));
         }

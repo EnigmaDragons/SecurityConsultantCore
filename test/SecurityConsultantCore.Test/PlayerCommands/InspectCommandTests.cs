@@ -10,7 +10,7 @@ using SecurityConsultantCore.Test.EngineMocks;
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
     [TestClass]
-    public class InspectCommandTests : IPlayerNotification
+    public class InspectCommandTests : IInspector
     {
         private readonly List<ValuableFacilityObject> valuables = new List<ValuableFacilityObject>();
         private readonly List<ValuablesContainer> containers = new List<ValuablesContainer>();
