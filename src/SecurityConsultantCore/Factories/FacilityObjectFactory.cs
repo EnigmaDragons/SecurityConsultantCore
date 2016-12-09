@@ -26,8 +26,6 @@ namespace SecurityConsultantCore.Factories
             protected override Dictionary<string, Func<FacilityObject>> GetObjects()
             {
                 var aggregateFactory = new Dictionary<string, Func<FacilityObject>>();
-                SecurityObjectFactory.GetConstructables()
-                    .ForEach(x => aggregateFactory.Add(x, () => SecurityObjectFactory.Create(x)));
                 ValuableObjectFactory.GetConstructables()
                     .ForEach(x => aggregateFactory.Add(x, () => ValuableObjectFactory.Create(x)));
                 WallFactory.GetConstructables()

@@ -70,7 +70,7 @@ namespace SecurityConsultantCore.Security.Guards
 
         public override void ConsultWith(IEngineer engineer)
         {
-            engineer.MyPatrolRouteIs(_patrolRoute);
+            engineer.IAm(this);
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿using SecurityConsultantCore.Pathfinding;
+﻿using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Security.Guards;
 
 namespace SecurityConsultantCore.Test._TestDoubles
 {
     public class FakeEngineer : IEngineer
     {
-        public PatrolRoute CurrentGuardRoute { get; private set; }
+        public SecurityObjectBase ConversingWith { get; private set; }
 
-        public void MyPatrolRouteIs(PatrolRoute patrolRoute)
+        public void IAm(Guard guard)
         {
-            CurrentGuardRoute = patrolRoute;
+            ConversingWith = guard;
         }
     }
 }

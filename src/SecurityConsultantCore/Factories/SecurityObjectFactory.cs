@@ -1,39 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.EventSystem;
+using SecurityConsultantCore.Security.Guards;
 
 namespace SecurityConsultantCore.Factories
 {
-    public static class SecurityObjectFactory
+    public class SecurityObjectFactory
     {
-        private static SecurityObjectContainer _container;
+        private readonly IFactory<IGuardBody> _bodyFactory;
+        private readonly IEvents _eventNotification;
+        private Dictionary<string, Func<XYZ, SecurityObjectBase>> _factories;
 
-        public static SecurityObjectBase Create(string type)
+        public SecurityObjectFactory(IFactory<IGuardBody> bodyFactory, IEvents eventNotification)
         {
-            return GetContainer().Create(type);
+            _bodyFactory = bodyFactory;
+            _eventNotification = eventNotification;
+            InitFactories();
         }
 
-        public static List<string> GetConstructables()
+        private void InitFactories()
         {
-            return GetContainer().GetConstructables();
-        }
-
-        private static SecurityObjectContainer GetContainer()
-        {
-            return _container ?? (_container = new SecurityObjectContainer());
-        }
-
-        private class SecurityObjectContainer : Container<SecurityObjectBase>
-        {
-            protected override string GetKey(string id)
+            _factories = new Dictionary<string, Func<XYZ, SecurityObjectBase>>
             {
-                return id;
-            }
+                { "BatonSecurityGuard", xyz => new Guard(_bodyFactory.Create(), xyz, _eventNotification) { Type = "BatonSecurityGuard", ObjectLayer = ObjectLayer.GroundPlaceable} },
 
-            protected override Dictionary<string, SecurityObjectBase> GetObjects()
-            {
-                return new Dictionary<string, SecurityObjectBase> {};
-            }
+            };
+        }
+
+        public SecurityObjectBase Create(string type, XYZ location)
+        {
+            return _factories[type](location);
         }
     }
 }

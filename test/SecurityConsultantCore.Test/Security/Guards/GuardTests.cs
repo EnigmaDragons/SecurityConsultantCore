@@ -7,7 +7,6 @@ using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Security.Guards;
 using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.EventSystem.EventTypes;
-using SecurityConsultantCore.PlayerCommands;
 using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Security.Guards
@@ -96,13 +95,13 @@ namespace SecurityConsultantCore.Test.Security.Guards
         }
 
         [TestMethod]
-        public void Guard_ConsultsWithEngineer_EngineerKnowsGuardCurrentRoute()
+        public void Guard_ConsultsWithEngineer_EngineerKnowsGuard()
         {
             _guard.YourPatrolRouteIs(_sampleRoute);
 
             _guard.ConsultWith(_engineer);
 
-            Assert.AreEqual(true, _engineer.CurrentGuardRoute.Matches(_sampleRoute));
+            Assert.AreEqual(_guard, _engineer.ConversingWith);
         }
 
         private void AssertRouteMatches(List<Path> expectedPath, List<Path> actualRoute)

@@ -1,9 +1,9 @@
-﻿using SecurityConsultantCore.Pathfinding;
+﻿using SecurityConsultantCore.Security.Guards;
 
 namespace SecurityConsultantCore.PlayerCommands
 {
     public interface IEngineer
     {
-        void MyPatrolRouteIs(PatrolRoute patrolRoute);
+        void IAm(Guard guard);
     }
 }
