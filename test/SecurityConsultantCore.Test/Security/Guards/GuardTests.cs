@@ -7,17 +7,24 @@ using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Security.Guards;
 using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.EventSystem.EventTypes;
+using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Security.Guards
 {
     [TestClass]
     public class GuardTests : IGuardBody
     {
+        private static readonly XYZ _sampleDestination = new XYZ(2, 2, 2);
+        private static readonly PatrolRoute _sampleRoute = new PatrolRoute(new Path(new XYZ(0, 1, 0), _sampleDestination));
+
         private Events _eventNotification;
         private XYZ _startLocation;
         private Guard _guard;
         private List<Path> _traversePaths = new List<Path>();
         private int _maxTravelSegments;
+
+        private FakeEngineer _engineer = new FakeEngineer();
 
         [TestInitialize]
         public void Init()
@@ -39,7 +46,7 @@ namespace SecurityConsultantCore.Test.Security.Guards
         public void Guard_HasPatrolRoute_PatrolsRoute()
         {
             _maxTravelSegments = 4;
-            _guard.AssignPatrolRoute(new PatrolRoute(new Path(new XYZ(0, 0, 0), new XYZ(0, 1, 0))));
+            _guard.YourPatrolRouteIs(new PatrolRoute(new Path(new XYZ(0, 0, 0), new XYZ(0, 1, 0))));
 
             _guard.Go();
 
@@ -49,12 +56,11 @@ namespace SecurityConsultantCore.Test.Security.Guards
         [TestMethod]
         public void Guard_WhatIsYourRoute_RouteIsSameAsAssigned()
         {
-            var route = new PatrolRoute(new Path(new XYZ(0, 1, 0)));
-            _guard.AssignPatrolRoute(route);
+            _guard.YourPatrolRouteIs(_sampleRoute);
 
             var assignedRoute = _guard.WhatIsYourRoute();
 
-            AssertRouteMatches(route.ToList(), assignedRoute.ToList());
+            AssertRouteMatches(_sampleRoute.ToList(), assignedRoute.ToList());
         }
 
         [TestMethod]
@@ -69,26 +75,34 @@ namespace SecurityConsultantCore.Test.Security.Guards
         public void Guard_WhereAreYouAfterMoving_IsAtNewLocation()
         {
             _maxTravelSegments = 1;
-            var route = new PatrolRoute(new Path(new XYZ(0, 1, 0)));
-            _guard.AssignPatrolRoute(route);
+            _guard.YourPatrolRouteIs(_sampleRoute);
             _guard.Go();
 
             var currentLocation = _guard.WhereAreYou();
 
-            Assert.AreEqual(new XYZ(0, 1, 0), currentLocation);
+            Assert.AreEqual(_sampleDestination, currentLocation);
         }
 
         [TestMethod]
-        public void Gaurd_GameStartEvent_GoOccurs()
+        public void Guard_GameStartEvent_GoOccurs()
         {
             _maxTravelSegments = 1;
-            var route = new PatrolRoute(new Path(new XYZ(0, 1, 0)));
-            _guard.AssignPatrolRoute(route);
+            _guard.YourPatrolRouteIs(_sampleRoute);
             _eventNotification.Publish(new GameStartEvent());
 
             var currentLocation = _guard.WhereAreYou();
 
-            Assert.AreEqual(new XYZ(0, 1, 0), currentLocation);
+            Assert.AreEqual(_sampleDestination, currentLocation);
+        }
+
+        [TestMethod]
+        public void Guard_ConsultsWithEngineer_EngineerKnowsGuardCurrentRoute()
+        {
+            _guard.YourPatrolRouteIs(_sampleRoute);
+
+            _guard.ConsultWith(_engineer);
+
+            Assert.AreEqual(true, _engineer.CurrentGuardRoute.Matches(_sampleRoute));
         }
 
         private void AssertRouteMatches(List<Path> expectedPath, List<Path> actualRoute)

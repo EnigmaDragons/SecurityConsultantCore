@@ -3,22 +3,22 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.PlayerCommands;
 using SecurityConsultantCore.Test.EngineMocks;
+using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.PlayerCommands
 {
     [TestClass]
-    public class EditCommandTests : SecurityObjectBase, IEngineer
+    public class EditCommandTests : SecurityObjectBase
     {
         private FacilityMap _map;
         private FacilityLayer _layer;
 
-        private IEngineer _player;
         private IEngineer _engineer;
-
+        private readonly FakeEngineer _player = new FakeEngineer();
+        
         [TestInitialize]
         public void Init()
         {
-            _player = this;
             ObjectLayer = ObjectLayer.GroundPlaceable;
             _map = new FacilityMap(new InMemoryWorld());
             _layer = new FacilityLayer(2, 2);
@@ -28,7 +28,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void EditCommand_GoWithNoObjectOnSpace_NoObjectConsultsWithNoPlayer()
         {
-            var command = new EditCommand(_map, new XYZ(1, 1, 0), this);
+            var command = new EditCommand(_map, new XYZ(1, 1, 0), _player);
 
             command.Go();
 

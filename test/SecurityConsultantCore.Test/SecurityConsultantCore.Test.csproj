@@ -73,6 +73,7 @@
     <Compile Include="EngineMocks\InMemoryWorld.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="EventSystem\EventsTests.cs" />
+    <Compile Include="Pathfinding\PatrolRouteTests.cs" />
     <Compile Include="PlayerCommands\BuildCommandTests.cs" />
     <Compile Include="PlayerCommands\EditCommandTests.cs" />
     <Compile Include="PlayerCommands\EraseCommandTests.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Thievery\ThiefTeamTests.cs" />
     <Compile Include="Thievery\ThiefTests.cs" />
     <Compile Include="_TestDoubles\BodyDummy.cs" />
+    <Compile Include="_TestDoubles\FakeEngineer.cs" />
     <Compile Include="_TestDoubles\FakeSecurityObject.cs" />
     <Compile Include="_TestDoubles\SingleMemberThiefTeam.cs" />
     <Compile Include="_TestDoubles\ThiefTeamFactoryStub.cs" />

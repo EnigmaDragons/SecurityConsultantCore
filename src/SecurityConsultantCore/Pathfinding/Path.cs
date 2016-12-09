@@ -37,12 +37,12 @@ namespace SecurityConsultantCore.Pathfinding
         public void EnsurePathMatches(Path other)
         {
             if (other.Count() != this.Count())
-                throw new NonMatchingException(string.Format("This path length of {0} did not match the other path's length of {1}", this.Count(), other.Count()));
+                throw new NonMatchingException($"This path length of {this.Count()} did not match the other path's length of {other.Count()}");
             var otherPath = other.ToList();
             var thisPath = this.ToList();
             for (int nodeIndex = 0; nodeIndex < other.Count(); nodeIndex++)
                 if (otherPath[nodeIndex] != thisPath[nodeIndex])
-                    throw new NonMatchingException(string.Format("Node {0}: {1} does not equal {2}", nodeIndex, thisPath[nodeIndex], otherPath[nodeIndex]));
+                    throw new NonMatchingException($"Node {nodeIndex}: {thisPath[nodeIndex]} does not equal {otherPath[nodeIndex]}");
         }
     }
 }

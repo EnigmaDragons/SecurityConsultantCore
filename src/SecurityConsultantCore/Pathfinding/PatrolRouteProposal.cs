@@ -14,7 +14,7 @@ namespace SecurityConsultantCore.Pathfinding
         private XYZ _currentNode;
 
         public PatrolRouteProposal(FacilityMap map, XYZ startingNode, PatrolRoute route, Action<IEnumerable<Path>> onChange) : 
-            this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(route.Base.ToList(), onChange)) {}
+            this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(route.Route.ToList(), onChange)) {}
 
         public PatrolRouteProposal(FacilityMap map, XYZ startingNode, Action<IEnumerable<Path>> onChange) : 
             this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(onChange)) {}

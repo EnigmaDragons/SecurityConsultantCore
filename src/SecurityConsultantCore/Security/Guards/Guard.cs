@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.EventSystem.EventTypes;
+using SecurityConsultantCore.PlayerCommands;
 
 namespace SecurityConsultantCore.Security.Guards
 {
-    public class Guard
+    public class Guard : SecurityObjectBase
     {
         private readonly IGuardBody _guard;
 
         private XYZ _currentLocation;
-        private PatrolRoute _patrolRoute = new PatrolRoute();
+        private PatrolRoute _patrolRoute;
         private List<Path> _patrolSegments = new List<Path>();
         private bool _isDone;
 
@@ -20,10 +22,12 @@ namespace SecurityConsultantCore.Security.Guards
         {
             _guard = guard;
             _currentLocation = startLocation;
+            _patrolRoute = new PatrolRoute(new Path(startLocation));
+            _patrolSegments.Add(new Path(startLocation));
             eventNotification.Subscribe<GameStartEvent>(start => Go());
         }
 
-        public void AssignPatrolRoute(PatrolRoute route)
+        public void YourPatrolRouteIs(PatrolRoute route)
         {
             _patrolRoute = route;
             _patrolSegments = route.ToList();
@@ -41,7 +45,7 @@ namespace SecurityConsultantCore.Security.Guards
 
         public void Go()
         {
-            if (_patrolRoute.Any())
+            if (_patrolRoute.Any() && !_patrolRoute.IsStationary())
                 Patrol(0);
         }
 
@@ -62,6 +66,11 @@ namespace SecurityConsultantCore.Security.Guards
             currentSegment = currentSegment + 1 == _patrolSegments.Count() ? currentSegment = 0 : currentSegment + 1;
             if (!_isDone)
                 Patrol(currentSegment);
+        }
+
+        public override void ConsultWith(IEngineer engineer)
+        {
+            engineer.MyPatrolRouteIs(_patrolRoute);
         }
     }
 }

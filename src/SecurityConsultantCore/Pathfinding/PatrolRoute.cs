@@ -1,4 +1,5 @@
-﻿using SecurityConsultantCore.Domain.Basic;
+﻿using System;
+using SecurityConsultantCore.Domain.Basic;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,18 @@ namespace SecurityConsultantCore.Pathfinding
 {
     public class PatrolRoute : IRoute
     {
-        public IRoute Base { get; private set; }
-        public XYZ Start => Base.First().Origin;
+        public IRoute Route { get; }
+        public XYZ Start => Route.First().Origin;
 
         public PatrolRoute(params Path[] route) : this(new Route(route)) { }
 
         public PatrolRoute(IEnumerable<Path> route) : this(new Route(route)) {}
 
-        public PatrolRoute(IRoute baseRoute)
+        public PatrolRoute(IRoute route)
         {
-            Base = baseRoute;
+            if (route.Count().Equals(0))
+                throw new ArgumentException("route");
+            Route = route;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -26,11 +29,11 @@ namespace SecurityConsultantCore.Pathfinding
 
         public IEnumerator<Path> GetEnumerator()
         {
-            if (!Base.Any())
-                return Base.GetEnumerator();
-            var reversed = Reverse(Base);
-            reversed.Add(new List<XYZ> { Base.First().Origin });
-            return Base.Concat(CreatePathToOrigin(reversed)).GetEnumerator();
+            if (!Route.Any())
+                return Route.GetEnumerator();
+            var reversed = Reverse(Route);
+            reversed.Add(new List<XYZ> { Route.First().Origin });
+            return Route.Concat(CreatePathToOrigin(reversed)).GetEnumerator();
         }
 
         private List<IEnumerable<XYZ>> Reverse(IEnumerable<Path> segments)
@@ -65,6 +68,17 @@ namespace SecurityConsultantCore.Pathfinding
         private void RemoveAllSegmentsThru(List<IEnumerable<XYZ>> segments, int nodeIndex)
         {
             segments.RemoveRange(0, nodeIndex + 1);
+        }
+
+        public bool Matches(PatrolRoute route)
+        {
+            return route.Route.Count().Equals(Route.Count()) && route.Start.Equals(Start);
+        }
+
+        public bool IsStationary()
+        {
+            return Route.Count().Equals(1) 
+                && Route.First().Origin.Equals(Route.First().Destination);
         }
     }
 }
