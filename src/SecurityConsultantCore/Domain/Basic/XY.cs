@@ -38,7 +38,8 @@ namespace SecurityConsultantCore.Domain.Basic
         {
             if (other == null)
                 return false;
-            return (X == other.X) && (Y == other.Y);
+            return X.WithinEpsilonOf(other.X) &&
+                Y.WithinEpsilonOf(other.Y);
         }
 
         public override int GetHashCode()

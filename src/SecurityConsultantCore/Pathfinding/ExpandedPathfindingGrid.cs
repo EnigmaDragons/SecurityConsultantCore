@@ -7,28 +7,28 @@ namespace SecurityConsultantCore.Pathfinding
 {
     public class ExpandedPathfindingGrid
     {
-        private readonly FacilityLayer _layer;
+        private readonly FacilityMap _map;
 
-        public ExpandedPathfindingGrid(FacilityLayer layer)
+        public ExpandedPathfindingGrid(FacilityMap map)
         {
-            _layer = layer;
+            _map = map;
         }
 
         public int this[int x, int y] => 1; //_layer[GetSpaceCoordinates(x, y)].IsOpenSpace || IsPortalConnection(x, y) ? 1 : 0;
 
         public double GetHeight()
         {
-            return _layer.Size.Y*3.0;
+            return 1;
         }
 
         public double GetWidth()
         {
-            return _layer.Size.X*3.0;
+            return 1;
         }
 
         private bool IsPortalConnection(int x, int y)
         {
-            var spacePosition = new XY(x%3, y%3);
+            var spacePosition = new XY(x % 3, y % 3);
             //foreach (var portal in _layer.Portals.Where(z => z.Location.Equals(GetSpaceCoordinates(x, y))))
             //    if (spacePosition.Equals(new XY(1, 1))
             //        || IsPortalEntrance(spacePosition, portal.Obj.Endpoint1, portal.Location)
@@ -39,7 +39,7 @@ namespace SecurityConsultantCore.Pathfinding
 
         private XY GetSpaceCoordinates(int x, int y)
         {
-            return new XY((int) Math.Floor((double) x/3), (int) Math.Floor((double) y/3));
+            return new XY((int)Math.Floor((double)x / 3), (int)Math.Floor((double)y / 3));
         }
 
         private bool IsPortalEntrance(XY spacePosition, XY endpoint, XY portalLocation)

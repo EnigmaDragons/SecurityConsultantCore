@@ -20,10 +20,11 @@ namespace SecurityConsultantCore.Pathfinding
         {
             get
             {
-                if (_layerPathFinders.Count == 0)
-                    for (var i = 0; i < _map.LayerCount; i++)
-                        _layerPathFinders.Add(new Smart2DPathFinder(_map[i]));
-                return _layerPathFinders;
+                return new List<Smart2DPathFinder>();
+                //if (_layerPathFinders.Count == 0)
+                //    for (var i = 0; i < _map.LayerCount; i++)
+                //        _layerPathFinders.Add(new Smart2DPathFinder(_map[i]));
+                //return _layerPathFinders;
             }
         }
 

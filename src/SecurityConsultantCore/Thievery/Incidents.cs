@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SecurityConsultantCore.Common;
-using SecurityConsultantCore.Domain;
+﻿using SecurityConsultantCore.Common;
 using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.EventSystem.EventTypes;
+using SecurityConsultantCore.FacilityObjects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SecurityConsultantCore.Thievery
 {

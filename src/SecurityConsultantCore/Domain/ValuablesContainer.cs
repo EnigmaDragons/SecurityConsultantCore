@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Domain
 {

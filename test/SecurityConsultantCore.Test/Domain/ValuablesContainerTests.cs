@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
+using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Test.Domain
 {

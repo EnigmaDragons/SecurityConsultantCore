@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Domain;
+using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Thievery
 {

@@ -1,8 +1,6 @@
-﻿using SecurityConsultantCore.Domain.Basic;
-
-namespace SecurityConsultantCore.Domain
+﻿namespace SecurityConsultantCore.FacilityObjects
 {
-    public interface IValuable : ITyped
+    public interface IValuable : IFacilityObject
     {
         string Id { get; }
         string Name { get; }

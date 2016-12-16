@@ -50,6 +50,7 @@
     <Compile Include="Common\Lazy.cs" />
     <Compile Include="Common\LinqExtensions.cs" />
     <Compile Include="Common\Lists.cs" />
+    <Compile Include="Common\MathExt.cs" />
     <Compile Include="Common\Observed.cs" />
     <Compile Include="Common\ObservedBase.cs" />
     <Compile Include="Common\Observer.cs" />
@@ -74,16 +75,15 @@
     <Compile Include="Domain\Basic\XYZOriented.cs" />
     <Compile Include="Domain\Basic\XYZw.cs" />
     <Compile Include="Domain\Basic\ZLocation.cs" />
-    <Compile Include="Domain\FacilityLayer.cs" />
     <Compile Include="Domain\FacilityMap.cs" />
     <Compile Include="Domain\FacilityObject.cs" />
     <Compile Include="Domain\FacilityObjectNames.cs" />
     <Compile Include="Domain\FacilityPortal.cs" />
     <Compile Include="Domain\IPortals.cs" />
-    <Compile Include="Domain\IValuable.cs" />
-    <Compile Include="Domain\Liquidity.cs" />
-    <Compile Include="Domain\SpatialValuable.cs" />
-    <Compile Include="Domain\Publicity.cs" />
+    <Compile Include="FacilityObjects\IValuable.cs" />
+    <Compile Include="FacilityObjects\Liquidity.cs" />
+    <Compile Include="FacilityObjects\SpatialValuable.cs" />
+    <Compile Include="FacilityObjects\Publicity.cs" />
     <Compile Include="Domain\SecurityObject.cs" />
     <Compile Include="Domain\SpecialLocation.cs" />
     <Compile Include="Domain\StructureObject.cs" />
@@ -100,6 +100,7 @@
     <Compile Include="EventSystem\EventTypes\GameStartEvent.cs" />
     <Compile Include="EventSystem\EventTypes\SoundAlarmEvent.cs" />
     <Compile Include="EventSystem\IEvents.cs" />
+    <Compile Include="FacilityObjects\IFacilityObject.cs" />
     <Compile Include="Factories\Container.cs" />
     <Compile Include="Factories\FacilityObjectFactory.cs" />
     <Compile Include="Factories\PortalFactory.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="MapGeneration\PortalInstruction.cs" />
     <Compile Include="MapGeneration\RoomInstruction.cs" />
     <Compile Include="MapGeneration\WallGenerator.cs" />
+    <Compile Include="Spatial\Volume.cs" />
     <Compile Include="Pathfinding\2DPathFinder.cs" />
     <Compile Include="Pathfinding\2DPathFinderFast.cs" />
     <Compile Include="Pathfinding\CachedPathFinder.cs" />

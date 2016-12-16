@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SecurityConsultantCore.Domain;
+﻿using SecurityConsultantCore.FacilityObjects;
+using System.Collections.Generic;
 
 namespace SecurityConsultantCore.Thievery
 {

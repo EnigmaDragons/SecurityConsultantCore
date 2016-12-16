@@ -1,6 +1,6 @@
-﻿using System;
-using SecurityConsultantCore.Domain;
+﻿using SecurityConsultantCore.FacilityObjects;
 using SecurityConsultantCore.Pathfinding;
+using System;
 
 namespace SecurityConsultantCore.Thievery
 {

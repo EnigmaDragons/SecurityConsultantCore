@@ -2,6 +2,7 @@
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Thievery;
+using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Test._TestDoubles
 {

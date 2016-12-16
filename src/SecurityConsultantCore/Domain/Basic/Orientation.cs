@@ -25,8 +25,13 @@ namespace SecurityConsultantCore.Domain.Basic
         public static Orientation Left { get; } = new Orientation("Left", 90);
         public static Orientation UpLeft { get; } = new Orientation("UpLeft", 90);
 
+        public static Orientation Default { get; } = new Orientation("Default", 0);
+        public static Orientation Ninety {get;} = new Orientation("Ninety", 90);
+        public static Orientation OneEighty { get; } = new Orientation("OneEighty", 180);
+        public static Orientation TwoSeventy { get; } = new Orientation("TwoSeventy", 270);
+
         public static IEnumerable<Orientation> AllOrientations { get; } = new List<Orientation> { Up, Right, Down, Left };
-    
+
         private static Dictionary<string, Orientation> Abbreviations
         {
             get

@@ -1,6 +1,6 @@
 ﻿using SecurityConsultantCore.Domain.Basic;
 
-namespace SecurityConsultantCore.Domain
+namespace SecurityConsultantCore.FacilityObjects
 {
     public class SpatialValuable : XYZOriented<IValuable>
     {

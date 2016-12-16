@@ -5,6 +5,7 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Test.EngineMocks;
 using SecurityConsultantCore.Test._TestDoubles;
 using SecurityConsultantCore.Thievery;
+using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Test.Thievery
 {

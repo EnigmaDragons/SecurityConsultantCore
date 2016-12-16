@@ -1,5 +1,6 @@
 ﻿using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
+using SecurityConsultantCore.FacilityObjects;
 using System;
 using System.Collections.Generic;
 

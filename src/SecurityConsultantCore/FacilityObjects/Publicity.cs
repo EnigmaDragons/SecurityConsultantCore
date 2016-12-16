@@ -1,5 +1,4 @@
-﻿
-namespace SecurityConsultantCore.Domain
+﻿namespace SecurityConsultantCore.FacilityObjects
 {
     public enum Publicity
     {

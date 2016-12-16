@@ -1,18 +1,21 @@
 ﻿using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.FacilityObjects;
+using SecurityConsultantCore.Spatial;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class FacilityObject : ITyped
+    public class FacilityObject : IFacilityObject
     {
         public Orientation Orientation { get; set; } = Orientation.Up;
-        public XY Size { get; set; }
+        public Volume Volume { get; set; } = new Volume(new bool[0, 0]);
         public string Type { get; set; } = "None";
+        public string Subtype { get; set; } = "None";
 
         public bool IsNothing => Type.Equals("None");
 
         public new string ToString()
         {
-            return Type.Equals("None") ? Type : Type + ": " + Orientation.ToString();
+            return IsNothing ? Type : string.Format("{0} ({1}): {2}", Type, Subtype, Orientation);
         }
 
         public override bool Equals(object obj)
@@ -28,7 +31,7 @@ namespace SecurityConsultantCore.Domain
         {
             return string.Equals(Type, other.Type)
                    && (Orientation.Equals(other.Orientation))
-                   && (Size.Equals(Size));
+                   && (Volume.Equals(Volume));
         }
     }
 }

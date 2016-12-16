@@ -1,12 +1,12 @@
-﻿using System;
+﻿using SecurityConsultantCore.FacilityObjects;
+using System;
 
 namespace SecurityConsultantCore.Domain
 {
-    public class Valuable : IValuable
+    public class Valuable : FacilityObject, IValuable
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = "Unnamed";
-        public string Type { get; set; } = "None";
         public int Value { get; set; } = 0;
         public Publicity Publicity { get; set; } = Publicity.Famous;
         public Liquidity Liquidity { get; set; } = Liquidity.Low;

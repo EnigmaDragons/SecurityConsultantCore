@@ -1,7 +1,8 @@
-﻿
+﻿using SecurityConsultantCore.FacilityObjects;
+
 namespace SecurityConsultantCore.Domain.Basic
 {
-    public class XYZOriented<T> : XYZOrientation
+    public class XYZOriented<T> : XYZOrientation where T : IFacilityObject
     {
         public XYZOriented(XYZOrientation xyzo, T obj) 
             : this(xyzo.X, xyzo.Y, xyzo.Z, xyzo.Orientation, obj)

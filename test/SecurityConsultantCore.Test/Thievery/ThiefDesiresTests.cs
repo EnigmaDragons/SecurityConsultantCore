@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Thievery;
+using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Test.Thievery
 {

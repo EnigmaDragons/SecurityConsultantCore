@@ -1,11 +1,10 @@
 ﻿
+using SecurityConsultantCore.Common;
+
 namespace SecurityConsultantCore.Domain.Basic
 {
     public class XYOriented<T> : XYOrientation
     {
-        private IValuable obj;
-        private XYOriented<FacilityObject> y;
-
         public XYOriented(XYOrientation xyo, T obj)
             :this(xyo.X, xyo.Y, xyo.Orientation, obj)
         {
@@ -23,5 +22,17 @@ namespace SecurityConsultantCore.Domain.Basic
         }
 
         public T Obj { get; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (this == obj) return true;
+
+            var other = obj as XYOriented<T>;
+            if (other == null) return false;
+
+            return Equals(other) &&
+                Obj.Equals(other.Obj);
+        }
     }
 }

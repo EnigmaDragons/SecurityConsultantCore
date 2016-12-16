@@ -11,7 +11,7 @@ namespace SecurityConsultantCore.Pathfinding
     {
         private readonly I2DPathFinder _pathFinder;
 
-        public Smart2DPathFinder(FacilityLayer layer) : this(new TwoDPathFinder(new ExpandedPathfindingGrid(layer)))
+        public Smart2DPathFinder(FacilityMap map) : this(new TwoDPathFinder(new ExpandedPathfindingGrid(map)))
         {
         }
 
@@ -47,12 +47,12 @@ namespace SecurityConsultantCore.Pathfinding
 
         private XY GetExpandedTarget(XY start)
         {
-            return new XY(start.X*3 + 1, start.Y*3 + 1);
+            return new XY(start.X * 3 + 1, start.Y * 3 + 1);
         }
 
         private int GetContractedCoordinate(double x)
         {
-            return (int) Math.Floor((double) x/3);
+            return (int)Math.Floor((double)x / 3);
         }
     }
 }

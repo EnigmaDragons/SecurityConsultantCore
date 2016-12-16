@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecurityConsultantCore.FacilityObjects;
+using System;
 
 namespace SecurityConsultantCore.Domain
 {
