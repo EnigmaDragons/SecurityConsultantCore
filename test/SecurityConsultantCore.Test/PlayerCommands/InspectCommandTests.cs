@@ -27,6 +27,12 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         }
 
         [TestMethod]
+        public void InspectCommand_InspectOffMap_NoExceptionsThrown()
+        {
+            new InspectCommand(map, SpecialLocation.OffOfMap, this).Go();
+        }
+
+        [TestMethod]
         public void InspectCommand_InspectSpaceWithValuable_NotifiesValuable()
         {
             var valuable = new ValuableFacilityObject { ObjectLayer = ObjectLayer.LowerObject };

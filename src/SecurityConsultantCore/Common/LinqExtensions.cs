@@ -1,6 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,6 +31,11 @@ namespace SecurityConsultantCore.Common
         public static IEnumerable<T2> OfType<T1, T2>(this IEnumerable<T1> source)
         {
             return source.Where(x => x is T2).Cast<T2>();
+        }
+
+        public static bool IsEmpty<T>(this IEnumerable<T> source)
+        {
+            return !source.Any();
         }
 
         private static Random GetRandom()

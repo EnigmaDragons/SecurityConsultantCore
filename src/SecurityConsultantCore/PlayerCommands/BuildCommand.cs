@@ -1,5 +1,4 @@
-﻿using System;
-using SecurityConsultantCore.Domain;
+﻿using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.PlayerCommands
@@ -19,7 +18,15 @@ namespace SecurityConsultantCore.PlayerCommands
 
         public void Go()
         {
-            _map[_location].Put(_securityObject);
+            if (IsValid())
+                _map[_location].Put(_securityObject);
+        }
+
+        private bool IsValid()
+        {
+            return _map.Exists(_location) 
+                && _map[_location][_securityObject.ObjectLayer].IsNothing 
+                && !_map[_location].LowerObject.Type.Equals("Wall");
         }
     }
 }

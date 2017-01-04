@@ -19,6 +19,9 @@ namespace SecurityConsultantCore.PlayerCommands
 
         public void Go()
         {
+            if (!_map.Exists(_location))
+                return;
+
             _map[_location].FacilityValuables.ToList().ForEach(x => _inspector.Notify(x));
             _map[_location].FacilityContainers.ToList().ForEach(x => _inspector.Notify(x));
         }

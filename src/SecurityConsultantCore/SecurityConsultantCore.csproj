@@ -145,7 +145,6 @@
     <Compile Include="PlayerCommands\IEngineer.cs" />
     <Compile Include="PlayerCommands\InspectCommand.cs" />
     <Compile Include="PlayerCommands\IInspector.cs" />
-    <Compile Include="PlayerCommands\PlacementValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purchasing\Invoice.cs" />
     <Compile Include="Scoring\Criteria\BudgetCriteria.cs" />

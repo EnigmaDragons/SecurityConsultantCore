@@ -13,8 +13,8 @@ namespace SecurityConsultantCore.Pathfinding
         private readonly ObservableList<Path> _segments;
         private XYZ _currentNode;
 
-        public PatrolRouteProposal(FacilityMap map, XYZ startingNode, PatrolRoute route, Action<IEnumerable<Path>> onChange) : 
-            this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(route.Route.ToList(), onChange)) {}
+        public PatrolRouteProposal(FacilityMap map, PatrolRoute route, Action<IEnumerable<Path>> onChange) : 
+            this(new CachedPathFinder(map), route.Route.Last().Destination, new ObservableList<Path>(route.Route.ToList(), onChange)) {}
 
         public PatrolRouteProposal(FacilityMap map, XYZ startingNode, Action<IEnumerable<Path>> onChange) : 
             this(new CachedPathFinder(map), startingNode, new ObservableList<Path>(onChange)) {}
@@ -45,7 +45,12 @@ namespace SecurityConsultantCore.Pathfinding
 
         public PatrolRoute Finalize()
         {
-            return new PatrolRoute(_segments);
+            return new PatrolRoute(_segments.IsEmpty() ? CreateStationarySegments() : _segments);
+        }
+
+        private IEnumerable<Path> CreateStationarySegments()
+        {
+            return new List<Path> { new Path(_currentNode, _currentNode) };
         }
     }
 }

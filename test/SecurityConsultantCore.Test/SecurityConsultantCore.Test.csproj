@@ -73,12 +73,12 @@
     <Compile Include="EngineMocks\InMemoryWorld.cs" />
     <Compile Include="EngineMocks\SoundMock.cs" />
     <Compile Include="EventSystem\EventsTests.cs" />
+    <Compile Include="Pathfinding\PathTests.cs" />
     <Compile Include="Pathfinding\PatrolRouteTests.cs" />
     <Compile Include="PlayerCommands\BuildCommandTests.cs" />
     <Compile Include="PlayerCommands\EditCommandTests.cs" />
     <Compile Include="PlayerCommands\EraseCommandTests.cs" />
     <Compile Include="PlayerCommands\InspectCommandTests.cs" />
-    <Compile Include="PlayerCommands\PlacementValidationTests.cs" />
     <Compile Include="Scoring\BudgetCriteriaTests.cs" />
     <Compile Include="Scoring\FakeCriteria.cs" />
     <Compile Include="Scoring\IncidentCriteriaTests.cs" />

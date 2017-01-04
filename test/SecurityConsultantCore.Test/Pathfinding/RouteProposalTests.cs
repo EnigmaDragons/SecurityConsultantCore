@@ -117,19 +117,49 @@ namespace SecurityConsultantCore.Test.Pathfinding
         public void PatrolRouteProposal_ConstructedWithPatrolRoute_UsesRoute()
         {
             var oldRoute = new PatrolRoute(new Path(new XYZ(0, 1, 0)), new Path(new XYZ(0, 0, 0)));
-            var proposal = new PatrolRouteProposal(_map, oldRoute.Start, oldRoute, path => { });
+            var proposal = new PatrolRouteProposal(_map, oldRoute, path => { });
 
             var newRoute = proposal.Finalize();
 
             new RouteComparison(oldRoute, newRoute).EnsureMatches();
         }
 
+        [TestMethod]
+        public void PatrolRouteProposal_FinalizeWithNoPointsAdded_OnlyStartingPoint()
+        {
+            var route = _routeProposal.Finalize();
+
+            Assert.AreEqual(1, route.Count());
+            Assert.AreEqual(new XYZ(0, 0, 0), route.Origin);
+        }
+
+        [TestMethod]
+        public void PatrolRouteProposal_AddNodeToExistingRoute_SegmentAddedCorrectly()
+        {
+            var oldRoute = new PatrolRoute(new Path(new XYZ(0, 0, 0), new XYZ(0, 1, 0)));
+            var proposal = new PatrolRouteProposal(_map, oldRoute, path => { });
+            proposal.AddPathToDestination(new XYZ(0, 2, 0));
+
+            var route = proposal.Finalize();
+
+            AssertRouteOrginsMatch(new List<XYZ> { new XYZ(0, 0, 0), new XYZ(0, 1, 0), new XYZ(0, 2, 0),
+                new XYZ(0, 1, 0) }, route);
+        }
+
         private void AssertRouteMatches(List<XYZ> expectedPath, IRoute actualRoute)
         {
             var route = actualRoute.ToList();
-            Assert.AreEqual(route.Count(), expectedPath.Count);
+            Assert.AreEqual(expectedPath.Count, route.Count());
             for (var i = 0; i < expectedPath.Count; i++)
                 Assert.AreEqual(expectedPath[i], route[i].Last());
+        }
+
+        private void AssertRouteOrginsMatch(List<XYZ> expectedPath, IRoute actualRoute)
+        {
+            var route = actualRoute.ToList();
+            Assert.AreEqual(expectedPath.Count, route.Count());
+            for (var i = 0; i < expectedPath.Count; i++)
+                Assert.AreEqual(expectedPath[i], route[i].First());
         }
     }
 }

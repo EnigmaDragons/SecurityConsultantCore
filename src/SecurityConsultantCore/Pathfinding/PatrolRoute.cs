@@ -9,7 +9,7 @@ namespace SecurityConsultantCore.Pathfinding
     public class PatrolRoute : IRoute
     {
         public IRoute Route { get; }
-        public XYZ Start => Route.First().Origin;
+        public XYZ Origin => Route.First().Origin;
 
         public PatrolRoute(params Path[] route) : this(new Route(route)) { }
 
@@ -72,7 +72,7 @@ namespace SecurityConsultantCore.Pathfinding
 
         public bool Matches(PatrolRoute route)
         {
-            return route.Route.Count().Equals(Route.Count()) && route.Start.Equals(Start);
+            return route.Route.Count().Equals(Route.Count()) && route.Origin.Equals(Origin);
         }
 
         public bool IsStationary()
