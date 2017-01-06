@@ -1,30 +1,48 @@
-﻿using System.Linq;
+﻿using SecurityConsultantCore.Domain.Basic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SecurityConsultantCore.Spatial
 {
     public class Volume
     {
-        private bool[,] _occupiedSpaces;
+        private readonly IEnumerable<XY> _spaces;
 
-        public Volume(bool[,] occupiedSpaces)
+        public Volume(params XY[] spaces) : this ((IEnumerable<XY>)spaces)
         {
-            _occupiedSpaces = occupiedSpaces;
         }
 
-        public bool this[int x, int y] => _occupiedSpaces[x, y];
-
+        public Volume(IEnumerable<XY> spaces)
+        {
+            _spaces = spaces;
+        }
+        
         public override bool Equals(object obj)
         {
             var other = obj as Volume;
             if (other == null) return false;
-            return Equals(other);
+            return _spaces.Count().Equals(other._spaces.Count()) 
+                && _spaces.Union(other._spaces).Count().Equals(_spaces.Count());
         }
 
-        public bool Equals(Volume other)
+        public IEnumerable<XYZ> GetOccupiedSpaces(XYZOrientation xyzo)
         {
-            return _occupiedSpaces.Rank == other._occupiedSpaces.Rank &&
-                Enumerable.Range(0, _occupiedSpaces.Rank).All(dimension => _occupiedSpaces.GetLength(dimension) == other._occupiedSpaces.GetLength(dimension)) &&
-                _occupiedSpaces.Cast<bool>().SequenceEqual(other._occupiedSpaces.Cast<bool>());
+            var rotated = _spaces.Select(xy => Rotate(xy, xyzo.Orientation));
+            return rotated.Select(xy => new XYZ(xy.X + xyzo.X, xy.Y + xyzo.Y, xyzo.Z));
+        }
+
+        private XY Rotate(XY xy, Orientation orientation)
+        {
+            var radians = ToRadians(orientation);
+            var newX = xy.X * Math.Cos(radians) - xy.Y * Math.Sin(radians);
+            var newY = xy.X * Math.Sin(radians) + xy.Y * Math.Cos(radians);
+            return new XY(newX, newY);
+        }
+
+        private double ToRadians(Orientation orientation)
+        {
+            return Math.PI * orientation.Rotation / 180.0;
         }
     }
 }

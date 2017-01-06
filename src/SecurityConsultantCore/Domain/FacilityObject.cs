@@ -1,13 +1,14 @@
 ﻿using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.FacilityObjects;
 using SecurityConsultantCore.Spatial;
+using System.Collections.Generic;
 
 namespace SecurityConsultantCore.Domain
 {
     public class FacilityObject : IFacilityObject
     {
         public Orientation Orientation { get; set; } = Orientation.Up;
-        public Volume Volume { get; set; } = new Volume(new bool[0, 0]);
+        public Volume Volume { get; set; } = new Volume();
         public string Type { get; set; } = "None";
         public string Subtype { get; set; } = "None";
 

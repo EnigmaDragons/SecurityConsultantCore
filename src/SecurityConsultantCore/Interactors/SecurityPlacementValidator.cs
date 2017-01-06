@@ -4,6 +4,7 @@
 
 //namespace SecurityConsultantCore.Interactors
 //{
+// TODO
 //    public class SecurityPlacementValidator
 //    {
 //        private const string ContentNone = "None";

@@ -25,5 +25,10 @@ namespace SecurityConsultantCore.Domain
         {
             return new FacilityPortal {Type = obj.Type, Volume = obj.Volume, Orientation = obj.Orientation};
         }
+
+        public new string ToString()
+        {
+            return $"{Type} {Endpoint1} {Endpoint2}";
+        }
     }
 }

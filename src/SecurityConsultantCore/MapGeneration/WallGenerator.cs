@@ -6,6 +6,7 @@
 
 //namespace SecurityConsultantCore.MapGeneration
 //{
+// TODO
 //    public class WallGenerator
 //    {
 //        private static readonly Dictionary<XY, int> _offsetNeightborCoordinates = new Dictionary<XY, int>

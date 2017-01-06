@@ -8,6 +8,7 @@ using SecurityConsultantCore.FacilityObjects;
 
 namespace SecurityConsultantCore.Thievery
 {
+    // TODO
     public class Thief : ObservedBase<IEnumerable<IValuable>>
     {
         private readonly IBody _thiefBody;
@@ -93,11 +94,13 @@ namespace SecurityConsultantCore.Thievery
         private IEnumerable<XYZ> GetStealLocations(SpatialValuable valuable)
         {
             return new List<XYZ>();
+            // TODO
             //return GetDirectionsValuableCanBeStolenFrom(valuable)
             //    .Select(x => (XYZ)new XYZAdjacent(valuable.Location, x))
             //    .Where(x => _map.IsOpenSpace(x));
         }
 
+        // TODO
         //private IEnumerable<Orientation> GetDirectionsValuableCanBeStolenFrom(SpatialValuable valuable)
         //{
         //    var space = _map[valuable.Location];

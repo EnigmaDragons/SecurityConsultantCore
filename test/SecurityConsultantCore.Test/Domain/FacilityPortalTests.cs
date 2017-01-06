@@ -59,7 +59,7 @@ namespace SecurityConsultantCore.Test.Domain
             var obj = new FacilityObject {Type = "Stairs", Orientation = Orientation.Left};
             var portal = FacilityPortal.FromObject(obj);
 
-            Assert.AreEqual(obj, (FacilityObject)portal);
+            Assert.AreEqual(obj, portal);
         }
     }
 }

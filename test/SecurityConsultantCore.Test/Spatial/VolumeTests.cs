@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Spatial;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SecurityConsultantCore.Test.Spatial
 {
@@ -7,23 +10,24 @@ namespace SecurityConsultantCore.Test.Spatial
     public class VolumeTests
     {
         [TestMethod]
-        public void Volume_Created_ResultsCorrect()
+        public void Volume_GetOccupiedSpaces_SpacesCorrect()
         {
-            var volume = new Volume(new bool[2, 2] { { true, false }, { false, true } });
+            var volume = new Volume(new List<XY> { new XY(0, 0), new XY(1, 1) });
 
-            Assert.IsTrue(volume[0, 0]);
-            Assert.IsFalse(volume[1, 0]);
-            Assert.IsFalse(volume[0, 1]);
-            Assert.IsTrue(volume[1, 1]);
+            var spaces = volume.GetOccupiedSpaces(new XYZOrientation(0, 0, 0, Orientation.Default)).ToList();
+
+            CollectionAssert.AreEquivalent(new List<XYZ> { new XYZ(0, 0, 0), new XYZ(1, 1, 0) }, spaces);
         }
 
         [TestMethod]
-        public void Volume_Equals_ResultsCorrect()
+        public void Volume_GetRotatedOccupiedSpaces_SpacesCorrect()
         {
-            var volume1 = new Volume(new bool[2, 2] { { true, false }, { false, true } });
-            var volume2 = new Volume(new bool[2, 2] { { true, false }, { false, true } });
+            var volume = new Volume(new List<XY> { new XY(0, 0), new XY(1, 1) });
 
-            Assert.AreEqual(volume1, volume2);
+            var spaces = volume.GetOccupiedSpaces(new XYZOrientation(0, 0, 0, Orientation.Ninety)).ToList();
+
+            var expected = new List<XYZ> { new XYZ(0, 0, 0), new XYZ(-1, 1, 0) };
+            Assert.IsTrue(expected.TrueForAll(x => spaces.Contains(x)));
         }
     }
 }

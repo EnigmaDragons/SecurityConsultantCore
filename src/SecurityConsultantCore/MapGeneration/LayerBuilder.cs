@@ -4,6 +4,7 @@
 
 //namespace SecurityConsultantCore.MapGeneration
 //{
+// TODO
 //    public class LayerBuilder
 //    {
 //        private readonly FacilityLayer _layer;

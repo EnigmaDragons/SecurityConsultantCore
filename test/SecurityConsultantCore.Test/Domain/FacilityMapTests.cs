@@ -2,9 +2,12 @@
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
+using SecurityConsultantCore.Spatial;
 using SecurityConsultantCore.Test.EngineMocks;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System;
+using SecurityConsultantCore.Common;
 
 namespace SecurityConsultantCore.Test.Domain
 {
@@ -46,64 +49,111 @@ namespace SecurityConsultantCore.Test.Domain
         }
 
         [TestMethod]
-        public void FacilityMap__()
+        public void FacilityMap_OpenSpacesWithLShapedObject_CorrectSpacesOccupied()
         {
+            var lObject = new FacilityObject { Volume = new Volume(new XY(0, 0), new XY(1, 0), new XY(0, 1)) };
+            _map.Put(new XYZOrientation(1.0, 1.0, 0, Orientation.Default), lObject);
 
+            AssertSpacesNotOpen(new XYZ(1.0, 1.0, 0), new XYZ(2.0, 1.0, 0), new XYZ(1.0, 2.0, 0));
+            AssertSpacesOpen(new XYZ(0.0, 0.0, 0), new XYZ(0.0, 1.0, 0), new XYZ(0.0, 2.0, 0),
+                new XYZ(1.0, 0.0, 0), new XYZ(2.0, 0.0, 0), new XYZ(2.0, 2.0, 0));
         }
 
-        //[TestMethod]
-        //public void FacilityMap_Valuables_AreCorrect()
-        //{
-        //    var value1 = new ValuableFacilityObject { Type = "Painting" };
-        //    var container = new ValuablesContainer { Type = "Table" };
-        //    var value2 = new Valuable { Type = "Diamond" };
-        //    container.Put(value2);
-        //    _map[0].Put(new XYOrientation(5.0, 6.0), value1);
-        //    _map[0].Put(new XYOrientation(7.0, 8.0), container);
+        [TestMethod]
+        public void FacilityMap_Valuables_AreCorrect()
+        {
+            var value1 = new ValuableFacilityObject { Type = "Painting" };
+            var value2 = new ValuableFacilityObject { Type = "Diamond" };
+            _map.Put(new XYZOrientation(0, 0, 0), value1);
+            _map.Put(new XYZOrientation(0, 0, 0), value2);
 
-        //    var valuables = _map.SpatialValuables.ToList();
+            var valuables = _map.SpatialValuables.ToList();
 
-        //    Assert.AreEqual(2, valuables.Count);
-        //    Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Painting")));
-        //    Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Diamond")));
-        //}
+            Assert.AreEqual(2, valuables.Count);
+            Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Painting")));
+            Assert.IsTrue(valuables.Any(x => x.Obj.Type.Equals("Diamond")));
+        }
 
-        //[TestMethod]
-        //public void FacilityMap_Portals_AreCorrect()
-        //{
-        //    var value1 = new FacilityPortal { Type = "Door" };
-        //    var value2 = new FacilityPortal { Type = "Window" };
-        //    _map[0].Put(new XYOrientation(5.0, 6.0), value1);
-        //    _map[0].Put(new XYOrientation(7.0, 8.0), value2);
+        [TestMethod]
+        public void FacilityMap_Portals_AreCorrect()
+        {
+            var value1 = new FacilityPortal { Type = "Door" };
+            var value2 = new FacilityPortal { Type = "Window" };
+            _map.Put(new XYZOrientation(5.0, 6.0, 0), value1);
+            _map.Put(new XYZOrientation(7.0, 8.0, 0), value2);
 
-        //    var portals = _map.Portals.ToList();
+            var portals = _map.Portals.ToList();
 
-        //    Assert.AreEqual(2, portals.Count());
-        //    Assert.AreEqual(value1, portals.First(x => x.Location.Equals(new XYZ(5, 6, 0))).Obj);
-        //    Assert.AreEqual(value2, portals.First(x => x.Location.Equals(new XYZ(7, 8, 0))).Obj);
-        //}
+            Assert.AreEqual(2, portals.Count());
+            Assert.AreEqual(value1, portals.First(x => x.Location.Equals(new XYZ(5, 6, 0))).Obj);
+            Assert.AreEqual(value2, portals.First(x => x.Location.Equals(new XYZ(7, 8, 0))).Obj);
+        }
 
-        //[TestMethod]
-        //public void FacilityMap_RemoveValuable_ValuableNoLongerInSpace()
-        //{
-        //    _map.Add(_sampleLayer);
-        //    var jewels = new ValuableFacilityObject { Type = "Jewels", ObjectLayer = ObjectLayer.LowerObject };
-        //    _map[5, 5, 0].Put(jewels);
+        [TestMethod]
+        public void FacilityMap_RemoveValuable_ValuableNoLongerInSpace()
+        {
+            var jewels = new ValuableFacilityObject { Type = "Jewels" };
+            _map.Put(new XYZOrientation(5, 5, 0), jewels);
 
-        //    _map.Remove(jewels);
+            _map.Remove(jewels);
 
-        //    Assert.AreEqual(true, _map[5, 5, 0].IsEmpty);
-        //}
+            Assert.IsFalse(_map.SpatialValuables.Any(x => x.Obj.Equals(jewels)));
+        }
 
-        //[TestMethod]
-        //public void FacilityMap_Exists_ReturnsFalse()
-        //{
-        //    _sampleLayer.Put(1, 1, _sampleSpace);
+        [TestMethod]
+        public void FacilityMap_RemoveOnlyVolumetricObject_IsOpenTrue()
+        {
+            var jewels = new ValuableFacilityObject { Type = "Jewels", Volume = new Volume(new XY(0, 0)) };
+            _map.Put(new XYZOrientation(5, 5, 0), jewels);
 
-        //    _map.Add(_sampleLayer);
+            _map.Remove(jewels);
 
-        //    Assert.IsFalse(_map.Exists(new XYZ(1, 1, 2)));
-        //}
+            Assert.IsTrue(_map.IsOpen(new XYZ(5, 5, 0)));
+        }
+
+        [TestMethod]
+        public void FacilityMap_TwoVolumesSameLocationOneRemoved_IsOpenFalse()
+        {
+            var jewels = new ValuableFacilityObject { Type = "Jewels", Volume = new Volume(new XY(0, 0)) };
+            var jewels2 = new ValuableFacilityObject { Type = "Jewels", Volume = new Volume(new XY(0, 0)) };
+
+            _map.Put(new XYZOrientation(5, 5, 0), jewels);
+            _map.Put(new XYZOrientation(5, 5, 0), jewels2);
+
+            _map.Remove(jewels);
+
+            Assert.IsFalse(_map.IsOpen(new XYZ(5, 5, 0)));
+        }
+
+        [TestMethod]
+        public void FacilityMap_SmallOnLargeObjectLargeObjectRemoved_SmallObjectRemains()
+        {
+            var jewels = new ValuableFacilityObject { Type = "Jewels", Volume = new Volume(new XY(0, 0)) };
+            var table = new ValuableFacilityObject { Type = "Table", Volume = new Volume(new XY(0, 0), new XY(1, 0)) };
+
+            _map.Put(new XYZOrientation(5, 5, 0), jewels);
+            _map.Put(new XYZOrientation(5, 5, 0), table);
+
+            _map.Remove(table);
+
+            Assert.AreEqual(1, _map.SpatialValuables.Count());
+            Assert.IsFalse(_map.IsOpen(new XYZ(5, 5, 0)));
+            Assert.IsTrue(_map.IsOpen(new XYZ(6, 5, 0)));
+        }
+
+        [TestMethod]
+        [Ignore]
+        // Currently working RIGHT HERE, have to have some notion of extents that expand as we add objects to the FacilityMap
+        public void FacilityMap_SingleTileVolume_ExistsCorrect()
+        {
+            _map.Put(new XYZOrientation(1, 2, 3), new FacilityObject { Volume = new Volume(new XY(0, 0)) });   
+
+            Assert.IsTrue(_map.Exists(new XYZ(1, 2, 3)));
+            Assert.IsFalse(_map.Exists(new XYZ(0, 2, 3)));
+            Assert.IsFalse(_map.Exists(new XYZ(1, 40000, 3)));
+            Assert.IsFalse(_map.Exists(new XYZ(255, 2, 100)));
+            Assert.IsFalse(_map.Exists(SpecialLocation.OffOfMap));
+        }
 
         //[TestMethod]
         //public void FacilityMap_Exist_ReturnsTrue()
@@ -179,6 +229,16 @@ namespace SecurityConsultantCore.Test.Domain
         private MapInstruction CreateInstruction(params string[] args)
         {
             return MapInstruction.FromStrings(args.ToList());
+        }
+
+        private void AssertSpacesNotOpen(params XYZ[] xyzs)
+        {
+            xyzs.ForEach(xyz => Assert.IsFalse(_map.IsOpen(xyz), xyz.ToString()));
+        }
+
+        private void AssertSpacesOpen(params XYZ[] xyzs)
+        {
+            xyzs.ForEach(xyz => Assert.IsTrue(_map.IsOpen(xyz), xyz.ToString()));
         }
 
         //private FacilityObject CreateFloor()

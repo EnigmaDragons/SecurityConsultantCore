@@ -10,6 +10,10 @@ namespace SecurityConsultantCore.Domain.Basic
         {
         }
 
+        public XYZOrientation(double x, double y, int z) : this(x, y, z, Orientation.Default)
+        {
+        }
+
         public XYZOrientation(double x, double y, int z, Orientation w) : base(x, y, z, w)
         {
         }
