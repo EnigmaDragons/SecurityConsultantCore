@@ -46,6 +46,14 @@ namespace SecurityConsultantCore.Test.PlayerCommands
             Assert.AreEqual(_player, _engineer);
         }
 
+        [TestMethod]
+        public void EditCommand_EditOutsideOfMap_NoExceptionsThrown()
+        {
+            var command = new EditCommand(_map, SpecialLocation.OffOfMap, _player);
+
+            command.Go();
+        }
+
         public override void ConsultWith(IEngineer engineer)
         {
             _engineer = engineer;

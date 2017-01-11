@@ -19,8 +19,9 @@ namespace SecurityConsultantCore.PlayerCommands
 
         public void Go()
         {
-            if (!_map[_location].Placeables.Any())
+            if (!_map.Exists(_location) || !_map[_location].Placeables.Any())
                 return;
+
             var securityObject = _map[_location].Placeables.First();
             securityObject.ConsultWith(_engineer);
         }
