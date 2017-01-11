@@ -3,7 +3,9 @@ using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Domain
 {
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class FacilityObject : ITyped
+#pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public Orientation Orientation { get; set; } = Orientation.Up;
         public ObjectLayer ObjectLayer { get; set; } = ObjectLayer.Unknown;

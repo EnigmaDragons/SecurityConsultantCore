@@ -26,7 +26,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         }
 
         [TestMethod]
-        public void EditCommand_GoWithNoObjectOnSpace_NoObjectConsultsWithNoPlayer()
+        public void EditCommand_EditEmptySpace_NoObjectConsultsWithPlayer()
         {
             var command = new EditCommand(_map, new XYZ(1, 1, 0), _player);
 

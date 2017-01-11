@@ -10,17 +10,36 @@ namespace SecurityConsultantCore.Test.PlayerCommands
     [TestClass]
     public class EraseCommandTests
     {
-        [TestMethod]
-        public void EraseCommand_EraseSecurityObjectAtLocation()
+        private FacilityMap _map;
+
+        [TestInitialize]
+        public void Init()
         {
-            var map = new FacilityMap(new InMemoryWorld());
-            map.Add(new FacilityLayer(1, 1));
-            map[0, 0, 0].Put(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerObject });
-            var command = new EraseCommand(map, new XYZ(0, 0, 0));
+            _map = new FacilityMap(new InMemoryWorld());
+            _map.Add(new FacilityLayer(1, 1));
+        }
+
+        [TestMethod]
+        public void EraseCommand_EraseSecurityObjectAtLocation_ObjectGone()
+        {
+            _map[0, 0, 0].Put(new FakeSecurityObject { ObjectLayer = ObjectLayer.LowerObject });
+            var command = new EraseCommand(_map, new XYZ(0, 0, 0));
 
             command.Go();
 
-            Assert.AreEqual(map[0, 0, 0].LowerObject.Type, "None");
+            Assert.AreEqual(_map[0, 0, 0].LowerObject.Type, "None");
+        }
+
+        [TestMethod]
+        public void EraseCommand_EraseSecurityObject_ValuableNotRemoved()
+        {
+            _map[0, 0, 0].Put(new FakeSecurityObject { Type = "Camera", ObjectLayer = ObjectLayer.LowerObject });
+            _map[0, 0, 0].Put(new ValuableFacilityObject { Type = "Diamonds", ObjectLayer = ObjectLayer.Ground });
+            var command = new EraseCommand(_map, new XYZ(0, 0, 0));
+
+            command.Go();
+
+            Assert.AreEqual(_map[0, 0, 0].Ground.Type, "Diamonds");
         }
     }
 }
