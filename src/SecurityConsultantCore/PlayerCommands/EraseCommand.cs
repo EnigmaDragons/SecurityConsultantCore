@@ -6,8 +6,8 @@ namespace SecurityConsultantCore.PlayerCommands
 {
     public class EraseCommand
     {
-        private FacilityMap _map;
-        private XYZ _location;
+        private readonly FacilityMap _map;
+        private readonly XYZ _location;
 
         public EraseCommand(FacilityMap map, XYZ location)
         {

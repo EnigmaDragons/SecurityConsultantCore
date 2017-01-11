@@ -23,7 +23,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         public void BuildCommand_Build_ObjectPlaced()
         {
             var securityObj = CreateLowerSecurityObject();
-            var command = new BuildCommand(_map, securityObj, new XYZ(0, 0, 0));
+            var command = new BuildCommand(_map, new XYZ(0, 0, 0), securityObj);
 
             command.Go();
 
@@ -36,7 +36,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
             var obj1 = CreateLowerSecurityObject("Lasers");
             _map[0, 0, 0].Put(obj1);
             var obj2 = CreateLowerSecurityObject("CannonBall");
-            var command = new BuildCommand(_map, obj2, new XYZ(0, 0, 0));
+            var command = new BuildCommand(_map, new XYZ(0, 0, 0), obj2);
 
             command.Go();
 
@@ -47,7 +47,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         [TestMethod]
         public void BuildCommand_PlaceOffMap_NoExceptionsThrown()
         {
-            var command = new BuildCommand(_map, CreateLowerSecurityObject(), SpecialLocation.OffOfMap);
+            var command = new BuildCommand(_map, SpecialLocation.OffOfMap, CreateLowerSecurityObject());
 
             command.Go();
         }
@@ -57,7 +57,7 @@ namespace SecurityConsultantCore.Test.PlayerCommands
         {
             _map[0, 0, 0].Put(new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Wall" });
             var secObj = CreateLowerSecurityObject();
-            var command = new BuildCommand(_map, secObj, new XYZ(0, 0, 0));
+            var command = new BuildCommand(_map, new XYZ(0, 0, 0), secObj);
 
             command.Go();
 
