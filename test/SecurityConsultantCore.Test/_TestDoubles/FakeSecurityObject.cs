@@ -1,5 +1,5 @@
 ﻿using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Player;
 
 namespace SecurityConsultantCore.Test._TestDoubles
 {

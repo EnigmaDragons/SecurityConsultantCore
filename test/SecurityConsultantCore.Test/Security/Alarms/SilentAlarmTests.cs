@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.EventSystem;
 using SecurityConsultantCore.Security.Alarms;
 using System.Diagnostics.CodeAnalysis;
-using SecurityConsultantCore.EventSystem.EventTypes;
 using System.Linq;
+using SecurityConsultantCore.Engine;
+using SecurityConsultantCore.Event;
 
 namespace SecurityConsultantCore.Test.Security.Alarms
 {

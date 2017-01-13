@@ -1,7 +1,6 @@
 ﻿using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.EngineInterfaces;
-using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.EventTypes;
+using SecurityConsultantCore.Engine;
+using SecurityConsultantCore.Event;
 
 namespace SecurityConsultantCore.Security.Alarms
 {

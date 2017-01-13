@@ -3,9 +3,9 @@ using System.Linq;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.EventTypes;
-using SecurityConsultantCore.PlayerCommands;
+using SecurityConsultantCore.Engine;
+using SecurityConsultantCore.Event;
+using SecurityConsultantCore.Player;
 
 namespace SecurityConsultantCore.Security.Guards
 {

@@ -4,9 +4,9 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Pathfinding;
-using SecurityConsultantCore.Test.EngineMocks;
 using System.Collections.Generic;
 using System.Linq;
+using SecurityConsultantCore.Test.Engine;
 
 namespace SecurityConsultantCore.Test.Pathfinding
 {

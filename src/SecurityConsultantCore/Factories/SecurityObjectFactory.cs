@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.EventSystem;
+using SecurityConsultantCore.Engine;
 using SecurityConsultantCore.Security.Guards;
 
 namespace SecurityConsultantCore.Factories
@@ -26,7 +26,6 @@ namespace SecurityConsultantCore.Factories
             _factories = new Dictionary<string, Func<XYZ, SecurityObjectBase>>
             {
                 { "BatonSecurityGuard", xyz => new Guard(_bodyFactory.Create(), xyz, _eventNotification) { Type = "BatonSecurityGuard", ObjectLayer = ObjectLayer.GroundPlaceable} },
-
             };
         }
 

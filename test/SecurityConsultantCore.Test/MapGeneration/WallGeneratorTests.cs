@@ -5,7 +5,7 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Factories;
 using SecurityConsultantCore.MapGeneration;
-using SecurityConsultantCore.Test.EngineMocks;
+using SecurityConsultantCore.Test.Engine;
 
 namespace SecurityConsultantCore.Test.MapGeneration
 {

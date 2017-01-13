@@ -4,9 +4,9 @@ namespace SecurityConsultantCore.Scoring.Criteria
 {
     public class IncidentCriteria : IScoringCriteria
     {
-        private int _thievesEscaped { get; }
-        private int _totalThieves { get; }
-        private double _marginOfError { get; }
+        private readonly int _thievesEscaped;
+        private readonly int _totalThieves;
+        private readonly double _marginOfError;
 
         public IncidentCriteria(int thievesEscaped, int totalThieves, double marginOfError)
         {

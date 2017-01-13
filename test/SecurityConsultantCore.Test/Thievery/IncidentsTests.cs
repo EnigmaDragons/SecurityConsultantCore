@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.EventTypes;
-using SecurityConsultantCore.Test.EngineMocks;
+using SecurityConsultantCore.Engine;
+using SecurityConsultantCore.Event;
+using SecurityConsultantCore.Test.Engine;
 using SecurityConsultantCore.Test._TestDoubles;
 using SecurityConsultantCore.Thievery;
 

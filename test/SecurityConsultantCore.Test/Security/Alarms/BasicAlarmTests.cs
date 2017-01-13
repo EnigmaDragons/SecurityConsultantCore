@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Security.Alarms;
-using SecurityConsultantCore.Test.EngineMocks;
 using System.Diagnostics.CodeAnalysis;
+using SecurityConsultantCore.Test.Engine;
 
 namespace SecurityConsultantCore.Test.Security.Alarms
 {

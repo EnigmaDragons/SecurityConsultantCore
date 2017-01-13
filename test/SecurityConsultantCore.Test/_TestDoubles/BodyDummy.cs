@@ -12,6 +12,10 @@ namespace SecurityConsultantCore.Test._TestDoubles
             callBack();
         }
 
+        public void Traverse(FacilityPortal portal)
+        {
+        }
+
         public void Exit()
         {
         }

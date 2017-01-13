@@ -6,7 +6,7 @@ using MSTestExtensions;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.Pathfinding;
-using SecurityConsultantCore.Test.EngineMocks;
+using SecurityConsultantCore.Test.Engine;
 
 namespace SecurityConsultantCore.Test.Pathfinding
 {

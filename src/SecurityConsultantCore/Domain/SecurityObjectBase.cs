@@ -1,4 +1,4 @@
-﻿using SecurityConsultantCore.PlayerCommands;
+﻿using SecurityConsultantCore.Player;
 
 namespace SecurityConsultantCore.Domain
 {

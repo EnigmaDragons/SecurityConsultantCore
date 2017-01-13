@@ -10,8 +10,8 @@ using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Pathfinding;
+using SecurityConsultantCore.Test.Engine;
 using SecurityConsultantCore.Thievery;
-using SecurityConsultantCore.Test.EngineMocks;
 
 namespace SecurityConsultantCore.Test.Thievery
 {
@@ -34,6 +34,7 @@ namespace SecurityConsultantCore.Test.Thievery
         private bool _exited = false;
         private readonly List<Path> _traversedPaths = new List<Path>();
         private readonly List<XYZ> _stolenLocations = new List<XYZ>();
+        private readonly List<FacilityPortal> _traversedPortals = new List<FacilityPortal>();
 
         [TestInitialize]
         public void Init()
@@ -205,6 +206,11 @@ namespace SecurityConsultantCore.Test.Thievery
         {
             _traversedPaths.Add(path);
             Task.Run(action);
+        }
+
+        public void Traverse(FacilityPortal portal)
+        {
+            _traversedPortals.Add(portal);
         }
 
         public void Exit()

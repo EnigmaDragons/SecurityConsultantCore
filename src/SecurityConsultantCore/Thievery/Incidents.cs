@@ -2,8 +2,8 @@
 using System.Linq;
 using SecurityConsultantCore.Common;
 using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.EventTypes;
+using SecurityConsultantCore.Engine;
+using SecurityConsultantCore.Event;
 
 namespace SecurityConsultantCore.Thievery
 {

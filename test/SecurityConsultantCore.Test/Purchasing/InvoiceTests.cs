@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecurityConsultantCore.Business;
 using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.Purchasing;
 using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Purchasing

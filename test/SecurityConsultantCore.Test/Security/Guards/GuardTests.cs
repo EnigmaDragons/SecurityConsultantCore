@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.Engine;
+using SecurityConsultantCore.Event;
 using SecurityConsultantCore.Pathfinding;
 using SecurityConsultantCore.Security.Guards;
-using SecurityConsultantCore.EventSystem;
-using SecurityConsultantCore.EventSystem.EventTypes;
 using SecurityConsultantCore.Test._TestDoubles;
 
 namespace SecurityConsultantCore.Test.Security.Guards

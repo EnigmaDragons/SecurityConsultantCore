@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.EngineInterfaces;
 using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Factories;
 using SecurityConsultantCore.Common;
+using SecurityConsultantCore.Engine;
 
 namespace SecurityConsultantCore.Domain
 {

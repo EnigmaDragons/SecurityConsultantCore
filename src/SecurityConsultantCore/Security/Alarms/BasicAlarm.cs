@@ -1,11 +1,11 @@
 ﻿using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.EngineInterfaces;
+using SecurityConsultantCore.Engine;
 
 namespace SecurityConsultantCore.Security.Alarms
 {
     public class BasicAlarm : AlarmBase, IAlarm
     {
-        private ISound _alarmSound;
+        private readonly ISound _alarmSound;
 
         public BasicAlarm(ISound alarmSound)
         {

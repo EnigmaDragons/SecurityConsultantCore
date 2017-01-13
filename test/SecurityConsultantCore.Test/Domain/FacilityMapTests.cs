@@ -3,8 +3,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.Test.EngineMocks;
 using SecurityConsultantCore.MapGeneration;
+using SecurityConsultantCore.Test.Engine;
 
 namespace SecurityConsultantCore.Test.Domain
 {
