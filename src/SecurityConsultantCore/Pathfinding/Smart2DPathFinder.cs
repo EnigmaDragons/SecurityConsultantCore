@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Pathfinding
 {
@@ -11,7 +12,7 @@ namespace SecurityConsultantCore.Pathfinding
     {
         private readonly I2DPathFinder _pathFinder;
 
-        public Smart2DPathFinder(FacilityMap map) : this(new TwoDPathFinder(new ExpandedPathfindingGrid(map)))
+        public Smart2DPathFinder(FacilityMap map, int layer) : this(new TwoDPathFinder(new ExpandedPathfindingGrid(map, layer)))
         {
         }
 
@@ -47,12 +48,12 @@ namespace SecurityConsultantCore.Pathfinding
 
         private XY GetExpandedTarget(XY start)
         {
-            return new XY(start.X * 3 + 1, start.Y * 3 + 1);
+            return new XY(start.X.AsReal() * 3 + 1, start.Y.AsReal() * 3 + 1);
         }
 
-        private int GetContractedCoordinate(double x)
+        private int GetContractedCoordinate(Number x)
         {
-            return (int)Math.Floor((double)x / 3);
+            return (int)Math.Floor(x.AsReal() / 3);
         }
     }
 }

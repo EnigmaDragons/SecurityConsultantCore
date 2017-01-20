@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Linq;
 using SecurityConsultantCore.Common;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
     public class XYOrientation : XY
     {
-        public XYOrientation(double x, double y) : this(x, y, Orientation.None)
+        public XYOrientation(Number x, Number y) : this(x, y, Orientation.None)
         {
         }
 
-        public XYOrientation(double x, double y, Orientation orientation) : base(x, y)
+        public XYOrientation(Number x, Number y, Orientation orientation) : base(x, y)
         {
             Orientation = orientation;
         }

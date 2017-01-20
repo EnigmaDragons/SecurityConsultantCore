@@ -1,4 +1,5 @@
 ﻿using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.OOMath;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,14 +30,14 @@ namespace SecurityConsultantCore.Spatial
         public IEnumerable<XYZ> GetOccupiedTiles(XYZOrientation xyzo)
         {
             var rotated = _spaces.Where(x => x.IsSpacious).Select(xy => Rotate(xy, xyzo.Orientation));
-            return rotated.Select(xy => new XYZ(xy.X + xyzo.X, xy.Y + xyzo.Y, xyzo.Z));
+            return rotated.Select(xy => new XYZ(xy.Plus(xyzo), xyzo.Z));
         }
 
         private XY Rotate(XY xy, Orientation orientation)
         {
             var radians = ToRadians(orientation);
-            var newX = xy.X * Math.Cos(radians) - xy.Y * Math.Sin(radians);
-            var newY = xy.X * Math.Sin(radians) + xy.Y * Math.Cos(radians);
+            var newX = xy.X.AsReal() * Math.Cos(radians) - xy.Y.AsReal() * Math.Sin(radians);
+            var newY = xy.X.AsReal() * Math.Sin(radians) + xy.Y.AsReal() * Math.Cos(radians);
             return new XY(newX, newY);
         }
 

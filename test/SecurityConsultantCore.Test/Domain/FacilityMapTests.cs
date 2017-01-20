@@ -1,13 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecurityConsultantCore.Domain;
 using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.MapGeneration;
 using SecurityConsultantCore.Spatial;
 using SecurityConsultantCore.Test.EngineMocks;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System;
 using SecurityConsultantCore.Common;
+using System.Collections.Generic;
 
 namespace SecurityConsultantCore.Test.Domain
 {
@@ -32,7 +31,7 @@ namespace SecurityConsultantCore.Test.Domain
         {
             _map.Put(_sampleFloor, new XYZOrientation(0.0, 0.0, 0, Orientation.Default));
 
-            var query = _map.WhatIsAt(0.0, 0.0, 0);
+            var query = _map.WhatIsAt(new XYZ(0.0, 0.0, 0));
             Assert.AreEqual(_sampleFloor, query.First().Obj);
         }
 
@@ -42,7 +41,7 @@ namespace SecurityConsultantCore.Test.Domain
             _map.Put(_sampleFloor, new XYZOrientation(0.0, 0.0, 0, Orientation.Default));
             _map.Put(_sampleFloor, new XYZOrientation(1.0, 1.0, 0, Orientation.Default));
 
-            var query = _map.WhatIsAt(0.0, 0.0, 0);
+            var query = _map.WhatIsAt(new XYZ(0.0, 0.0, 0));
 
             Assert.AreEqual(1, query.Count());
             Assert.AreEqual(_sampleFloor, query.First().Obj);
@@ -172,74 +171,66 @@ namespace SecurityConsultantCore.Test.Domain
         }
 
         [TestMethod]
-        public void FacilityMap_PlaceFloorInstruction_SpaceStillOpen()
+        public void FacilityMap_FloorOnSpace_SpaceIsOpen()
         {
-            _map.Put(new FacilityObject { Type = "Floor", Volume = new Volume(new XYVolume(0, 0, false)) }, new XYZOrientation(0, 0, 0));
+            _map.Put(CreateFloor(), new XYZOrientation(0, 0, 0));
             
             Assert.AreEqual(true, _map.IsOpen(new XYZ(0, 0, 0)));
         }
 
-
         [TestMethod]
-        public void FacilityMap_CheckIfHalfwayBetweenSpacesExists_IsASpace()
+        public void FacilityMap_WhenShowingLayer_AllObjectsInWorld()
         {
-            _map.Put(new FacilityObject { Volume = new Volume(new XYVolume(0, 0, false)) }, new XYZOrientation(0, 0, 0));
+            var floor = CreateFloor();
+            _map.Put(floor, new XYZOrientation(1, 1, 0));
 
+            _map.ShowLayer(0);
 
+            Assert.IsTrue(_world.IsObjectAt(floor, new XYZ(1, 1, 0)));
         }
 
-        //[TestMethod]
-        //public void FacilityMap_SinglePortalMapInstruction_LayersAndPortalsCorrect()
-        //{
-        //    var map = new FacilityMap(_world, CreateInstruction("Layer:Size=1,1", "Portal-Door:0,0,0;End1=(OffMap);End2=(OffMap)"));
+        [TestMethod]
+        public void FacilityMap_WhenShowingLayerTwoObjects_AllObjectsInWorld()
+        {
+            var floor = CreateFloor();
+            var vase = new FacilityObject { Type = "Vase" };
+            _map.Put(floor, new XYZOrientation(1, 1, 0));
+            _map.Put(vase, new XYZOrientation(1, 1, 0));
 
-        //    Assert.AreEqual(1, map.LayerCount);
-        //    Assert.AreEqual(1, map.Portals.Count());
-        //}
+            _map.ShowLayer(0);
 
-        //[TestMethod]
-        //public void FacilityMap_WhenShowingLayer_AllObjectsInWorld()
-        //{
-        //    var floor = CreateFloor();
-        //    _sampleSpace.Put(floor);
-        //    _sampleLayer.Put(1, 1, _sampleSpace);
-        //    _map.Add(_sampleLayer);
+            Assert.IsTrue(_world.IsObjectAt(floor, new XYZ(1, 1, 0)));
+            Assert.IsTrue(_world.IsObjectAt(vase, new XYZ(1, 1, 0)));
+        }
 
-        //    _map.ShowLayer(0);
+        [TestMethod]
+        public void FacilityMap_WhenShowingSecondLayer_FirstLayerNotVisible()
+        {
+            var floor = CreateFloor();
+            var vase = new FacilityObject { Type = "Vase" };
+            _map.Put(floor, new XYZOrientation(1, 1, 0));
+            _map.Put(vase, new XYZOrientation(1, 1, 1));
 
-        //    Assert.AreEqual(floor, _world.ObjectAt(new XYZ(1, 1, 0), ObjectLayer.Ground));
-        //}
+            _map.ShowLayer(0);
+            _map.ShowLayer(1);
 
-        //[TestMethod]
-        //public void FacilityMap_WhenShowingLayerTwoObjects_AllObjectsInWorld()
-        //{
-        //    var floor = CreateFloor();
-        //    var vase = new FacilityObject { ObjectLayer = ObjectLayer.LowerObject, Type = "Vase" };
-        //    _sampleSpace.Put(floor);
-        //    _sampleSpace.Put(vase);
-        //    _sampleLayer.Put(1, 1, _sampleSpace);
-        //    _map.Add(_sampleLayer);
+            Assert.IsTrue(_world.IsObjectAt(vase, new XYZ(1, 1, 1)));
+        }
 
-        //    _map.ShowLayer(0);
+        [TestMethod]
+        public void FacilityMap_Floors_AreCorrect()
+        {
+            var value1 = new FacilityPortal { Type = "Floor" };
+            var value2 = new FacilityPortal { Type = "Floor" };
+            _map.Put(value1, new XYZOrientation(5.0, 6.0, 0));
+            _map.Put(value2, new XYZOrientation(7.0, 8.0, 0));
 
-        //    Assert.AreEqual(floor, _world.ObjectAt(new XYZ(1, 1, 0), ObjectLayer.Ground));
-        //    Assert.AreEqual(vase, _world.ObjectAt(new XYZ(1, 1, 0), ObjectLayer.LowerObject));
-        //}
+            var floors = _map.Portals.ToList();
 
-        //[TestMethod]
-        //public void FacilityMap_WhenShowingSecondLayer_FirstLayerNotVisible()
-        //{
-        //    var floor = CreateFloor();
-        //    _sampleSpace.Put(floor);
-        //    _sampleLayer.Put(1, 1, _sampleSpace);
-        //    _map.Add(_sampleLayer);
-        //    _map.Add(new FacilityLayer());
-
-        //    _map.ShowLayer(0);
-        //    _map.ShowLayer(1);
-
-        //    Assert.AreEqual(new FacilityObject(), _world.ObjectAt(new XYZ(1, 1, 0), ObjectLayer.Ground));
-        //}
+            Assert.AreEqual(2, floors.Count());
+            Assert.AreEqual(value1, floors.First(x => x.Location.Equals(new XYZ(5, 6, 0))).Obj);
+            Assert.AreEqual(value2, floors.First(x => x.Location.Equals(new XYZ(7, 8, 0))).Obj);
+        }
 
         private void AssertSpacesNotOpen(params XYZ[] xyzs)
         {
@@ -251,9 +242,9 @@ namespace SecurityConsultantCore.Test.Domain
             xyzs.ForEach(xyz => Assert.IsTrue(_map.IsOpen(xyz), xyz.ToString()));
         }
 
-        //private FacilityObject CreateFloor()
-        //{
-        //    return new FacilityObject { ObjectLayer = ObjectLayer.Ground, Type = "Floor" };
-        //}
+        private FacilityObject CreateFloor()
+        {
+            return new StructureObject { Type = "Floor" };
+        }
     }
 }

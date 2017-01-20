@@ -10,7 +10,6 @@
 
 //namespace SecurityConsultantCore.Test.Pathfinding
 //{
-// TODO
 //    [TestClass]
 //    public class PatrolRouteProposalTests
 //    {

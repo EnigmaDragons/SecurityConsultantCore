@@ -1,15 +1,20 @@
-﻿using SecurityConsultantCore.Common;
+﻿using System;
+using SecurityConsultantCore.Common;
 using SecurityConsultantCore.OOMath;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
     public class XYZ : XY
     {
-        public XYZ(XY xy, int z) : this(xy, new SimpleNumber(z)) {}
+        private int y;
 
-        public XYZ(double x, double y, int z) : this(new SimpleNumber(x), new SimpleNumber(y),  new SimpleNumber(y)) {}
+        public XYZ(Number x, Number y) 
+            : this (x, y, 0) { }
 
-        public XYZ(XY xy, Number z) : this(xy.X, xy.Y, z) {}
+        public XYZ(XY xy, Number z) 
+            : this(xy.X, xy.Y, z) { }
 
         public XYZ(Number x, Number y, Number z) : base(x, y)
         {
@@ -54,6 +59,16 @@ namespace SecurityConsultantCore.Domain.Basic
             var cleanedArg = arg.RemoveParantheses().RemoveSpaces();
             var values = cleanedArg.Split(',');
             return new XYZ(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]));
+        }
+
+        public IEnumerable<XYZ> GetNeighbors()
+        {
+            var neighbors = new List<XYZ>();
+            for(int xOff = -1; xOff < 2; ++xOff)
+                for(int yOff = -1; yOff < 2; ++yOff)
+                    if (xOff != 0 || yOff != 0)
+                        neighbors.Add(new XYZ(X + xOff, Y + yOff, Z));
+            return neighbors;
         }
     }
 }

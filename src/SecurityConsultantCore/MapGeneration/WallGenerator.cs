@@ -3,13 +3,14 @@
 //using SecurityConsultantCore.Domain;
 //using SecurityConsultantCore.Domain.Basic;
 //using SecurityConsultantCore.Factories;
+//using SecurityConsultantCore.Common;
 
 //namespace SecurityConsultantCore.MapGeneration
 //{
-// TODO
+//    // TODO
 //    public class WallGenerator
 //    {
-//        private static readonly Dictionary<XY, int> _offsetNeightborCoordinates = new Dictionary<XY, int>
+//        private static readonly Dictionary<XY, int> _offsetNeighborCoordinates = new Dictionary<XY, int>
 //        {
 //            {new XY(-1, -1), 1},
 //            {new XY(-1, 0), 4},
@@ -23,45 +24,30 @@
 
 //        public void GenerateWalls(FacilityMap map)
 //        {
-//            foreach (var layer in map)
-//                GenerateWalls(layer.Obj);
+//            var targets = map.WallSpaces;
+//            targets.ForEach(x => 
+//                map.Put(WallFactory.Create("Wall-" + GetWallType(new XY(x.X, x.Y)), x)) ;
 //        }
 
-//        public void GenerateWalls(FacilityLayer layer)
+//        private void PutWallSpace(FacilityMap map, XYZ location)
 //        {
-//            GetWallLocations(layer).ForEach(x => PutWallSpace(layer, x));
 //        }
 
-//        private List<XY> GetWallLocations(FacilityLayer layer)
+//        private List<int> GetNearbyFloorLocations(FacilityMap map, XY location)
 //        {
-//            return new List<XY>();
-//            //return layer.Where(IsFloor)
-//            //    .SelectMany(y => layer.GetNeighbors(y.Location).Where(x => !IsFloor(x)))
-//            //    .Select(z => z.Location)
-//            //    .Distinct().ToList();
+//            var wallSpaces =
+//            map.Floors.Select(floor => floor.Location.GetNeighbors())
+//            .Except(map.Floors)
+//            .Select(GetWallType)
+//            .Distinct();
+
+//            return layer.GetNeighbors(location)
+//                .Where(IsFloor)
+//                .Select(x => GetSpaceNumber(x.Location, location))
+//                .OrderBy(x => x).ToList();
 //        }
 
-//        private bool IsFloor(XYLocation<FacilitySpace> x)
-//        {
-//            return x.Obj.Contains(FacilityObjectNames.Floor);
-//        }
-
-//        private void PutWallSpace(FacilityLayer layer, XY location)
-//        {
-//            var wallType = GetWallType(GetNearbyFloorLocations(layer, location));
-//            //layer[location].LowerObject = WallFactory.Create("Wall-" + wallType);
-//        }
-
-//        private List<int> GetNearbyFloorLocations(FacilityLayer layer, XY location)
-//        {
-//            return new List<int>();
-//            //return layer.GetNeighbors(location)
-//            //    .Where(IsFloor)
-//            //    .Select(x => GetSpaceNumber(x.Location, location))
-//            //    .OrderBy(x => x).ToList();
-//        }
-
-//        private string GetWallType(List<int> floorLocations)
+//        private string GetWallType(List<XY> floorLocations)
 //        {
 //            var wallType = "";
 //            floorLocations.ForEach(x => wallType += x);
@@ -71,7 +57,7 @@
 //        private int GetSpaceNumber(XY spaceLocation, XY wallLocation)
 //        {
 //            var offset = wallLocation.GetOffset(spaceLocation);
-//            return _offsetNeightborCoordinates[offset];
+//            return _offsetNeighborCoordinates[offset];
 //        }
 //    }
 //}

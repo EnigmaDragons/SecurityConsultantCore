@@ -14,7 +14,7 @@ namespace SecurityConsultantCore.Domain
 
         public bool IsNothing => Type.Equals("None");
 
-        public new string ToString()
+        public override string ToString()
         {
             return IsNothing ? Type : string.Format("{0} ({1}): {2}", Type, Subtype, Orientation);
         }

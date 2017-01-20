@@ -21,6 +21,11 @@ namespace SecurityConsultantCore.Domain
             throw new InvalidOperationException("Invalid portal entry location: " + source);
         }
 
+        public bool IsAtEndpoint(XYZ xyz)
+        {
+            return xyz.Equals(Endpoint1) || xyz.Equals(Endpoint2);
+        }
+
         public static FacilityPortal FromObject(FacilityObject obj)
         {
             return new FacilityPortal {Type = obj.Type, Volume = obj.Volume, Orientation = obj.Orientation};

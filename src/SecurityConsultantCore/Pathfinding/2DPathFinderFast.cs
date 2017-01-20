@@ -79,8 +79,8 @@ namespace SecurityConsultantCore.Pathfinding
                 _openNodes.Clear();
                 _closedNodes.Clear();
 
-                mLocation = (start.YInt << mGridYLog2) + start.XInt;
-                mEndLocation = (end.YInt << mGridYLog2) + end.XInt;
+                mLocation = (start.Y << mGridYLog2) + start.X;
+                mEndLocation = (end.Y << mGridYLog2) + end.X;
                 mCalcGrid[mLocation].G = 0;
                 mCalcGrid[mLocation].F = 2;
                 mCalcGrid[mLocation].PX = (ushort) start.X;
@@ -131,7 +131,7 @@ namespace SecurityConsultantCore.Pathfinding
                         mCalcGrid[mNewLocation].PX = mLocationX;
                         mCalcGrid[mNewLocation].PY = mLocationY;
                         mCalcGrid[mNewLocation].G = mNewG;
-                        mH = 2*(Math.Abs(mNewLocationX - end.XInt) + Math.Abs(mNewLocationY - end.YInt));
+                        mH = 2*(Math.Abs(mNewLocationX - end.X) + Math.Abs(mNewLocationY - end.Y));
                         mCalcGrid[mNewLocation].F = mNewG + mH;
 
                         _openNodes.Push(mNewLocation);
@@ -146,18 +146,18 @@ namespace SecurityConsultantCore.Pathfinding
                 if (mFound)
                 {
                     _closedNodes.Clear();
-                    var posX = end.XInt;
-                    var posY = end.YInt;
+                    var posX = end.X;
+                    var posY = end.Y;
 
-                    var fNodeTmp = mCalcGrid[(end.YInt << mGridYLog2) + end.XInt];
+                    var fNodeTmp = mCalcGrid[(end.Y << mGridYLog2) + end.X];
                     PathFinderNode fNode;
                     fNode.F = fNodeTmp.F;
                     fNode.G = fNodeTmp.G;
                     fNode.H = 0;
                     fNode.PX = fNodeTmp.PX;
                     fNode.PY = fNodeTmp.PY;
-                    fNode.X = end.XInt;
-                    fNode.Y = end.YInt;
+                    fNode.X = (int)end.X;
+                    fNode.Y = (int)end.Y;
 
                     while ((fNode.X != fNode.PX) || (fNode.Y != fNode.PY))
                     {

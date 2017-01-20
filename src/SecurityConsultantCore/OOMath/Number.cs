@@ -1,14 +1,69 @@
-﻿using System;
-
-namespace SecurityConsultantCore.OOMath
+﻿namespace SecurityConsultantCore.OOMath
 {
-    public interface Number
+    public abstract class Number
     {
-        long AsInt();
-        double AsReal();
+        public abstract long AsInt();
+        public abstract double AsReal();
+
+        public sealed override string ToString()
+        {
+            return AsInt().ToString();
+        }
+
+        public sealed override bool Equals(object other)
+        {
+            if (other == null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other is Number ? Equals((Number)other) : false;
+        }
+
+        public bool Equals(int other)
+        {
+            return AsInt() == other;
+        }
+
+        private bool Equals(Number other)
+        {
+            return AsInt() == other.AsInt();
+        }
+
+        public static bool operator ==(Number first, Number second)
+        {
+            return Equals(first, second);
+        }
+
+        public static bool operator !=(Number first, Number second)
+        {
+            return !Equals(first, second);
+        }
+
+        public static implicit operator ushort(Number number)
+        {
+            return (ushort)number.AsInt();
+        }
+
+        public static implicit operator int(Number number)
+        {
+            return (int)number.AsInt();
+        }
+
+        public static implicit operator long(Number number)
+        {
+            return number.AsInt();
+        }
+
+        public static implicit operator Number(int number)
+        {
+            return new SimpleNumber(number);
+        }
+
+        public static implicit operator Number(double number)
+        {
+            return new SimpleNumber(number);
+        }
     }
 
-    public class SimpleNumber : Number
+    public sealed class SimpleNumber : Number
     {
         private readonly double _realValue;
 
@@ -25,17 +80,12 @@ namespace SecurityConsultantCore.OOMath
             _realValue = realValue;
         }
 
-        public static implicit operator SimpleNumber(int value)
-        {
-            return new SimpleNumber(value);
-        }
-
-        public long AsInt()
+        public override long AsInt()
         {
             return new Floored(this).AsInt();
         }
 
-        public double AsReal()
+        public override double AsReal()
         {
             return _realValue;
         }

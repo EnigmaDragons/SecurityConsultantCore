@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Common;
 using SecurityConsultantCore.OOMath;
@@ -8,9 +9,7 @@ namespace SecurityConsultantCore.Domain.Basic
     public class XY
     {
         public XY() : this(0, 0) {}
-
-        public XY(double x, double y) : this(new SimpleNumber(x), new SimpleNumber(y)) {}
-
+        
         public XY(Number x, Number y)
         {
             X = x;
@@ -33,10 +32,8 @@ namespace SecurityConsultantCore.Domain.Basic
 
         public bool Equals(XY other)
         {
-            if (other == null)
-                return false;
-            return X.AsReal().WithinEpsilonOf(other.X.AsReal()) &&
-                Y.AsReal().WithinEpsilonOf(other.Y.AsReal());
+            if (other == null) return false;
+            return X.Equals(other.X) && Y.Equals(other.Y);
         }
 
         public override int GetHashCode()

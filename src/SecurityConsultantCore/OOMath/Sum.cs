@@ -11,12 +11,12 @@
             this.addend = addend;
         }
 
-        public long AsInt()
+        public override long AsInt()
         {
             return new SimpleNumber(AsReal()).AsInt();
         }
 
-        public double AsReal()
+        public override double AsReal()
         {
             return augend.AsReal() + addend.AsReal();
         }

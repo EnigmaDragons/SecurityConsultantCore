@@ -2,31 +2,35 @@
 using SecurityConsultantCore.Domain.Basic;
 using SecurityConsultantCore.EngineInterfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SecurityConsultantCore.Test.EngineMocks
 {
     public class InMemoryWorld : IWorld
     {
-        private Dictionary<XYZOrientation, List<FacilityObject>> _objects = new Dictionary<XYZOrientation, List<FacilityObject>>();
+        public Dictionary<XYZ, List<FacilityObject>> Objects { get; } = new Dictionary<XYZ, List<FacilityObject>>();
 
         public void HideEverything()
         {
-            _objects.Clear();
+            Objects.Clear();
         }
 
         public void Show(XYZOriented<FacilityObject> obj)
         {
-            if (!_objects.ContainsKey(obj))
-                _objects[obj] = new List<FacilityObject>();
-            _objects[obj].Add(obj.Obj);
+            if (!Objects.ContainsKey(GetCleanKey(obj)))
+                Objects[GetCleanKey(obj)] = new List<FacilityObject>();
+            Objects[GetCleanKey(obj)].Add(obj.Obj);
         }
 
-        public FacilityObject ObjectAt(XYZOrientation location)
+        public bool IsObjectAt(FacilityObject obj, XYZ location)
         {
-            if (!_objects.ContainsKey(location))
-                return new FacilityObject();
-            return _objects[location].First();
+            if (!Objects.ContainsKey(GetCleanKey(location)))
+                return false;
+            return Objects[GetCleanKey(location)].Contains(obj);
+        }
+
+        private XYZ GetCleanKey(XYZ xyz)
+        {
+            return new XYZ(xyz.X, xyz.Y, xyz.Z);
         }
     }
 }

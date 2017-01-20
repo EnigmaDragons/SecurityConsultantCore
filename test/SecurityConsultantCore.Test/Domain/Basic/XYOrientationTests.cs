@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSTestExtensions;
 using SecurityConsultantCore.Domain.Basic;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Test.Domain.Basic
 {
@@ -21,8 +22,8 @@ namespace SecurityConsultantCore.Test.Domain.Basic
         { 
             var xyo = XYOrientation.FromString("(1,2)");
 
-            Assert.AreEqual(1, xyo.X);
-            Assert.AreEqual(2, xyo.Y);
+            Assert.AreEqual((Number)1, xyo.X);
+            Assert.AreEqual((Number)2, xyo.Y);
             Assert.AreEqual(Orientation.None, xyo.Orientation);
         }
 
@@ -30,9 +31,9 @@ namespace SecurityConsultantCore.Test.Domain.Basic
         public void XYOrientation_ValidXYOStringInput_IsCorrect()
         {
             var xyo = XYOrientation.FromString("(3,4,D)");
-
-            Assert.AreEqual(3, xyo.X);
-            Assert.AreEqual(4, xyo.Y);
+            
+            Assert.AreEqual((Number)3, xyo.X);
+            Assert.AreEqual((Number)4, xyo.Y);
             Assert.AreEqual(Orientation.Down, xyo.Orientation);
         }
 

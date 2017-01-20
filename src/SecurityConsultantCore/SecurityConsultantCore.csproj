@@ -56,7 +56,6 @@
     <Compile Include="OOMath\Floored.cs" />
     <Compile Include="OOMath\Negative.cs" />
     <Compile Include="OOMath\Number.cs" />
-    <Compile Include="Common\NumberUtils.cs" />
     <Compile Include="Common\Observed.cs" />
     <Compile Include="Common\ObservedBase.cs" />
     <Compile Include="Common\Observer.cs" />
@@ -114,7 +113,6 @@
     <Compile Include="Factories\WallFactory.cs" />
     <Compile Include="GameState\CurrentCompany.cs" />
     <Compile Include="GameState\CurrentMap.cs" />
-    <Compile Include="Interactors\SecurityPlacementValidator.cs" />
     <Compile Include="MapGeneration\MapException.cs" />
     <Compile Include="MapGeneration\MapLanguageParsing.cs" />
     <Compile Include="MapGeneration\WallGenerator.cs" />

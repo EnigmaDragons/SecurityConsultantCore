@@ -61,8 +61,8 @@ namespace SecurityConsultantCore.Pathfinding
             parentNode.G = 0;
             parentNode.H = 2;
             parentNode.F = parentNode.G + parentNode.H;
-            parentNode.X = start.XInt;
-            parentNode.Y = start.YInt;
+            parentNode.X = (int)start.X.AsInt();
+            parentNode.Y = (int)start.Y.AsInt();
             parentNode.PX = parentNode.X;
             parentNode.PY = parentNode.Y;
             mOpen.Push(parentNode);
@@ -70,7 +70,7 @@ namespace SecurityConsultantCore.Pathfinding
             {
                 parentNode = mOpen.Pop();
 
-                if ((parentNode.X == end.X) && (parentNode.Y == end.Y))
+                if ((parentNode.X.Equals(end.X.AsInt())) && (parentNode.Y.Equals(end.Y.AsInt())))
                 {
                     mClose.Add(parentNode);
                     found = true;
@@ -115,7 +115,7 @@ namespace SecurityConsultantCore.Pathfinding
                     newNode.PX = parentNode.X;
                     newNode.PY = parentNode.Y;
                     newNode.G = newG;
-                    newNode.H = 2*(Math.Abs(newNode.X - end.XInt) + Math.Abs(newNode.Y - end.YInt));
+                    newNode.H = 2*(Math.Abs(newNode.X - (int)end.X.AsInt()) + Math.Abs(newNode.Y - (int)end.Y.AsInt()));
                     newNode.F = newNode.G + newNode.H;
 
                     mOpen.Push(newNode);

@@ -76,7 +76,6 @@
     <Compile Include="Scoring\ValuablesCriteriaTests.cs" />
     <Compile Include="Spatial\XYZOrientedTests.cs" />
     <Compile Include="Thievery\IncidentsTests.cs" />
-    <Compile Include="Interactors\SecurityPlacementValidatorTests.cs" />
     <Compile Include="MapGeneration\WallGeneratorTests.cs" />
     <Compile Include="Pathfinding\ExpandedPathfindingGridTests.cs" />
     <Compile Include="Pathfinding\LayeredPathFinderTests.cs" />

@@ -9,12 +9,12 @@
             this.number = number;
         }
 
-        public long AsInt()
+        public override long AsInt()
         {
             return new SimpleNumber(AsReal()).AsInt();
         }
 
-        public double AsReal()
+        public override double AsReal()
         {
             return -number.AsReal();
         }

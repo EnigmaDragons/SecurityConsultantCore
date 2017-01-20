@@ -87,7 +87,7 @@
 
 //        private FacilitySpace CreatePortal(XYZ endpoint1, XYZ endpoint2)
 //        {
-//            return new FacilitySpace { UpperObject = new FacilityPortal { Endpoint1 = endpoint1, Endpoint2 = endpoint2, ObjectLayer = ObjectLayer.UpperObject }};
+//            return new FacilitySpace { UpperObject = new FacilityPortal { Endpoint1 = endpoint1, Endpoint2 = endpoint2, ObjectLayer = ObjectLayer.UpperObject } };
 //        }
 
 //        private void AssertValidPath(XYZ start, XYZ end, Path path)

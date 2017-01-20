@@ -13,12 +13,12 @@ namespace SecurityConsultantCore.OOMath
             this.subtrahend = subtrahend;
         }
 
-        public long AsInt()
+        public override long AsInt()
         {
             return new SimpleNumber(AsReal()).AsInt();
         }
 
-        public double AsReal()
+        public override double AsReal()
         {
             return new Sum(minuend, new Negative(subtrahend)).AsReal();
         }

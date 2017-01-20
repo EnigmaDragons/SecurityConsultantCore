@@ -7,22 +7,14 @@ namespace SecurityConsultantCore.Domain.Basic
 {
     public class XYZOrientation : XYZW<Orientation>
     {
-        public XYZOrientation(XYZ xyz, Orientation w) : base(xyz, w)
-        {
-        }
+        public XYZOrientation(XYZ xyz, Orientation w) 
+            : this(xyz.X, xyz.Y, xyz.Z, w) { }
 
-        public XYZOrientation(double x, double y, int z) : this(x, y, z, Orientation.Default)
-        {
-        }
+        public XYZOrientation(Number x, Number y, Number z) 
+            : this(x, y, z, Orientation.Default) { }
 
-        public XYZOrientation(double x, double y, int z, Orientation w) : base(x, y, z, w)
-        {
-        }
-
-        public XYZOrientation(Number x, Number y, Number z, Orientation w) : base(x, y, z)
-        {
-            
-        }
+        public XYZOrientation(Number x, Number y, Number z, Orientation w) 
+            : base(x, y, z, w) { }
 
         public Orientation Orientation => W;
 

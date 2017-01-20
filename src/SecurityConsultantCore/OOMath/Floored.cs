@@ -11,12 +11,12 @@ namespace SecurityConsultantCore.OOMath
             this.number = number;
         }
 
-        public long AsInt()
+        public override long AsInt()
         {
             return (long)AsReal();
         }
 
-        public double AsReal()
+        public override double AsReal()
         {
             return Math.Floor(number.AsReal());
         }
