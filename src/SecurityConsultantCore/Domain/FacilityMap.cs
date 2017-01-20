@@ -16,30 +16,23 @@ namespace SecurityConsultantCore.Domain
         private readonly Dictionary<XYZ, int> _occupiedSpaces = new Dictionary<XYZ, int>();
         private readonly IWorld _world;
 
-        public FacilityMap(IWorld world, MapInstruction inst)
-        {
-            _world = world;
-            //inst.Layers.ForEach(x => Add(LayerBuilder.Assemble(x)));
-            //inst.Portals.ForEach(x => this[x.Location].Put(PortalFactory.Create(x)));
-        }
-
         public FacilityMap(IWorld world)
         {
             _world = world;
         }
 
-        public void Put(XYZOrientation xyzo, FacilityObject obj)
+        public void Put(FacilityObject obj, XYZOrientation xyzo)
         {
             _objects.Add(new XYZOriented<FacilityObject>(xyzo, obj));
-            obj.Volume.GetOccupiedSpaces(xyzo).ForEach(x => UpdateOccupiedSpaces(x, 1));
+            obj.Volume.GetOccupiedTiles(xyzo).ForEach(x => UpdateOccupiedSpaces(x, 1));
         }
 
-        public IEnumerable<XYZOriented<FacilityObject>> ObjectsOnSpace(XYZ xyz)
+        public IEnumerable<XYZOriented<FacilityObject>> WhatIsAt(XYZ xyz)
         {
-            return ObjectsOnSpace(xyz.X, xyz.Y, xyz.Z);
+            return WhatIsAt(xyz.X, xyz.Y, xyz.Z);
         }
 
-        public IEnumerable<XYZOriented<FacilityObject>> ObjectsOnSpace(double x, double y, int z)
+        public IEnumerable<XYZOriented<FacilityObject>> WhatIsAt(double x, double y, int z)
         {
             return _objects.Where(o => InSpace(x, y, z, o));
         }
@@ -52,8 +45,8 @@ namespace SecurityConsultantCore.Domain
         {
             var found = _objects.FirstOrDefault(xyzo => xyzo.Obj.Equals(valuable));
             _objects.RemoveAll(xyzo => xyzo.Obj.Equals(valuable));
-            if (!(found == null))
-                found.Obj.Volume.GetOccupiedSpaces(found).ForEach(x => UpdateOccupiedSpaces(x, -1));
+            if (found != null)
+                found.Obj.Volume.GetOccupiedTiles(found).ForEach(x => UpdateOccupiedSpaces(x, -1));
         }
 
         private bool InSpace(double x, double y, int z, XYZ location)
@@ -67,12 +60,17 @@ namespace SecurityConsultantCore.Domain
 
         public bool IsOpen(XYZ xyz)
         {
-            return GetVolumetricObjectCount(xyz).Equals(0);
+            return GetVolumetricObjectCount(xyz) == 0;
+        }
+
+        public bool Exists(double x, double y, int z)
+        {
+            return Exists(new XYZ(x, y, z));
         }
 
         public bool Exists(XYZ xyz)
         {
-            return true;
+            return _occupiedSpaces.ContainsKey(xyz);
         }
 
         public void ShowLayer(int layer)
@@ -81,11 +79,9 @@ namespace SecurityConsultantCore.Domain
             //_layers[layer].ForEach(space => _world.Show(space.Obj, new XYZ(space.Location, layer)));
         }
 
-        private int GetVolumetricObjectCount(XYZ xyz)
+        private void UpdateOccupiedSpaces(XYZ xyz, int modifier)
         {
-            if (!_occupiedSpaces.ContainsKey(xyz))
-                _occupiedSpaces[xyz] = 0;
-            return _occupiedSpaces[xyz];
+            SetVolumetricObjectCount(xyz, GetVolumetricObjectCount(xyz) + modifier);
         }
 
         private void SetVolumetricObjectCount(XYZ xyz, int numObjs)
@@ -93,9 +89,11 @@ namespace SecurityConsultantCore.Domain
             _occupiedSpaces[xyz] = numObjs;
         }
 
-        private void UpdateOccupiedSpaces(XYZ xyz, int modifier)
+        private int GetVolumetricObjectCount(XYZ xyz)
         {
-            SetVolumetricObjectCount(xyz, GetVolumetricObjectCount(xyz) + modifier);
+            if (!_occupiedSpaces.ContainsKey(xyz))
+                _occupiedSpaces[xyz] = 0;
+            return _occupiedSpaces[xyz];
         }
     }
 }

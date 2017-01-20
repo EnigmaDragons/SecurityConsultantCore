@@ -1,6 +1,4 @@
 ﻿using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.Domain.Basic;
-using SecurityConsultantCore.MapGeneration;
 using System.Collections.Generic;
 
 namespace SecurityConsultantCore.Factories
@@ -8,16 +6,6 @@ namespace SecurityConsultantCore.Factories
     public class PortalFactory
     {
         private static FacilityPortalContainer _container;
-
-        public static FacilityObject Create(PortalInstruction inst)
-        {
-            var portal = GetContainer().Create(inst.Type);
-            portal.Type = inst.Type;
-            portal.Endpoint1 = inst.Endpoint1;
-            portal.Endpoint2 = inst.Endpoint2;
-            portal.Orientation = inst.Location.Orientation;
-            return portal;
-        }
 
         public static FacilityObject Create(string type)
         {

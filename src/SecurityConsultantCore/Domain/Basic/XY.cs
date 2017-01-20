@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SecurityConsultantCore.Common;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
     public class XY
     {
-        public XY()
-        {
-        } //For Serialization
+        public XY() : this(0, 0) {}
 
-        public XY(double x, double y)
+        public XY(double x, double y) : this(new SimpleNumber(x), new SimpleNumber(y)) {}
+
+        public XY(Number x, Number y)
         {
             X = x;
             Y = y;
         }
 
-        public double X { get; }
-        public double Y { get; }
-
-        public int XInt => (int)X;
-        public int YInt => (int)Y;
+        public Number X { get; }
+        public Number Y { get; }
 
         public override string ToString()
         {
@@ -38,15 +35,15 @@ namespace SecurityConsultantCore.Domain.Basic
         {
             if (other == null)
                 return false;
-            return X.WithinEpsilonOf(other.X) &&
-                Y.WithinEpsilonOf(other.Y);
+            return X.AsReal().WithinEpsilonOf(other.X.AsReal()) &&
+                Y.AsReal().WithinEpsilonOf(other.Y.AsReal());
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((int)X*397) ^ (int)Y;
+                return ((int)X.AsInt()*397) ^ (int)Y.AsInt();
             }
         }
 
@@ -57,12 +54,12 @@ namespace SecurityConsultantCore.Domain.Basic
 
         public XY Plus(XY other)
         {
-            return new XY(other.X + X, other.Y + Y);
+            return new XY(new Sum(X, other.X), new Sum(Y, other.Y));
         }
 
         public XY GetOffset(XY dest)
         {
-            return new XY(dest.X - X, dest.Y - Y);
+            return new XY(new Difference(dest.X, X), new Difference(dest.Y, Y));
         }
 
         public List<XY> Thru(XY end)
@@ -79,8 +76,8 @@ namespace SecurityConsultantCore.Domain.Basic
 
         public bool IsAdjacentTo(XY other)
         {
-            var xDiff = Math.Abs(X - other.X);
-            var yDiff = Math.Abs(Y - other.Y);
+            var xDiff = new Absolute(new Difference(X, other.X)).AsInt();
+            var yDiff = new Absolute(new Difference(Y, other.Y)).AsInt();
             var xAdj = xDiff == 1;
             var yAdj = yDiff == 1;
             return xAdj ? !yAdj && (yDiff == 0) : yAdj && (xDiff == 0);

@@ -7,13 +7,13 @@ namespace SecurityConsultantCore.Spatial
 {
     public class Volume
     {
-        private readonly IEnumerable<XY> _spaces;
+        private readonly IEnumerable<XYVolume> _spaces;
 
-        public Volume(params XY[] spaces) : this ((IEnumerable<XY>)spaces)
+        public Volume(params XYVolume[] spaces) : this ((IEnumerable<XYVolume>)spaces)
         {
         }
 
-        public Volume(IEnumerable<XY> spaces)
+        public Volume(IEnumerable<XYVolume> spaces)
         {
             _spaces = spaces;
         }
@@ -26,9 +26,9 @@ namespace SecurityConsultantCore.Spatial
                 && _spaces.Union(other._spaces).Count().Equals(_spaces.Count());
         }
 
-        public IEnumerable<XYZ> GetOccupiedSpaces(XYZOrientation xyzo)
+        public IEnumerable<XYZ> GetOccupiedTiles(XYZOrientation xyzo)
         {
-            var rotated = _spaces.Select(xy => Rotate(xy, xyzo.Orientation));
+            var rotated = _spaces.Where(x => x.IsSpacious).Select(xy => Rotate(xy, xyzo.Orientation));
             return rotated.Select(xy => new XYZ(xy.X + xyzo.X, xy.Y + xyzo.Y, xyzo.Z));
         }
 

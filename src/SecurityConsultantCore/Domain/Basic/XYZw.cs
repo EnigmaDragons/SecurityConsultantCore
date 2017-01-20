@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
@@ -9,7 +10,9 @@ namespace SecurityConsultantCore.Domain.Basic
             W = w;
         }
 
-        public XYZW(double x, double y, int z, T w) : base(x, y, z)
+        public XYZW(double x, double y, int z, T w) : this(new SimpleNumber(x), new SimpleNumber(y), new SimpleNumber(z), w) {}
+
+        public XYZW(Number x, Number y, Number z, T w) : base(x, y, z)
         {
             W = w;
         }

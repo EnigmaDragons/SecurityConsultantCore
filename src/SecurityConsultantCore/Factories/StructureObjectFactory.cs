@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using SecurityConsultantCore.Domain;
-using SecurityConsultantCore.Domain.Basic;
 
 namespace SecurityConsultantCore.Factories
 {

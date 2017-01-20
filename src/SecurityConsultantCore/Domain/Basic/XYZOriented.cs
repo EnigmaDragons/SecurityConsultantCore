@@ -1,4 +1,5 @@
 ﻿using SecurityConsultantCore.FacilityObjects;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
@@ -12,6 +13,11 @@ namespace SecurityConsultantCore.Domain.Basic
         public XYZOriented(double x, double y, int z, Orientation w, T obj) : base(x, y, z, w)
         {
             Obj = obj;
+        }
+
+        public XYZOriented(Number x, Number y, Number z, Orientation w, T obj) : base(x, y, z, w)
+        {
+            
         }
 
         public T Obj { get; }

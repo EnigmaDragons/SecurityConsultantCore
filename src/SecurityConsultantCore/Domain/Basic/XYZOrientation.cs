@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using SecurityConsultantCore.Common;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
@@ -16,6 +17,11 @@ namespace SecurityConsultantCore.Domain.Basic
 
         public XYZOrientation(double x, double y, int z, Orientation w) : base(x, y, z, w)
         {
+        }
+
+        public XYZOrientation(Number x, Number y, Number z, Orientation w) : base(x, y, z)
+        {
+            
         }
 
         public Orientation Orientation => W;

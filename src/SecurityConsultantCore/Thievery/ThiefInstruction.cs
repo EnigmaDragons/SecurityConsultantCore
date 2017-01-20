@@ -5,19 +5,19 @@ using SecurityConsultantCore.Pathfinding;
 
 namespace SecurityConsultantCore.Thievery
 {
-    public class ThiefInstruction
-    {
-        public ThiefInstruction(string action, XYZObjectLayer target, Path path)
-        {
-            Action = action;
-            Target = target;
-            Path = path;
-        }
+    //public class ThiefInstruction
+    //{
+    //    public ThiefInstruction(string action, XYZObjectLayer target, Path path)
+    //    {
+    //        Action = action;
+    //        Target = target;
+    //        Path = path;
+    //    }
 
-        public string Action { get; private set; }
-        public XYZObjectLayer Target { get; private set; }
-        public Path Path { get; }
+    //    public string Action { get; private set; }
+    //    public XYZObjectLayer Target { get; private set; }
+    //    public Path Path { get; }
 
-        public XYZ InteractLocation => Path.Last();
-    }
+    //    public XYZ InteractLocation => Path.Last();
+    //}
 }

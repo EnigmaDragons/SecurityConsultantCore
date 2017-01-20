@@ -62,7 +62,6 @@
     <Compile Include="Domain\Basic\XYRangeTests.cs" />
     <Compile Include="Domain\Basic\XYTests.cs" />
     <Compile Include="Domain\Basic\XYZTests.cs" />
-    <Compile Include="Domain\Basic\XYZWTests.cs" />
     <Compile Include="Domain\FacilityMapTests.cs" />
     <Compile Include="Domain\FacilityPortalTests.cs" />
     <Compile Include="Domain\ValuablesContainerTests.cs" />
@@ -78,13 +77,6 @@
     <Compile Include="Spatial\XYZOrientedTests.cs" />
     <Compile Include="Thievery\IncidentsTests.cs" />
     <Compile Include="Interactors\SecurityPlacementValidatorTests.cs" />
-    <Compile Include="MapGeneration\LayerBuilderTests.cs" />
-    <Compile Include="MapGeneration\LayerInstructionTests.cs" />
-    <Compile Include="MapGeneration\LinkInstructionTests.cs" />
-    <Compile Include="MapGeneration\MapInstructionTests.cs" />
-    <Compile Include="MapGeneration\ObjectInstructionTests.cs" />
-    <Compile Include="MapGeneration\PortalInstructionTests.cs" />
-    <Compile Include="MapGeneration\RoomInstructionTests.cs" />
     <Compile Include="MapGeneration\WallGeneratorTests.cs" />
     <Compile Include="Pathfinding\ExpandedPathfindingGridTests.cs" />
     <Compile Include="Pathfinding\LayeredPathFinderTests.cs" />

@@ -1,33 +1,31 @@
 ﻿using SecurityConsultantCore.Common;
+using SecurityConsultantCore.OOMath;
 
 namespace SecurityConsultantCore.Domain.Basic
 {
     public class XYZ : XY
     {
-        public XYZ()
-        {
-        } //For Serialization
+        public XYZ(XY xy, int z) : this(xy, new SimpleNumber(z)) {}
 
-        public XYZ(XY xy, int z) : base(xy.X, xy.Y)
-        {
-            Z = z;
-        }
+        public XYZ(double x, double y, int z) : this(new SimpleNumber(x), new SimpleNumber(y),  new SimpleNumber(y)) {}
 
-        public XYZ(double x, double y, int z) : base(x, y)
+        public XYZ(XY xy, Number z) : this(xy.X, xy.Y, z) {}
+
+        public XYZ(Number x, Number y, Number z) : base(x, y)
         {
             Z = z;
         }
 
-        public int Z { get; }
+        public Number Z { get; }
 
         public XYZ Plus(XYZ other)
         {
-            return new XYZ(other.X + X, other.Y + Y, other.Z + Z);
+            return new XYZ(base.Plus(other), new Sum(other.Z, Z));
         }
 
         public XYZ GetOffset(XYZ dest)
         {
-            return new XYZ(dest.X - X, dest.Y - Y, dest.Z - Z);
+            return new XYZ(base.GetOffset(dest), new Difference(dest.Z, Z));
         }
 
         public override string ToString()
@@ -48,7 +46,7 @@ namespace SecurityConsultantCore.Domain.Basic
 
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^ Z;
+            return base.GetHashCode() ^ (int)Z.AsInt();
         }
 
         public new static XYZ FromString(string arg)

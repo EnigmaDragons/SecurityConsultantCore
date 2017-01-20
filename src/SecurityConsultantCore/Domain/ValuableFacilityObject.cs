@@ -5,6 +5,7 @@ namespace SecurityConsultantCore.Domain
 {
     public class ValuableFacilityObject : FacilityObject, IValuable
     {
+        //TODO: Move Id up to Facility Object
         public string Id { get; private set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = "Unnamed";
         public int Value { get; set; }
